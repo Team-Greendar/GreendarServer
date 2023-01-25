@@ -1,4 +1,4 @@
-package greendar.domain.hello.model;
+package greendar.domain.hello.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
