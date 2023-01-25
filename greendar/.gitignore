@@ -40,7 +40,7 @@ out/
 ### applicationsyml ###
 src/main/resources/application.yml
 src/main/resources/application-gcp.yml
-src/main/resources/application-credentials.yml
+#src/main/resources/gcp-account-file.json
 
 ### MAC OS ###
 *.DS_Store
