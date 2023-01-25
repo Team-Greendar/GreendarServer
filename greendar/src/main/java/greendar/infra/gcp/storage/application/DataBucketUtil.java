@@ -17,8 +17,6 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.concurrent.ThreadLocalRandom;
 import net.bytebuddy.utility.RandomString;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.core.io.ClassPathResource;
@@ -28,30 +26,18 @@ import org.springframework.web.multipart.MultipartFile;
 @Component
 public class DataBucketUtil {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataBucketUtil.class);
-
     @Value("${gcp.config.file}")
     private String gcpConfigFile;
     @Value("${gcp.project.id}")
     private String gcpProjectId;
-
     @Value("${gcp.bucket.id}")
     private String gcpBucketId;
 
-    @Value("${gcp.dir.name}")
-    private String gcpDirectoryName;
-
-
-    public FileDto uploadFile(MultipartFile multipartFile, String fileName, String contentType) {
+    public FileDto uploadFile(MultipartFile multipartFile, String fileName,String gcpDirectoryName) {
 
         try{
-
-            LOGGER.debug("Start file uploading process on GCS");
-            byte[] fileData = Files.readAllBytes(convertFile(multipartFile).toPath());
-
+            byte [] fileData=multipartFile.getBytes();
             InputStream inputStream = new ClassPathResource(gcpConfigFile).getInputStream();
-//            InputStream inputStream = new ClassPathResource(gcpCredentialInfo).getInputStream();
-
             StorageOptions options = StorageOptions.newBuilder().setProjectId(gcpProjectId)
                     .setCredentials(GoogleCredentials.fromStream(inputStream)).build();
 
@@ -59,15 +45,16 @@ public class DataBucketUtil {
             Bucket bucket = storage.get(gcpBucketId, BucketGetOption.fields());
 
             RandomString id = new RandomString(6, ThreadLocalRandom.current());
+
+            String contentType = "image";
             Blob blob = bucket.create(gcpDirectoryName + "/" + fileName + "-" + id.nextString() + checkFileExtension(fileName), fileData, contentType);
 
+
             if(blob != null){
-                LOGGER.debug("File successfully uploaded to GCS");
-                return new FileDto(blob.getName(), blob.getMediaLink());
+                return new FileDto(blob.getName(),"https://storage.cloud.google.com/"+gcpBucketId+"/"+blob.getName());
             }
 
         }catch (Exception e){
-            LOGGER.error("An error occurred while uploading data. Exception: ", e);
             throw new GCPFileUploadException("An error occurred while storing data to GCS");
         }
         throw new GCPFileUploadException("An error occurred while storing data to GCS");
@@ -83,7 +70,7 @@ public class DataBucketUtil {
             FileOutputStream outputStream = new FileOutputStream(convertedFile);
             outputStream.write(file.getBytes());
             outputStream.close();
-            LOGGER.debug("Converting multipart file : {}", convertedFile);
+
             return convertedFile;
         }catch (Exception e){
             throw new FileWriteException("An error has occurred while converting the file");
@@ -93,15 +80,12 @@ public class DataBucketUtil {
     private String checkFileExtension(String fileName) {
         if(fileName != null && fileName.contains(".")){
             String[] extensionList = {".png", ".jpeg",".jpg",".JPG"};
-
             for(String extension: extensionList) {
                 if (fileName.endsWith(extension)) {
-                    LOGGER.debug("Accepted file type : {}", extension);
                     return extension;
                 }
             }
         }
-        LOGGER.error("Not a permitted file type");
         throw new InvalidFileTypeException("Not a permitted file type");
     }
 }
