@@ -1,4 +1,4 @@
-package greendar.global.auth.common;
+package greendar.global.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

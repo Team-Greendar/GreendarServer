@@ -1,7 +1,7 @@
 package greendar.global.auth.oauth.dao;
 
 import com.nimbusds.oauth2.sdk.util.StringUtils;
-import greendar.global.auth.utils.CookieUtil;
+import greendar.global.utils.CookieUtil;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 

@@ -1,4 +1,4 @@
-package greendar.global.auth.config.security;
+package greendar.global.config.security;
 
 import greendar.global.auth.oauth.token.AuthTokenProvider;
 import org.springframework.beans.factory.annotation.Value;

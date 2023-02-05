@@ -1,4 +1,4 @@
-package greendar.global.auth.utils;
+package greendar.global.utils;
 
 import org.springframework.util.SerializationUtils;
 

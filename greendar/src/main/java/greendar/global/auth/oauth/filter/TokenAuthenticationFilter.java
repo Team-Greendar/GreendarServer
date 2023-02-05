@@ -2,7 +2,7 @@ package greendar.global.auth.oauth.filter;
 
 import greendar.global.auth.oauth.token.AuthToken;
 import greendar.global.auth.oauth.token.AuthTokenProvider;
-import greendar.global.auth.utils.HeaderUtil;
+import greendar.global.utils.HeaderUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

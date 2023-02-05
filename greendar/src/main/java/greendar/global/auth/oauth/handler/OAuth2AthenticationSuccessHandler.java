@@ -1,6 +1,6 @@
 package greendar.global.auth.oauth.handler;
 
-import greendar.global.auth.config.properties.AppProperties;
+import greendar.global.config.properties.AppProperties;
 import greendar.global.auth.oauth.dao.OAuth2AuthorizationRequestBasedOnCookieRepository;
 import greendar.global.auth.oauth.domain.ProviderType;
 import greendar.global.auth.oauth.domain.RoleType;
@@ -10,7 +10,7 @@ import greendar.global.auth.oauth.token.AuthToken;
 import greendar.global.auth.oauth.token.AuthTokenProvider;
 import greendar.global.auth.oauthlogin.dao.user.UserRefreshTokenRepository;
 import greendar.global.auth.oauthlogin.domain.user.UserRefreshToken;
-import greendar.global.auth.utils.CookieUtil;
+import greendar.global.utils.CookieUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,4 +1,4 @@
-package greendar.global.auth.config.properties;
+package greendar.global.config.properties;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
