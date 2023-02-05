@@ -8,15 +8,20 @@ import greendar.global.auth.oauth.info.OAuth2UserInfo;
 import greendar.global.auth.oauth.info.OAuth2UserInfoFactory;
 import greendar.global.auth.oauthlogin.dao.user.UserRepository;
 import greendar.global.auth.oauthlogin.domain.user.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
-public class CustomOAuth2UserService {
+@Service
+@RequiredArgsConstructor
+public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private final UserRepository userRepository;
 
     @Override
