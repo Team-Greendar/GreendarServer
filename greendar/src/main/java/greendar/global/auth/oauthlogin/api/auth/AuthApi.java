@@ -24,6 +24,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
+
+/**
+ * 시퀀스에서
+ */
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
@@ -80,6 +84,8 @@ public class AuthApi {
         CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
         CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), cookieMaxAge);
 
+        //[병욱]: 딸랑 토큰 하나 던져주네: => 갑자기 든 생각. 토큰만 받아서 다시 구글에 토큰 주고, 유저 정보 받아옴
+        // 유저 정보 받아와서 db에 저장하고, 저장된 정보를 갖다준다? 맞는듯 나 천재인듯 ㄷㄷ
         return ApiResponse.success("token", accessToken.getToken());
     }
 
