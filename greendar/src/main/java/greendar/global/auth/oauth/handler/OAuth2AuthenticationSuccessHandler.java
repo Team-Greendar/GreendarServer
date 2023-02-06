@@ -35,7 +35,7 @@ import static greendar.global.auth.oauth.dao.OAuth2AuthorizationRequestBasedOnCo
 
 @Component
 @RequiredArgsConstructor
-public class OAuth2AthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final AuthTokenProvider tokenProvider;
     private final AppProperties appProperties;
     private final UserRefreshTokenRepository userRefreshTokenRepository;
