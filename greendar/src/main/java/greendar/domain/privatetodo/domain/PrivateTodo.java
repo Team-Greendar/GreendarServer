@@ -27,8 +27,11 @@ public class PrivateTodo {
     @Column(name = "private_todo_id") //pk
     private Long id ;
     private String task;
-    @Temporal(TemporalType.DATE)
+
+
     private LocalDate date;
+
+
     @JsonIgnore
     private String imageUrl;
     private Boolean complete;
