@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @Service
 public class MemberService {
-    @PersistenceContext
+    @Autowired
     private MemberRepository memberRepository;
     @Transactional
     public boolean post(String name){
