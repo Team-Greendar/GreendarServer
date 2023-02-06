@@ -1,4 +1,4 @@
-package greendar.global.auth.oauthlogin.domain.auth;
+package greendar.global.auth.snslogin.domain.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

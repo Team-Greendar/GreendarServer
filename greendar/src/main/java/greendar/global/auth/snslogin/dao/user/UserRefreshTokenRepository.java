@@ -1,6 +1,6 @@
-package greendar.global.auth.oauthlogin.dao.user;
+package greendar.global.auth.snslogin.dao.user;
 
-import greendar.global.auth.oauthlogin.domain.user.UserRefreshToken;
+import greendar.global.auth.snslogin.domain.user.UserRefreshToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

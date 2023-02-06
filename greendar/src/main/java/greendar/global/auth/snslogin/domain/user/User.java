@@ -1,4 +1,4 @@
-package greendar.global.auth.oauthlogin.domain.user;
+package greendar.global.auth.snslogin.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import greendar.global.auth.oauth.domain.ProviderType;

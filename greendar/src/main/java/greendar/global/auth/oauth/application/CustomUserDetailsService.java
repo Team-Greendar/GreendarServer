@@ -1,8 +1,8 @@
 package greendar.global.auth.oauth.application;
 
 import greendar.global.auth.oauth.domain.UserPrincipal;
-import greendar.global.auth.oauthlogin.dao.user.UserRepository;
-import greendar.global.auth.oauthlogin.domain.user.User;
+import greendar.global.auth.snslogin.dao.user.UserRepository;
+import greendar.global.auth.snslogin.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

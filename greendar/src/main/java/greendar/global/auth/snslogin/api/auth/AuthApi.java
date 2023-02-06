@@ -1,12 +1,12 @@
-package greendar.global.auth.oauthlogin.api.auth;
+package greendar.global.auth.snslogin.api.auth;
 
 import greendar.global.auth.oauth.domain.RoleType;
 import greendar.global.auth.oauth.domain.UserPrincipal;
 import greendar.global.auth.oauth.token.AuthToken;
 import greendar.global.auth.oauth.token.AuthTokenProvider;
-import greendar.global.auth.oauthlogin.dao.user.UserRefreshTokenRepository;
-import greendar.global.auth.oauthlogin.domain.auth.AuthReqModel;
-import greendar.global.auth.oauthlogin.domain.user.UserRefreshToken;
+import greendar.global.auth.snslogin.dao.user.UserRefreshTokenRepository;
+import greendar.global.auth.snslogin.domain.auth.AuthReqModel;
+import greendar.global.auth.snslogin.domain.user.UserRefreshToken;
 import greendar.global.utils.CookieUtil;
 import greendar.global.common.ApiResponse;
 import greendar.global.config.properties.AppProperties;
