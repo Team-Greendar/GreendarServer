@@ -1,6 +1,7 @@
 package greendar.domain.hello.dto;
 
 import greendar.domain.hello.domain.Hello;
+import greendar.domain.member.domain.Member;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -21,6 +22,16 @@ public class HelloDtos {
             this.name = hello.getName();
         }
     }
+    @Data
+    public static class MemberDto {
+        private long id;
+        private String name;
+        public MemberDto(Member member){
+            this.id = member.getId();
+            this.name = member.getName();
+        }
+    }
+
     @Data
     @AllArgsConstructor
     public static class HelloPostRequest{

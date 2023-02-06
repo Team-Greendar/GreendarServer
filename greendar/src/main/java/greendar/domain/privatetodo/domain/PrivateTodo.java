@@ -12,8 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,7 +25,6 @@ public class PrivateTodo {
     @Column(name = "private_todo_id") //pk
     private Long id ;
     private String task;
-    @Temporal(TemporalType.DATE)
     private LocalDate date;
     @JsonIgnore
     private String imageUrl;

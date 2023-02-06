@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 public class PrivateTodoDtos {
     @Data
     @NoArgsConstructor
-    public static class PrivateTodoRequestDto
+    public static class PrivateTodoPostRequestDto
     {
         String task;
         LocalDate date;
