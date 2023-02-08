@@ -1,5 +1,6 @@
 package greendar.global.common;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -7,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Getter
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class ApiResponse<T> {
     private final static int SUCCESS = 200;
     private final static int NOT_FOUND = 400;
@@ -20,14 +21,19 @@ public class ApiResponse<T> {
     private final static String NOT_EXPIRED_TOKEN_YET = "Not expired token yet.";
 
     private final ApiResponseHeader header;
-    private final Map<String, T> body;
 
-    public static <T> ApiResponse<T> success(String name, T body) {
+    private final T body;
+
+
+
+        public static <T> ApiResponse success(String name, T body) {
         Map<String, T> map = new HashMap<>();
         map.put(name, body);
-
         return new ApiResponse(new ApiResponseHeader(SUCCESS, SUCCESS_MESSAGE), map);
     }
+//    public static <T> ApiResponse<T> success(T body) {
+//        return new ApiResponse(new ApiResponseHeader(SUCCESS, SUCCESS_MESSAGE),body);
+//    }
 
     public static <T> ApiResponse<T> fail() {
         return new ApiResponse(new ApiResponseHeader(FAILED, FAILED_MESSAGE), null);
