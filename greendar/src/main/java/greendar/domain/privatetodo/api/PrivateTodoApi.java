@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,9 +32,18 @@ public class PrivateTodoApi {
         return ApiResponse.success("ok",result);
     }
 
-
     @PostMapping(value = "/private/todo")
     public ApiResponse addPrivateTodo(@RequestHeader("Authorization") Long member_token,
+                                      @RequestBody PrivateTodoPostRequestDto request) {
+
+        Member member = memberService.findOne(member_token);
+
+        PrivateTodo privateTodo = privateTodoService.saveTodo(member,request.getTask(),request.getDate());
+
+        return  ApiResponse.success("ok",privateTodo);
+    }
+    @PutMapping(value = "/private/todo/image")
+    public ApiResponse setPrivateTodoImageUrl(@RequestHeader("Authorization") Long member_token,
                                       @RequestBody PrivateTodoPostRequestDto request) {
 
         Member member = memberService.findOne(member_token);

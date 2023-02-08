@@ -1,6 +1,6 @@
 package greendar.domain.privatetodo.dto;
 
-import java.rmi.registry.LocateRegistry;
+import java.io.File;
 import java.time.LocalDate;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,5 +13,11 @@ public class PrivateTodoDtos {
         String task;
         LocalDate date;
 
+    }
+    @Data
+    @NoArgsConstructor
+    public static class PrivateTodoImagePutRequestDto
+    {
+        File file;
     }
 }
