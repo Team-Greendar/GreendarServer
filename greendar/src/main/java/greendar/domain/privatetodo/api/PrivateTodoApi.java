@@ -30,7 +30,7 @@ public class PrivateTodoApi {
     public ApiResponse getPrivateTodoByMember(@RequestHeader("Authorization") Long member_token) {
         Member member = memberService.findOne(member_token);
         List<PrivateTodo> result = privateTodoService.getAllPrivateTodoByMember(member);
-        return ApiResponse.success("ok",null);
+        return ApiResponse.success(result);
     }
 
     @PostMapping(value = "/private/todo")
@@ -40,7 +40,7 @@ public class PrivateTodoApi {
         Member member = memberService.findOne(member_token);
 
         PrivateTodo privateTodo = privateTodoService.saveTodo(member,request.getTask(),request.getDate());
-        return ApiResponse.success("ok",null);
+        return ApiResponse.success(privateTodo);
 //        return  ApiResponse.success( new PrivateTodoResponse(privateTodo));
     }
     @PutMapping(value = "/private/todo/image")
@@ -51,7 +51,7 @@ public class PrivateTodoApi {
 
         PrivateTodo privateTodo = privateTodoService.saveTodo(member,request.getTask(),request.getDate());
 
-        return  ApiResponse.success("ok",null);
+        return  ApiResponse.success(privateTodo);
     }
 
     // need Refactoring
@@ -60,7 +60,7 @@ public class PrivateTodoApi {
                                             @PathVariable LocalDate date) {
         Member member = memberService.findOne(member_token);
         List<PrivateTodo> result =  privateTodoService.getAllPrivateTodoByOneDay(date,member);
-        return ApiResponse.success("ok",null);
+        return ApiResponse.success(result);
     }
 
     @GetMapping(value = "/private/todo/monthly/{date}")
@@ -68,7 +68,7 @@ public class PrivateTodoApi {
                                                    @PathVariable LocalDate date) {
         Member member = memberService.findOne(member_token);
         List<PrivateTodo> result =  privateTodoService.getAllPrivateTodoByOneMonth(date,member);
-        return ApiResponse.success("ok",null);
+        return ApiResponse.success(result);
     }
 
     @GetMapping(value = "/private/todo/monthly/ratio/{date}")
@@ -76,7 +76,7 @@ public class PrivateTodoApi {
                                                  @PathVariable LocalDate date) {
         Member member = memberService.findOne(member_token);
         List<DailyAchievementRateDao> result =  privateTodoService.getRatioByDailyInMonth(date,member);
-        return ApiResponse.success("ok",null);
+        return ApiResponse.success(result);
     }
 
 }

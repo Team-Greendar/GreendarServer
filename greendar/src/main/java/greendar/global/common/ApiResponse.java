@@ -24,19 +24,12 @@ public class ApiResponse<T> {
 
     private final T body;
 
-
-
-        public static <T> ApiResponse success(String name, T body) {
-        Map<String, T> map = new HashMap<>();
-        map.put(name, body);
-        return new ApiResponse(new ApiResponseHeader(SUCCESS, SUCCESS_MESSAGE), map);
+    public static <T> ApiResponse<T> success(T body) {
+        return new ApiResponse(new ApiResponseHeader(SUCCESS, SUCCESS_MESSAGE),body);
     }
-//    public static <T> ApiResponse<T> success(T body) {
-//        return new ApiResponse(new ApiResponseHeader(SUCCESS, SUCCESS_MESSAGE),body);
-//    }
 
-    public static <T> ApiResponse<T> fail() {
-        return new ApiResponse(new ApiResponseHeader(FAILED, FAILED_MESSAGE), null);
+    public static <T> ApiResponse<T> fail(T body) {
+        return new ApiResponse(new ApiResponseHeader(FAILED, FAILED_MESSAGE), body);
     }
 
     public static <T> ApiResponse<T> invalidAccessToken() {
