@@ -8,6 +8,7 @@ import greendar.domain.privatetodo.domain.PrivateTodo;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
@@ -61,18 +62,8 @@ public class PrivateTodoRepository {
     }
 
     public List<DailyAchievement> countRatioByDailyInMonth(LocalDate date, Member member)
-    {
-        YearMonth month = YearMonth.from(date);
-        LocalDate start = month.atDay(1);
-        LocalDate end   = month.atEndOfMonth();
-        return  em.createQuery("select p.date , p.complete from PrivateTodo p " +
-                                "join fetch p.member m " +
-                                "where m.id = :member_id and p.date between :startDate and :endDate"
-                        , DailyAchievement.class)
-                .setParameter("startDate",start)
-                .setParameter("endDate",end)
-                .setParameter("member_id",member.getId())
-                .getResultList();
+    {       List<PrivateTodo> find = findAllByMonth(date,member);
+        return find.stream().map(DailyAchievement::new).collect(Collectors.toList());
     }
 
     public PrivateTodo updatePrivateTodoImageUrl(Long private_todo_id,String imageUrl) {
