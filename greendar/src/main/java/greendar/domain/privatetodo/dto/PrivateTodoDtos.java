@@ -26,17 +26,18 @@ public class PrivateTodoDtos {
     @Data
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class PrivateTodoResponse{
-        private Long id ;
+        private Long private_todo_id ;
         private String task;
         private LocalDate date;
         private String imageUrl;
         private Boolean complete;
-        //        private Long
+        private String memberName;
         public PrivateTodoResponse(PrivateTodo privateTodo){
-            this(privateTodo.getId(),privateTodo.getTask(),privateTodo.getDate(),privateTodo.getImageUrl(),privateTodo.getComplete());
+            this(privateTodo.getId(),privateTodo.getTask(),privateTodo.getDate(),privateTodo.getImageUrl(),privateTodo.getComplete(),privateTodo.getMember().getName());
         }
-        public PrivateTodoResponse(Long id , String task, LocalDate date, String imageUrl, Boolean complete) {
-            this.id =id;
+        public PrivateTodoResponse(Long id , String task, LocalDate date, String imageUrl, Boolean complete,String memberName) {
+            this.memberName = memberName;
+            this.private_todo_id =id;
             this.task = task;
             this.date = date;
             this.imageUrl = imageUrl;
