@@ -10,6 +10,7 @@ import greendar.domain.privatetodo.dto.PrivateTodoDtos.PrivateTodoResponse;
 import greendar.global.common.ApiResponse;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,8 +30,11 @@ public class PrivateTodoApi {
     @GetMapping(value = "/private/todo")
     public ApiResponse getPrivateTodoByMember(@RequestHeader("Authorization") Long member_token) {
         Member member = memberService.findOne(member_token);
-        List<PrivateTodo> result = privateTodoService.getAllPrivateTodoByMember(member);
-        return ApiResponse.success(result);
+        List<PrivateTodo> privateTodos= privateTodoService.getAllPrivateTodoByMember(member);
+        List<PrivateTodoResponse> collect = privateTodos.stream()
+                .map(r->new PrivateTodoResponse(r))
+                .collect(Collectors.toList());
+        return ApiResponse.success(collect);
     }
 
     @PostMapping(value = "/private/todo")
@@ -40,18 +44,19 @@ public class PrivateTodoApi {
         Member member = memberService.findOne(member_token);
 
         PrivateTodo privateTodo = privateTodoService.saveTodo(member,request.getTask(),request.getDate());
-        return ApiResponse.success(privateTodo);
-//        return  ApiResponse.success( new PrivateTodoResponse(privateTodo));
+
+        return  ApiResponse.success( new PrivateTodoResponse(privateTodo));
     }
+    //get privateTodo Id and  set image
     @PutMapping(value = "/private/todo/image")
     public ApiResponse setPrivateTodoImageUrl(@RequestHeader("Authorization") Long member_token,
                                               @RequestBody PrivateTodoPostRequestDto request) {
 
         Member member = memberService.findOne(member_token);
 
-        PrivateTodo privateTodo = privateTodoService.saveTodo(member,request.getTask(),request.getDate());
+        PrivateTodo result = privateTodoService.saveTodo(member,request.getTask(),request.getDate());
 
-        return  ApiResponse.success(privateTodo);
+        return  ApiResponse.success(result);
     }
 
     // need Refactoring
