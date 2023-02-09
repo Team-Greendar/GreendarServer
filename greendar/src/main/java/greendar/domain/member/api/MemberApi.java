@@ -1,6 +1,4 @@
 package greendar.domain.member.api;
-import greendar.domain.hello.dto.HelloDtos;
-import greendar.domain.hello.dto.HelloDtos.MemberDto;
 import greendar.domain.member.application.MemberService;
 import greendar.domain.member.domain.Member;
 import java.util.List;

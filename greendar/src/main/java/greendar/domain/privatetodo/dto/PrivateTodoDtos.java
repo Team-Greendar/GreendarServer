@@ -21,7 +21,22 @@ public class PrivateTodoDtos {
     @NoArgsConstructor
     public static class PrivateTodoImagePutRequestDto
     {
+        private Long private_todo_id ;
         File file;
+    }
+    @Data
+    @NoArgsConstructor
+    public static class PrivateTodoCompletePutRequestDto
+    {
+        private Long private_todo_id ;
+        private Boolean complete;
+    }
+    @Data
+    @NoArgsConstructor
+    public static class PrivateTodoTaskPutRequestDto
+    {
+        private Long private_todo_id ;
+        private String task;
     }
     @Data
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
