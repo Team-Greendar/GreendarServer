@@ -1,8 +1,7 @@
 package greendar.domain.privatetodo.application;
 
-import greendar.domain.member.dao.MemberRepository;
 import greendar.domain.member.domain.Member;
-import greendar.domain.privatetodo.dao.DailyAchievementRateDao;
+
 import greendar.domain.privatetodo.dao.PrivateTodoRepository;
 import greendar.domain.privatetodo.domain.PrivateTodo;
 import java.time.LocalDate;
@@ -30,9 +29,13 @@ public class PrivateTodoService {
     public List<PrivateTodo> getAllPrivateTodoByOneMonth(LocalDate date,Member member) {
         return privateTodoRepository.findAllByMonth(date,member);
     }
-    public List<DailyAchievementRateDao> getRatioByDailyInMonth(LocalDate date, Member member) {
-        return  privateTodoRepository.countRatioByDailyInMonth( date, member);
-    }
+    //    public List<DailyAchievementRatio> getRatioByDailyInMonth(LocalDate date, Member member) {
+//        List<DailyAchievement> dailyAchievements = privateTodoRepository.countRatioByDailyInMonth( date, member);
+//        for(dailyAchievements : DailyAchievement daily){
+//
+//        }
+//        return
+//    }
     @Transactional
     PrivateTodo updatePrivateTodoImageUrl(Long private_todo_id,String imageUrl) {
         return privateTodoRepository.updatePrivateTodoImageUrl(private_todo_id,imageUrl);

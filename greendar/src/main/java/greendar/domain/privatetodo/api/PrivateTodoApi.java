@@ -83,12 +83,12 @@ public class PrivateTodoApi {
         return ApiResponse.success(collect);
     }
 
-    @GetMapping(value = "/private/todo/monthly/ratio/{date}")
-    public ApiResponse getPrivateTodoRatioByDate(@RequestHeader("Authorization") Long member_token,
-                                                 @PathVariable LocalDate date) {
-        Member member = memberService.findOne(member_token);
-        List<DailyAchievementRateDao> result =  privateTodoService.getRatioByDailyInMonth(date,member);
-        return ApiResponse.success(result);
-    }
+//    @GetMapping(value = "/private/todo/monthly/ratio/{date}")
+//    public ApiResponse getPrivateTodoRatioByDate(@RequestHeader("Authorization") Long member_token,
+//                                                 @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+//        Member member = memberService.findOne(member_token);
+//        List<DailyAchievementRateDao> result =  privateTodoService.getRatioByDailyInMonth(date,member);
+//        return ApiResponse.success(result);
+//    }
 
 }
