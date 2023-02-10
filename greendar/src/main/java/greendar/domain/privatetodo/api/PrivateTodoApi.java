@@ -49,11 +49,8 @@ public class PrivateTodoApi {
     @PostMapping(value = "/private/todo")
     public ApiResponse addPrivateTodo(@RequestHeader("Authorization") Long member_token,
                                       @RequestBody PrivateTodoPostRequestDto request) {
-
         Member member = memberService.findOne(member_token);
-
         PrivateTodo privateTodo = privateTodoService.saveTodo(member,request.getTask(),request.getDate());
-
         return  ApiResponse.success( new PrivateTodoResponse(privateTodo));
     }
 

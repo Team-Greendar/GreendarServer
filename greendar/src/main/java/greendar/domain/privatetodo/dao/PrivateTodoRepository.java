@@ -53,7 +53,8 @@ public class PrivateTodoRepository {
         LocalDate end   = month.atEndOfMonth();
         return em.createQuery("select p from PrivateTodo p " +
                                 "join fetch p.member m " +
-                                "where m.id = :member_id and p.date between :startDate and :endDate"
+                                "where m.id = :member_id and p.date between :startDate and :endDate " +
+                                "order by p.date "
                         ,PrivateTodo.class)
                 .setParameter("startDate",start)
                 .setParameter("endDate",end)
