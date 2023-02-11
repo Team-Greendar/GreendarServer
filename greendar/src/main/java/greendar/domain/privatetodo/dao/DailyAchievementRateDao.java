@@ -1,5 +1,6 @@
 package greendar.domain.privatetodo.dao;
 
+import greendar.domain.eventtodo.domain.EventTodo;
 import greendar.domain.privatetodo.domain.PrivateTodo;
 import java.time.LocalDate;
 import java.util.Map.Entry;
@@ -17,6 +18,15 @@ public class DailyAchievementRateDao {
             this.date = privateTodo.getDate();
             if(privateTodo.getComplete())  this.done = 1;
             if(!privateTodo.getComplete()) this.done = 0 ;
+        }
+        public DailyAchievement(EventTodo eventTodo){
+            this.date = eventTodo.getEventTodoItem().getDate();
+            if(eventTodo.getComplete())  this.done = 1;
+            if(eventTodo.getComplete()) this.done = 0 ;
+        }
+        public DailyAchievement(LocalDate date ,int done){
+            this.date =date;
+            this.done = done;
         }
     }
 
