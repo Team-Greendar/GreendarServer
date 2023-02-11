@@ -31,10 +31,10 @@ public class PrivateTodoRepository {
     {
         return em.createQuery("select p from PrivateTodo p "+
                                 "join fetch p.member m " +
-                                "where m.id = :member_id " +
+                                "where m.memberId = :member_id " +
                                 " order by p.date desc"
                         ,PrivateTodo.class)
-                .setParameter("member_id",member.getId())
+                .setParameter("member_id",member.getMemberId())
                 .getResultList();
     }
 
@@ -44,7 +44,7 @@ public class PrivateTodoRepository {
                         "join fetch p.member m " +
                         "where p.date = :oneDay and m.id = :memberId",PrivateTodo.class)
                 .setParameter("oneDay",day)
-                .setParameter("member_id",member.getId())
+                .setParameter("member_id",member.getMemberId())
                 .getResultList();
     }
     public List<PrivateTodo> findAllByMonth(LocalDate date,Member member)
@@ -53,11 +53,11 @@ public class PrivateTodoRepository {
         LocalDate end   = month.atEndOfMonth();
         return em.createQuery("select p from PrivateTodo p " +
                                 "join fetch p.member m " +
-                                "where m.id = :member_id and p.date between :startDate and :endDate"
+                                "where m.memberId = :member_id and p.date between :startDate and :endDate"
                         ,PrivateTodo.class)
                 .setParameter("startDate",start)
                 .setParameter("endDate",end)
-                .setParameter("member_id",member.getId())
+                .setParameter("member_id",member.getMemberId())
                 .getResultList();
     }
 
