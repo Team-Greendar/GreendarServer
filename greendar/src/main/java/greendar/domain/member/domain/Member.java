@@ -1,0 +1,102 @@
+package greendar.domain.member.domain;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import greendar.domain.privatetodo.domain.PrivateTodo;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+
+@Getter
+@Entity
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Member {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "MEMBER_ID", length = 64) //pk
+    private Long memberId;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<PrivateTodo> privateToDoList = new ArrayList<>();
+
+    /**
+     * 이벤트 투두 만들어지면 추가해야 함
+     */
+//    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+//    private List<EventTodo> eventToDoList = new ArrayList<>();
+
+    @Column(name = "NAME", length = 100)
+    private String name;
+
+    @JsonIgnore
+    @Column(name = "PASSWORD", length = 128)
+    private String password;
+
+    @Column(name = "EMAIL", length = 512)
+    private String email;
+
+//    @Column(name = "EMAIL_VERIFIED_YN", length = 1)
+//    @NotNull
+//    @Size(min = 1, max = 1)
+//    private String emailVerifiedYn;
+
+    @Column(name = "imageUrl", length = 512)
+    private String imageUrl;
+
+    @Column(name = "statusMessage", length = 512)
+    private String message;
+
+//    @Column(name = "PROVIDER_TYPE", length = 20)
+//    @Enumerated(EnumType.STRING)
+//    @NotNull
+//    private ProviderType providerType;
+
+//    @Column(name = "ROLE_TYPE", length = 20)
+//    @Enumerated(EnumType.STRING)
+//    @NotNull
+//    private RoleType roleType;
+//
+//    @Column(name = "CREATED_AT")
+//    @NotNull
+//    private LocalDateTime createdAt;
+//
+//    @Column(name = "MODIFIED_AT")
+//    private LocalDateTime modifiedAt;
+
+    private Member(String name,
+                   String password,
+                   String email,
+                   String imageUrl,
+                   String message)
+    {
+        this.name=name;
+        this.password = password;
+        this.email=email;
+        this.imageUrl = imageUrl;
+        this.message = message;
+//        this.createdAt= createdAt;
+//        this.modifiedAt = modifiedAt;
+    }
+
+    public static Member of(String name,String password, String email, String imageUrl, String message){
+        return new Member(name,password, email, imageUrl, message);
+    }
+}
