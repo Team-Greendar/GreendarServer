@@ -39,13 +39,18 @@ public class PrivateTodoService {
     public TreeMap<LocalDate, Float> getRatioByDailyInMonth(LocalDate date, Member member) {
         List<DailyAchievement> dailyAchievements = privateTodoRepository.countRatioByDailyInMonth( date, member);
         TreeMap<LocalDate, Float> dailyRatio= new TreeMap<>();
+        System.out.println(dailyAchievements);
+        int count = 1 ;
         for(DailyAchievement daily:dailyAchievements ) {
             LocalDate dateCheck = daily.getDate();
             if(dailyRatio.containsKey(dateCheck)){
-                dailyRatio.put(dateCheck,(dailyRatio.get(dateCheck) + daily.getDone())*0.5f);
+                float tmp = ((dailyRatio.get(dateCheck) + daily.getDone()))*count ;
+                count+=1;
+                dailyRatio.put(dateCheck,(tmp/count));
             }
             else {
-                dailyRatio.put(dateCheck,daily.getDone()*1.0f);
+                count = 1 ;
+                dailyRatio.put(dateCheck,daily.getDone()*0.0f);
             }
         }
 

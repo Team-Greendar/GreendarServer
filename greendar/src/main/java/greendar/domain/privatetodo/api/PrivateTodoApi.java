@@ -49,11 +49,8 @@ public class PrivateTodoApi {
     @PostMapping(value = "/private/todo")
     public ApiResponse addPrivateTodo(@RequestHeader("Authorization") Long member_token,
                                       @RequestBody PrivateTodoPostRequestDto request) {
-
         Member member = memberService.findOne(member_token);
-
         PrivateTodo privateTodo = privateTodoService.saveTodo(member,request.getTask(),request.getDate());
-
         return  ApiResponse.success( new PrivateTodoResponse(privateTodo));
     }
 
@@ -72,7 +69,6 @@ public class PrivateTodoApi {
     @GetMapping(value = "/private/todo/monthly/{date}")
     public ApiResponse getPrivateTodoByMonthlyDate(@RequestHeader("Authorization") Long member_token,
                                                    @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-        System.out.println(date);
         Member member = memberService.findOne(member_token);
         List<PrivateTodo> result =  privateTodoService.getAllPrivateTodoByOneMonth(date,member);
         System.out.println(result);
