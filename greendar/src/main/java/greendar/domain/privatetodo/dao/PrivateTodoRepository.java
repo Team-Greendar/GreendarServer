@@ -1,10 +1,13 @@
 package greendar.domain.privatetodo.dao;
 
 import greendar.domain.member.domain.Member;
+
+import greendar.domain.privatetodo.dao.DailyAchievementRateDao.DailyAchievement;
 import greendar.domain.privatetodo.domain.PrivateTodo;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
@@ -18,12 +21,7 @@ public class PrivateTodoRepository {
     private final EntityManager em;
 
     public PrivateTodo saveTodo(Member member , String task, LocalDate date) {
-        PrivateTodo privateTodo = new PrivateTodo();
-        privateTodo.setMember(member);
-        privateTodo.setTask(task);
-        privateTodo.setDate(date);
-        privateTodo.setComplete(false);
-        privateTodo.setImageUrl("DEFAULT");
+        PrivateTodo privateTodo = PrivateTodo.of(task,date,"EMPTY",false,member);
         em.persist(privateTodo);
         return privateTodo;
     }
@@ -31,11 +29,11 @@ public class PrivateTodoRepository {
     public List<PrivateTodo> findAllPrivateTodoByMember(Member member)
     {
         return em.createQuery("select p from PrivateTodo p "+
-                        "join fetch p.member m " +
-                        "where m.id = :member_id " +
-                        " order by p.date desc"
+                                "join fetch p.member m " +
+                                "where m.id = :memberId " +
+                                " order by p.date desc"
                         ,PrivateTodo.class)
-                .setParameter("member_id",member.getId())
+                .setParameter("memberId",member.getId())
                 .getResultList();
     }
 
@@ -43,9 +41,9 @@ public class PrivateTodoRepository {
     {
         return em.createQuery("select p from PrivateTodo p " +
                         "join fetch p.member m " +
-                        "where p.date = :oneDay and m.id = :member_id",PrivateTodo.class)
+                        "where p.date = :oneDay and m.id = :memberId",PrivateTodo.class)
                 .setParameter("oneDay",day)
-                .setParameter("member_id",member.getId())
+                .setParameter("memberId",member.getId())
                 .getResultList();
     }
     public List<PrivateTodo> findAllByMonth(LocalDate date,Member member)
@@ -54,29 +52,17 @@ public class PrivateTodoRepository {
         LocalDate end   = month.atEndOfMonth();
         return em.createQuery("select p from PrivateTodo p " +
                                 "join fetch p.member m " +
-                                "where m.id = :member_id and p.date between :startDate and :endDate"
+                                "where m.id = :memberId and p.date between :startDate and :endDate"
                         ,PrivateTodo.class)
                 .setParameter("startDate",start)
                 .setParameter("endDate",end)
-                .setParameter("member_id",member.getId())
+                .setParameter("memberId",member.getId())
                 .getResultList();
     }
 
-    public List<DailyAchievementRateDao> countRatioByDailyInMonth(LocalDate date,Member member)
-    {   YearMonth month = YearMonth.from(date);
-        LocalDate start = month.atDay(1);
-        LocalDate end   = month.atEndOfMonth();
-        return em.createQuery("select p.date As date, " +
-                                "avg(p.complete)*100 As rate " +
-                                "from PrivateTodo p " +
-                                "join fetch p.member m " +
-                                "where m.id = :member_id and p.date between :startDate and :endDate " +
-                                "group by p.date"
-                                ,DailyAchievementRateDao.class)
-                .setParameter("startDate",start)
-                .setParameter("endDate",end)
-                .setParameter("member_id",member.getId())
-                .getResultList();
+    public List<DailyAchievement> countRatioByDailyInMonth(LocalDate date, Member member)
+    {       List<PrivateTodo> find = findAllByMonth(date,member);
+        return find.stream().map(DailyAchievement::new).collect(Collectors.toList());
     }
 
     public PrivateTodo updatePrivateTodoImageUrl(Long private_todo_id,String imageUrl) {
@@ -100,5 +86,20 @@ public class PrivateTodoRepository {
         return privateTodo;
     }
 
-
+//    public List<DailyAchievementRateDao> countRatioByDailyInMonth(LocalDate date,Member member)
+//    {   YearMonth month = YearMonth.from(date);
+//        LocalDate start = month.atDay(1);
+//        LocalDate end   = month.atEndOfMonth();
+//        return em.createQuery("select p.date As date, " +
+//                                "avg(p.complete) As rate " +
+//                                "from PrivateTodo p " +
+//                                "join fetch p.member m " +
+//                                "where m.id = :memberId and p.date between :startDate and :endDate " +
+//                                "group by p.date"
+//                        ,DailyAchievementRateDao.class)
+//                .setParameter("startDate",start)
+//                .setParameter("endDate",end)
+//                .setParameter("memberId",member.getId())
+//                .getResultList();
+//    }
 }
