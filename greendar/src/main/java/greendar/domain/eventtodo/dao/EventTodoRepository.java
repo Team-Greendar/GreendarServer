@@ -48,7 +48,7 @@ public class EventTodoRepository {
             return em.createQuery("select e from EventTodo  e " +
                                     "join fetch e.member m " +
                                     "join fetch e.eventTodoItem i " +
-                                    "where m.memberId =:memberId and i.id =:eventTodoItemId"
+                                    "where m.id =:memberId and i.id =:eventTodoItemId"
                             , EventTodo.class)
                     .setParameter("memberId", memberId)
                     .setParameter("eventTodoItemId", eventTodoItemId)
@@ -65,7 +65,7 @@ public class EventTodoRepository {
     public List<EventTodo> findAllEventTodoByMember(Long memberId) {
         return em.createQuery("select e from EventTodo  e " +
                                 "join fetch e.member m " +
-                                " where m.memberId = :memberId " +
+                                " where m.id = :memberId " +
                                 "order by e.eventTodoItem.date"
                         , EventTodo.class)
                 .setParameter("memberId", memberId)
@@ -77,11 +77,11 @@ public class EventTodoRepository {
             LocalDate start = month.atDay(1);
             LocalDate end = month.atEndOfMonth();
             return em.createQuery("select e from EventTodo e " +
-                    "where e.member.memberId =:memberId and e.eventTodoItem.date between :startDate and :endDate " +
+                    "where e.member.id=:memberId and e.eventTodoItem.date between :startDate and :endDate " +
                     "order by  e.eventTodoItem.date desc",EventTodo.class)
                     .setParameter("startDate",start)
                     .setParameter("endDate",end)
-                    .setParameter("memberId",member.getMemberId())
+                    .setParameter("memberId",member.getId())
                     .getResultList();
     }
 
