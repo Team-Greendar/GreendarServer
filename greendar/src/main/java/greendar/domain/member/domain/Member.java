@@ -32,7 +32,7 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MEMBER_ID", length = 64) //pk
-    private Long memberId;
+    private Long id;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<PrivateTodo> privateToDoList = new ArrayList<>();

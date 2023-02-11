@@ -30,7 +30,7 @@ public class MemberDtos {
     @NoArgsConstructor
     public static class MemberGetRequestDto
     {
-        private Long memberId;
+        private Long id;
     }
 
 
@@ -39,7 +39,7 @@ public class MemberDtos {
     @NoArgsConstructor
     public static class MemberProfilePutRequestDto
     {
-        private Long memberId;
+        private Long id;
         String name;
         String message;
     }
@@ -49,7 +49,7 @@ public class MemberDtos {
     @NoArgsConstructor
     public static class MemberEmailPasswordPutRequestDto
     {
-        private Long memberId;
+        private Long id;
         String email;
     }
 
@@ -57,7 +57,7 @@ public class MemberDtos {
     @Data
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class MemberResponse{
-        private Long memberId;
+        private Long id;
         private String name;
         private String password;
         private String email;
@@ -65,10 +65,10 @@ public class MemberDtos {
         private String message;
 
         public MemberResponse(Member member){
-            this(member.getMemberId(), member.getName(),member.getPassword(),member.getEmail(),member.getImageUrl(),member.getMessage());
+            this(member.getId(), member.getName(),member.getPassword(),member.getEmail(),member.getImageUrl(),member.getMessage());
         }
         public MemberResponse(Long memberId, String name, String password, String email, String imageUrl,String message) {
-            this.memberId = memberId;
+            this.id = memberId;
             this.name = name;
             this.password = password;
             this.email = email;

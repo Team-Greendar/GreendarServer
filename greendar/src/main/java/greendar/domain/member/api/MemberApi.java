@@ -26,38 +26,38 @@ public class MemberApi {
     private final MemberService memberService;
     private final FileService fileService;
 
-    @GetMapping(produces = "application/json;charset=UTF-8")
+    @GetMapping(value = "/list",produces = "application/json;charset=UTF-8")
     public ApiResponse getMembers() {
         List<Member> findMembers = memberService.getAll();
         List<MemberResponse> response = findMembers.stream().map(MemberResponse::new).collect(Collectors.toList());
         return ApiResponse.success(response);
     }
 
-    @PostMapping(value = "/create", produces = "application/json;charset=UTF-8")
+    @PostMapping(produces = "application/json;charset=UTF-8")
     public ApiResponse postMember(@RequestBody MemberPostRequestDto request) {
         Member savedMember = memberService.saveMember(request.getName(), request.getPassword(), request.getEmail(), request.getImageUrl(), request.getMessage());
         return ApiResponse.success(new MemberResponse(savedMember));
     }
 
-    @GetMapping(value = "/read", produces = "application/json;charset=UTF-8")
+    @GetMapping(produces = "application/json;charset=UTF-8")
     public ApiResponse getMember(@RequestHeader("Authorization") Long memberId) {
         Member member = memberService.findOne(memberId);
         return ApiResponse.success(member);
     }
 
-    @PutMapping(value = "/update/profile", produces = "application/json;charset=UTF-8")
+    @PutMapping(value = "/profile/name-message", produces = "application/json;charset=UTF-8")
     public ApiResponse putMemberProfile(@RequestBody MemberProfilePutRequestDto request) {
-        Member updatedProfile = memberService.updateProfile(request.getMemberId(), request.getName(), request.getMessage());
+        Member updatedProfile = memberService.updateProfile(request.getId(), request.getName(), request.getMessage());
         return ApiResponse.success(updatedProfile);
     }
 
-    @PutMapping(value = "/update/email", produces = "application/json;charset=UTF-8")
+    @PutMapping(value = "/profile/email", produces = "application/json;charset=UTF-8")
     public ApiResponse putMemberEmailPassword(@RequestBody MemberEmailPasswordPutRequestDto request) {
-        Member updatedEmail = memberService.updateEmail(request.getMemberId(), request.getEmail());
+        Member updatedEmail = memberService.updateEmail(request.getId(), request.getEmail());
         return ApiResponse.success(updatedEmail);
     }
 
-    @PutMapping(value = "/update/image", produces = "application/json;charset=UTF-8")
+    @PutMapping(value = "/profile/image", produces = "application/json;charset=UTF-8")
     public ApiResponse putMemberImage(@RequestParam("pid") Long memberId,
                                       @RequestParam("file") MultipartFile file) {
         String imageUrl = fileService.uploadFile(file).getFileUrl();
