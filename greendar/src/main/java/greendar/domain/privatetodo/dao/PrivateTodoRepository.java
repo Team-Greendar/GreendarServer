@@ -3,7 +3,6 @@ package greendar.domain.privatetodo.dao;
 import greendar.domain.member.domain.Member;
 
 import greendar.domain.privatetodo.dao.DailyAchievementRateDao.DailyAchievement;
-import greendar.domain.privatetodo.dao.DailyAchievementRateDao.DailyAchievementRatio;
 import greendar.domain.privatetodo.domain.PrivateTodo;
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -31,10 +30,10 @@ public class PrivateTodoRepository {
     {
         return em.createQuery("select p from PrivateTodo p "+
                                 "join fetch p.member m " +
-                                "where m.memberId = :member_id " +
+                                "where m.id = :memberId " +
                                 " order by p.date desc"
                         ,PrivateTodo.class)
-                .setParameter("member_id",member.getMemberId())
+                .setParameter("memberId",member.getId())
                 .getResultList();
     }
 
@@ -44,7 +43,7 @@ public class PrivateTodoRepository {
                         "join fetch p.member m " +
                         "where p.date = :oneDay and m.id = :memberId",PrivateTodo.class)
                 .setParameter("oneDay",day)
-                .setParameter("member_id",member.getMemberId())
+                .setParameter("memberId",member.getId())
                 .getResultList();
     }
     public List<PrivateTodo> findAllByMonth(LocalDate date,Member member)
@@ -53,11 +52,11 @@ public class PrivateTodoRepository {
         LocalDate end   = month.atEndOfMonth();
         return em.createQuery("select p from PrivateTodo p " +
                                 "join fetch p.member m " +
-                                "where m.memberId = :member_id and p.date between :startDate and :endDate"
+                                "where m.id = :memberId and p.date between :startDate and :endDate"
                         ,PrivateTodo.class)
                 .setParameter("startDate",start)
                 .setParameter("endDate",end)
-                .setParameter("member_id",member.getMemberId())
+                .setParameter("memberId",member.getId())
                 .getResultList();
     }
 

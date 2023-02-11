@@ -1,7 +1,9 @@
 package greendar.domain.eventtodoitem.dao;
 
 import greendar.domain.eventtodoitem.domain.EventTodoItem;
+import greendar.domain.member.domain.Member;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,9 +18,7 @@ public class EventTodoItemRepository {
     private final EntityManager em;
 
     public EventTodoItem save(String task , LocalDate date) {
-        EventTodoItem eventTodoItem = new EventTodoItem();
-        eventTodoItem.setDate(date);
-        eventTodoItem.setTask(task);
+        EventTodoItem eventTodoItem = EventTodoItem.of(task,date);
         em.persist(eventTodoItem);
         return eventTodoItem;
     }
@@ -37,6 +37,18 @@ public class EventTodoItemRepository {
                         "where p.date =:oneDay"
                         , EventTodoItem.class)
                 .setParameter("oneDay",date)
+                .getResultList();
+    }
+    public List<EventTodoItem> findAllByMonth(LocalDate date) {
+        YearMonth month = YearMonth.from(date);
+        LocalDate start = month.atDay(1);
+        LocalDate end = month.atEndOfMonth();
+        return em.createQuery("select e from EventTodoItem e " +
+                                        "where e.date between  :startDate and :endDate " +
+                                        "order by e.date desc"
+                        ,EventTodoItem.class)
+                .setParameter("startDate",start)
+                .setParameter("endDate",end)
                 .getResultList();
     }
 }
