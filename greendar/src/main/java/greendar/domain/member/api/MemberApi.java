@@ -1,12 +1,10 @@
 package greendar.domain.member.api;
 
-import com.google.protobuf.Api;
 import greendar.domain.member.application.MemberService;
 import greendar.domain.member.domain.Member;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.validation.Valid;
 
 import greendar.domain.member.dto.MemberDtos.MemberPostRequestDto;
 import greendar.domain.member.dto.MemberDtos.MemberProfilePutRequestDto;
@@ -34,34 +32,37 @@ public class MemberApi {
     }
 
     @PostMapping(produces = "application/json;charset=UTF-8")
-    public ApiResponse postMember(@RequestBody MemberPostRequestDto request) {
-        Member savedMember = memberService.saveMember(request.getName(), request.getPassword(), request.getEmail(), request.getImageUrl(), request.getMessage());
+    public ApiResponse postMember(@RequestHeader("Authorization") String firebaseToken,
+            @RequestBody MemberPostRequestDto request) {
+        Member savedMember = memberService.saveMember(request.getName(), request.getPassword(), request.getEmail(), request.getImageUrl(), request.getMessage(), firebaseToken);
         return ApiResponse.success(new MemberResponse(savedMember));
     }
 
     @GetMapping(produces = "application/json;charset=UTF-8")
-    public ApiResponse getMember(@RequestHeader("Authorization") Long memberId) {
-        Member member = memberService.findOne(memberId);
+    public ApiResponse getMember(@RequestHeader("Authorization") String firebaseToken) {
+        Member member = memberService.findOneByToken(firebaseToken);
         return ApiResponse.success(member);
     }
 
     @PutMapping(value = "/profile/name-message", produces = "application/json;charset=UTF-8")
-    public ApiResponse putMemberProfile(@RequestBody MemberProfilePutRequestDto request) {
-        Member updatedProfile = memberService.updateProfile(request.getId(), request.getName(), request.getMessage());
+    public ApiResponse putMemberProfile(@RequestHeader("Authorization") String firebaseToken,
+                                        @RequestBody MemberProfilePutRequestDto request) {
+        Member updatedProfile = memberService.updateProfile(firebaseToken, request.getName(), request.getMessage());
         return ApiResponse.success(updatedProfile);
     }
 
     @PutMapping(value = "/profile/email", produces = "application/json;charset=UTF-8")
-    public ApiResponse putMemberEmailPassword(@RequestBody MemberEmailPasswordPutRequestDto request) {
-        Member updatedEmail = memberService.updateEmail(request.getId(), request.getEmail());
+    public ApiResponse putMemberEmailPassword(@RequestHeader("Authorization") String firebaseToken,
+                                              @RequestBody MemberEmailPasswordPutRequestDto request) {
+        Member updatedEmail = memberService.updateEmail(firebaseToken, request.getEmail());
         return ApiResponse.success(updatedEmail);
     }
 
     @PutMapping(value = "/profile/image", produces = "application/json;charset=UTF-8")
-    public ApiResponse putMemberImage(@RequestParam("pid") Long memberId,
+    public ApiResponse putMemberImage(@RequestHeader("Authorization") String firebaseToken,
                                       @RequestParam("file") MultipartFile file) {
         String imageUrl = fileService.uploadFile(file).getFileUrl();
-        Member result = memberService.updateImageUrl(memberId, imageUrl);
+        Member result = memberService.updateImageUrl(firebaseToken, imageUrl);
         return ApiResponse.success(result);
     }
 

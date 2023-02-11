@@ -64,6 +64,9 @@ public class Member {
     @Column(name = "statusMessage", length = 512)
     private String message;
 
+    @Column(name = "firebase_token", length = 512)
+    private String token;
+
 //    @Column(name = "PROVIDER_TYPE", length = 20)
 //    @Enumerated(EnumType.STRING)
 //    @NotNull
@@ -85,18 +88,20 @@ public class Member {
                    String password,
                    String email,
                    String imageUrl,
-                   String message)
+                   String message,
+                   String token)
     {
         this.name=name;
         this.password = password;
         this.email=email;
         this.imageUrl = imageUrl;
         this.message = message;
+        this.token = token;
 //        this.createdAt= createdAt;
 //        this.modifiedAt = modifiedAt;
     }
 
-    public static Member of(String name,String password, String email, String imageUrl, String message){
-        return new Member(name,password, email, imageUrl, message);
+    public static Member of(String name,String password, String email, String imageUrl, String message, String token){
+        return new Member(name,password, email, imageUrl, message, token);
     }
 }

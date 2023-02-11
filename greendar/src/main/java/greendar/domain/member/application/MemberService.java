@@ -16,23 +16,27 @@ public class MemberService {
     private MemberRepository memberRepository;
 
     @Transactional
-    public Member saveMember(String name,String password, String email, String imageUrl, String message) {
-        return memberRepository.saveMember(name,password, email, imageUrl, message);
+    public Member saveMember(String name,String password, String email, String imageUrl, String message, String token) {
+        return memberRepository.saveMember(name,password, email, imageUrl, message, token);
     }
 
     @Transactional
-    public Member updateProfile(Long memberId, String name, String message) {
-        return memberRepository.updateMemberProfile(memberId, name, message);
+    public Member updateProfile(String token, String name, String message) {
+        return memberRepository.updateMemberProfile(token, name, message);
     }
 
     @Transactional
-    public Member updateImageUrl(Long memberId, String imageUrl) {
-        return memberRepository.updateMemberImageUrl(memberId, imageUrl);
+    public Member updateImageUrl(String token, String imageUrl) {
+        return memberRepository.updateMemberImageUrl(token, imageUrl);
     }
 
     @Transactional
-    public Member updateEmail(Long memberId, String email) {
-        return memberRepository.updateMemberEmail(memberId, email);
+    public Member updateEmail(String token, String email) {
+        return memberRepository.updateMemberEmail(token, email);
+    }
+
+    public Member findOneByToken(String token){
+        return memberRepository.fineOneByToken(token);
     }
 
     public Member findOne(Long memberId) {
