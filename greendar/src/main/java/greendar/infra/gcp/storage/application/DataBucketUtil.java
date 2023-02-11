@@ -14,7 +14,6 @@ import greendar.infra.gcp.storage.exception.InvalidFileTypeException;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.nio.file.Files;
 import java.util.concurrent.ThreadLocalRandom;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,11 +25,11 @@ import org.springframework.web.multipart.MultipartFile;
 @Component
 public class DataBucketUtil {
 
-    @Value("${gcp.config.file}")
+    @Value("${spring.cloud.gcp.credentials.location}")
     private String gcpConfigFile;
-    @Value("${gcp.project.id}")
+    @Value("${spring.cloud.gcp.project.id}")
     private String gcpProjectId;
-    @Value("${gcp.bucket.id}")
+    @Value("${spring.cloud.gcp.bucket.id}")
     private String gcpBucketId;
 
     public FileDto uploadFile(MultipartFile multipartFile, String fileName,String gcpDirectoryName) {
@@ -48,7 +47,6 @@ public class DataBucketUtil {
 
             String contentType = "image";
             Blob blob = bucket.create(gcpDirectoryName + "/" + fileName + "-" + id.nextString() + checkFileExtension(fileName), fileData, contentType);
-
 
             if(blob != null){
                 return new FileDto(blob.getName(),"https://storage.cloud.google.com/"+gcpBucketId+"/"+blob.getName());
