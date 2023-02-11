@@ -21,7 +21,7 @@ public class PrivateTodoDtos {
     @NoArgsConstructor
     public static class PrivateTodoImagePutRequestDto
     {
-        private Long private_todo_id ;
+        private Long private_todo_id;
         File file;
     }
     @Data
