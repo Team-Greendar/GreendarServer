@@ -69,7 +69,6 @@ public class PrivateTodoApi {
     @GetMapping(value = "/private/todo/monthly/{date}")
     public ApiResponse getPrivateTodoByMonthlyDate(@RequestHeader("Authorization") Long member_token,
                                                    @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-        System.out.println(date);
         Member member = memberService.findOne(member_token);
         List<PrivateTodo> result =  privateTodoService.getAllPrivateTodoByOneMonth(date,member);
         System.out.println(result);

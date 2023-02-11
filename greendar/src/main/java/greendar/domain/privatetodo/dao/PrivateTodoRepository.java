@@ -31,10 +31,10 @@ public class PrivateTodoRepository {
     {
         return em.createQuery("select p from PrivateTodo p "+
                                 "join fetch p.member m " +
-                                "where m.id = :member_id " +
+                                "where m.id = :memberId " +
                                 " order by p.date desc"
                         ,PrivateTodo.class)
-                .setParameter("member_id",member.getId())
+                .setParameter("memberId",member.getId())
                 .getResultList();
     }
 
@@ -42,9 +42,9 @@ public class PrivateTodoRepository {
     {
         return em.createQuery("select p from PrivateTodo p " +
                         "join fetch p.member m " +
-                        "where p.date = :oneDay and m.id = :member_id",PrivateTodo.class)
+                        "where p.date = :oneDay and m.id = :memberId",PrivateTodo.class)
                 .setParameter("oneDay",day)
-                .setParameter("member_id",member.getId())
+                .setParameter("memberId",member.getId())
                 .getResultList();
     }
     public List<PrivateTodo> findAllByMonth(LocalDate date,Member member)
@@ -53,12 +53,12 @@ public class PrivateTodoRepository {
         LocalDate end   = month.atEndOfMonth();
         return em.createQuery("select p from PrivateTodo p " +
                                 "join fetch p.member m " +
-                                "where m.id = :member_id and p.date between :startDate and :endDate " +
+                                "where m.id = :memberId and p.date between :startDate and :endDate " +
                                 "order by p.date "
                         ,PrivateTodo.class)
                 .setParameter("startDate",start)
                 .setParameter("endDate",end)
-                .setParameter("member_id",member.getId())
+                .setParameter("memberId",member.getId())
                 .getResultList();
     }
 
@@ -96,12 +96,12 @@ public class PrivateTodoRepository {
 //                                "avg(p.complete) As rate " +
 //                                "from PrivateTodo p " +
 //                                "join fetch p.member m " +
-//                                "where m.id = :member_id and p.date between :startDate and :endDate " +
+//                                "where m.id = :memberId and p.date between :startDate and :endDate " +
 //                                "group by p.date"
 //                        ,DailyAchievementRateDao.class)
 //                .setParameter("startDate",start)
 //                .setParameter("endDate",end)
-//                .setParameter("member_id",member.getId())
+//                .setParameter("memberId",member.getId())
 //                .getResultList();
 //    }
 }
