@@ -18,9 +18,7 @@ public class EventTodoItemRepository {
     private final EntityManager em;
 
     public EventTodoItem save(String task , LocalDate date) {
-        EventTodoItem eventTodoItem = new EventTodoItem();
-        eventTodoItem.setDate(date);
-        eventTodoItem.setTask(task);
+        EventTodoItem eventTodoItem = EventTodoItem.of(task,date);
         em.persist(eventTodoItem);
         return eventTodoItem;
     }
