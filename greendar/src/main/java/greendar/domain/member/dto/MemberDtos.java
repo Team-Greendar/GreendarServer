@@ -17,6 +17,7 @@ public class MemberDtos {
         String email;
         String imageUrl;
         String message;
+        String firebaseToken;
     }
 
     @Data
