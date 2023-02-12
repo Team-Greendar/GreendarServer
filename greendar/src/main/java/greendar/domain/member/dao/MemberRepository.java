@@ -22,37 +22,53 @@ public class MemberRepository {
         return member;
     }
 
-    public Member updateMemberImageUrl(String token, String imageUrl) {
-        Member member = em.find(Member.class, token);
+    public Member updateMemberImageUrl(String inputToken, String imageUrl) {
+        Member member = fineOneByToken(inputToken);
         member.setImageUrl(imageUrl);
         em.merge(member);
         return member;
     }
 
-    public Member updateMemberProfile(String token, String name, String message) {
-        Member member = em.find(Member.class, token);
+    public Member updateMemberProfile(String inputToken, String name, String message) {
+        Member member = fineOneByToken(inputToken);
         member.setName(name);
         member.setMessage(message);
         em.merge(member);
         return member;
     }
 
-    public Member updateMemberEmail(String token, String email){
-        Member member = em.find(Member.class, token);
+    public Member updateMemberEmail(String inputToken, String email){
+        Member member = fineOneByToken(inputToken);
         member.setEmail(email);
         em.merge(member);
         return member;
     }
 
-    public Member saveFirebaseToken(String token, String firebaseToken){
-        Member member = em.find(Member.class, token);
+    /**
+     *  파이어베이스 UID가 오류가 있다는 전제 하에 만들어진 함수,
+     *  그래서 memberId 로 member를 불러오고, UID를 토큰으로 저장
+     * @param memberId
+     * @param firebaseToken
+     * @return
+     */
+    public Member saveFirebaseToken(Long memberId, String firebaseToken){
+        Member member = em.find(Member.class, memberId);
         member.setToken(firebaseToken);
         em.merge(member);
         return member;
     }
 
-    public Member fineOneByToken(String token){
-        return em.find(Member.class, token);
+    /**
+     * 예외처리 해줘야 함
+     * @param inputToken 파이어베이스 UID
+     * @return 멤버 객체
+     */
+    public Member fineOneByToken(String inputToken){
+        return em.createQuery("select m from Member m "+
+                        "where m.token = :firebaseToken"
+                        , Member.class)
+                .setParameter("firebaseToken", inputToken)
+                .getSingleResult();
     }
 
     public List<Member> findOneByEmail(String userEmail) {

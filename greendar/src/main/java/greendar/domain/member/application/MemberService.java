@@ -16,8 +16,8 @@ public class MemberService {
     private MemberRepository memberRepository;
 
     @Transactional
-    public Member saveMember(String name,String password, String email, String imageUrl, String message, String token) {
-        return memberRepository.saveMember(name,password, email, imageUrl, message, token);
+    public Member saveMember(String name, String password, String email, String imageUrl, String message, String token) {
+        return memberRepository.saveMember(name, password, email, imageUrl, message, token);
     }
 
     @Transactional
@@ -35,7 +35,7 @@ public class MemberService {
         return memberRepository.updateMemberEmail(token, email);
     }
 
-    public Member findOneByToken(String token){
+    public Member findOneByToken(String token) {
         return memberRepository.fineOneByToken(token);
     }
 

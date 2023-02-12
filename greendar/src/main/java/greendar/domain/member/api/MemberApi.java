@@ -32,9 +32,8 @@ public class MemberApi {
     }
 
     @PostMapping(produces = "application/json;charset=UTF-8")
-    public ApiResponse postMember(@RequestHeader("Authorization") String firebaseToken,
-            @RequestBody MemberPostRequestDto request) {
-        Member savedMember = memberService.saveMember(request.getName(), request.getPassword(), request.getEmail(), request.getImageUrl(), request.getMessage(), firebaseToken);
+    public ApiResponse postMember(@RequestBody MemberPostRequestDto request) {
+        Member savedMember = memberService.saveMember(request.getName(), request.getPassword(), request.getEmail(), "EMPTY", "HELLO", request.getFirebaseToken());
         return ApiResponse.success(new MemberResponse(savedMember));
     }
 
