@@ -15,6 +15,7 @@ public class ApiResponse<T> {
     private final static String INVALID_ACCESS_TOKEN = "Invalid access token.";
     private final static String INVALID_REFRESH_TOKEN = "Invalid refresh token.";
     private final static String NOT_EXPIRED_TOKEN_YET = "Not expired token yet.";
+    private final static String NAME_REDUNDANT = "중복된 닉네임입니다. 다른 닉네임으로 시도해주세요.";
 
     private final ApiResponseHeader header;
 
@@ -38,5 +39,9 @@ public class ApiResponse<T> {
 
     public static <T> ApiResponse<T> notExpiredTokenYet() {
         return new ApiResponse(new ApiResponseHeader(FAILED, NOT_EXPIRED_TOKEN_YET), null);
+    }
+
+    public static <T> ApiResponse<T> redundantName(T body) {
+        return new ApiResponse(new ApiResponseHeader(SUCCESS, NAME_REDUNDANT), body);
     }
 }

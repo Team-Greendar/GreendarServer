@@ -39,6 +39,10 @@ public class MemberService {
         return memberRepository.fineOneByToken(token);
     }
 
+    public boolean isNameRedundant(String name){
+        return memberRepository.isMemberNameExists(name);
+    }
+
     public Member findOne(Long memberId) {
         return memberRepository.findOne(memberId);
     }

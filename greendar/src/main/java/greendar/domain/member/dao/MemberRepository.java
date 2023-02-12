@@ -71,6 +71,15 @@ public class MemberRepository {
                 .getSingleResult();
     }
 
+    public boolean isMemberNameExists(String name){
+        List<Member> memberList = em.createQuery("select m from Member m "+
+                "where m.name = :inputName"
+                , Member.class)
+                .setParameter("inputName", name)
+                .getResultList();
+        return !memberList.isEmpty();
+    }
+
     public List<Member> findOneByEmail(String userEmail) {
         return null;
     }
