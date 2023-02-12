@@ -2,7 +2,6 @@ package greendar.domain.eventtodo.application;
 
 import greendar.domain.eventtodo.dao.EventTodoRepository;
 import greendar.domain.eventtodo.domain.EventTodo;
-import greendar.domain.eventtodo.dto.EventTodoDtos;
 import greendar.domain.eventtodo.dto.EventTodoDtos.EventTodoResponse;
 import greendar.domain.eventtodoitem.dao.EventTodoItemRepository;
 import greendar.domain.eventtodoitem.domain.EventTodoItem;
@@ -62,6 +61,7 @@ public class EventTodoService {
         for(EventTodoItem eventTodoItem : eventTodoItems) {
         }
 
+//        return eventTodoResponses;
     }
 
 }

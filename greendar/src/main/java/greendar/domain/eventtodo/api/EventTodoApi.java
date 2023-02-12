@@ -20,12 +20,12 @@ public class EventTodoApi {
     private final MemberService memberService;
     private final EventTodoService eventTodoService;
 
-    @GetMapping(value = "/private/todo/{date}")
+    @GetMapping(value = "/{date}")
     public ApiResponse getPrivateTodoByDate(@RequestHeader("Authorization") String firebaseToken,
                                             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         Member member = memberService.findOneByToken(firebaseToken);
-        List<EventTodoResponse> result =eventTodoService.getAllEventTodoByOneDay(date,member);
-        return ApiResponse.success(result);
+//        List<EventTodoResponse> result =eventTodoService.getAllEventTodoByOneDay(date,member);
+        return ApiResponse.success("tmp");
     }
 
 

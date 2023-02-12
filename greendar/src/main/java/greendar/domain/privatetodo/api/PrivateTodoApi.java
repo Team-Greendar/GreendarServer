@@ -24,11 +24,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
+@RequestMapping(value = "/private/todo")
 @RequiredArgsConstructor
 public class PrivateTodoApi {
 
@@ -36,9 +38,9 @@ public class PrivateTodoApi {
     private final PrivateTodoService privateTodoService;
     private final FileService fileService;
 
-    @GetMapping(value = "/private/todo")
-    public ApiResponse getPrivateTodoByMember(@RequestHeader("Authorization") Long member_token) {
-        Member member = memberService.findOne(member_token);
+    @GetMapping
+    public ApiResponse getPrivateTodoByMember(@RequestHeader("Authorization") String firebaseToken) {
+        Member member = memberService.findOneByToken(firebaseToken);
         List<PrivateTodo> privateTodos= privateTodoService.getAllPrivateTodoByMember(member);
         List<PrivateTodoResponse> collect = privateTodos.stream()
                 .map(r->new PrivateTodoResponse(r))
@@ -46,18 +48,18 @@ public class PrivateTodoApi {
         return ApiResponse.success(collect);
     }
 
-    @PostMapping(value = "/private/todo")
-    public ApiResponse addPrivateTodo(@RequestHeader("Authorization") Long member_token,
+    @PostMapping
+    public ApiResponse addPrivateTodo(@RequestHeader("Authorization") String firebaseToken,
                                       @RequestBody PrivateTodoPostRequestDto request) {
-        Member member = memberService.findOne(member_token);
+        Member member = memberService.findOneByToken(firebaseToken);
         PrivateTodo privateTodo = privateTodoService.saveTodo(member,request.getTask(),request.getDate());
         return  ApiResponse.success( new PrivateTodoResponse(privateTodo));
     }
 
-    @GetMapping(value = "/private/todo/{date}")
-    public ApiResponse getPrivateTodoByDate(@RequestHeader("Authorization") Long member_token,
+    @GetMapping(value = "/{date}")
+    public ApiResponse getPrivateTodoByDate(@RequestHeader("Authorization") String firebaseToken,
                                             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd")  LocalDate date) {
-        Member member = memberService.findOne(member_token);
+        Member member = memberService.findOneByToken(firebaseToken);
         List<PrivateTodo> result =  privateTodoService.getAllPrivateTodoByOneDay(date,member);
         List<PrivateTodoResponse> collect = result.stream()
                 .map(r->new PrivateTodoResponse(r))
@@ -66,10 +68,10 @@ public class PrivateTodoApi {
         return ApiResponse.success(collect);
     }
 
-    @GetMapping(value = "/private/todo/monthly/{date}")
-    public ApiResponse getPrivateTodoByMonthlyDate(@RequestHeader("Authorization") Long member_token,
+    @GetMapping(value = "/monthly/{date}")
+    public ApiResponse getPrivateTodoByMonthlyDate(@RequestHeader("Authorization") String firebaseToken,
                                                    @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-        Member member = memberService.findOne(member_token);
+        Member member = memberService.findOneByToken(firebaseToken);
         List<PrivateTodo> result =  privateTodoService.getAllPrivateTodoByOneMonth(date,member);
         System.out.println(result);
         List<PrivateTodoResponse> collect = result.stream()
@@ -78,7 +80,7 @@ public class PrivateTodoApi {
         return ApiResponse.success(collect);
     }
 
-    @GetMapping(value = "/private/todo/monthly/ratio/{date}")
+    @GetMapping(value = "/monthly/ratio/{date}")
     public ApiResponse getPrivateTodoRatioByDate(@RequestHeader("Authorization") String firebaseToken,
                                                  @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         Member member = memberService.findOneByToken(firebaseToken);
@@ -87,7 +89,7 @@ public class PrivateTodoApi {
         return ApiResponse.success(dailyAchievementRatios);
     }
 
-    @PutMapping(value = "/private/todo/image",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PutMapping(value = "/image",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ApiResponse setPrivateTodoImageUrl(@RequestHeader("Authorization") String firebaseToken,
                                               @RequestParam("pid") Long private_todo_id,
                                               @RequestParam("file") MultipartFile file) {
@@ -96,7 +98,7 @@ public class PrivateTodoApi {
         PrivateTodo result = privateTodoService.updatePrivateTodoImageUrl(private_todo_id,imageUrl);
         return  ApiResponse.success(new PrivateTodoResponse(result));
     }
-    @PutMapping(value = "/private/todo/complete")
+    @PutMapping(value = "/complete")
     public ApiResponse setPrivateTodoComplete(@RequestHeader("Authorization") String firebaseToken,
                                               @RequestBody PrivateTodoCompletePutRequestDto request) {
         Member member = memberService.findOneByToken(firebaseToken);
@@ -105,7 +107,7 @@ public class PrivateTodoApi {
         return  ApiResponse.success(new PrivateTodoResponse(result));
     }
 
-    @PutMapping(value = "/private/todo/task")
+    @PutMapping(value = "/task")
     public ApiResponse setPrivateTodoTask(@RequestHeader("Authorization") String firebaseToken,
                                           @RequestBody PrivateTodoTaskPutRequestDto request) {
         Member member = memberService.findOneByToken(firebaseToken);

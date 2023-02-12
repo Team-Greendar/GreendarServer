@@ -83,6 +83,8 @@ public class EventTodoRepository {
                 .getResultList();
     }
 
+
+
     public List<EventTodo> findAllByMonth(LocalDate date, Member member) {
             YearMonth month = YearMonth.from(date);
             LocalDate start = month.atDay(1);
