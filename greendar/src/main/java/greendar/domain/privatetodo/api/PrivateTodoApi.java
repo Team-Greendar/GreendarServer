@@ -3,7 +3,7 @@ package greendar.domain.privatetodo.api;
 import greendar.domain.member.application.MemberService;
 import greendar.domain.member.domain.Member;
 import greendar.domain.privatetodo.application.PrivateTodoService;
-import greendar.domain.privatetodo.dao.DailyAchievementRateDao.DailyAchievementRatio;
+import greendar.domain.privatetodo.dto.PrivateTodoDtos.DailyAchievementRatio;
 import greendar.domain.privatetodo.domain.PrivateTodo;
 import greendar.domain.privatetodo.dto.PrivateTodoDtos.PrivateTodoCompletePutRequestDto;
 import greendar.domain.privatetodo.dto.PrivateTodoDtos.PrivateTodoPostRequestDto;
