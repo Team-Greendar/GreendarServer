@@ -2,18 +2,13 @@ package greendar.domain.privatetodo.application;
 
 import greendar.domain.member.domain.Member;
 
-import greendar.domain.privatetodo.dao.DailyAchievementRateDao.DailyAchievement;
-import greendar.domain.privatetodo.dao.DailyAchievementRateDao.DailyAchievementRatio;
+import greendar.domain.privatetodo.dto.PrivateTodoDtos.DailyAchievement;
 import greendar.domain.privatetodo.dao.PrivateTodoRepository;
 import greendar.domain.privatetodo.domain.PrivateTodo;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

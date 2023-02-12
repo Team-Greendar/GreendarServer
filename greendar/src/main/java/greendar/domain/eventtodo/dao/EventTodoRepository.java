@@ -3,7 +3,7 @@ package greendar.domain.eventtodo.dao;
 import greendar.domain.eventtodo.domain.EventTodo;
 import greendar.domain.eventtodoitem.domain.EventTodoItem;
 import greendar.domain.member.domain.Member;
-import greendar.domain.privatetodo.dao.DailyAchievementRateDao.DailyAchievement;
+import greendar.domain.privatetodo.dto.PrivateTodoDtos.DailyAchievement;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;

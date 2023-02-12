@@ -23,7 +23,9 @@ public class ApiResponse<T> {
     public static <T> ApiResponse<T> success(T body) {
         return new ApiResponse(new ApiResponseHeader(SUCCESS, SUCCESS_MESSAGE),body);
     }
-
+    public static <T> ApiResponse<T> error(int code , String message) {
+        return new ApiResponse(new ApiResponseHeader(code, message),null);
+    }
     public static <T> ApiResponse<T> fail(T body) {
         return new ApiResponse(new ApiResponseHeader(FAILED, FAILED_MESSAGE), body);
     }
