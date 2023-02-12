@@ -35,9 +35,10 @@ public class EventTodoItemRepository {
         em.remove(eventTodoItem);
     }
     public List<EventTodoItem> findAllByDay(LocalDate date) {
-        return  em.createQuery("select p from EventTodoItem p "+
-                        "where p.date =:oneDay"
-                        , EventTodoItem.class)
+        return  em.createQuery("select p from EventTodoItem p " +
+                "where p.date =:oneDay " +
+                "order by p.date desc "
+                , EventTodoItem.class)
                 .setParameter("oneDay",date)
                 .getResultList();
     }

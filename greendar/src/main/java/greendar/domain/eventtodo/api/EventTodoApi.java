@@ -1,8 +1,9 @@
 package greendar.domain.eventtodo.api;
 
 import greendar.domain.eventtodo.application.EventTodoService;
-import greendar.domain.eventtodo.domain.EventTodo;
+import greendar.domain.eventtodo.dto.EventTodoDtos.EventTodoResponse;
 import greendar.domain.member.application.MemberService;
+import greendar.domain.member.domain.Member;
 import greendar.global.common.ApiResponse;
 import java.time.LocalDate;
 import java.util.List;
@@ -20,11 +21,11 @@ public class EventTodoApi {
     private final EventTodoService eventTodoService;
 
     @GetMapping(value = "/private/todo/{date}")
-    public ApiResponse getPrivateTodoByDate(@RequestHeader("Authorization") Long token,
+    public ApiResponse getPrivateTodoByDate(@RequestHeader("Authorization") String firebaseToken,
                                             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-//        Member member = memberService.findOne(member_token);
-        List<EventTodo> result =eventTodoService.getAllEventTodoByOneDay(date,member);
-
+        Member member = memberService.findOneByToken(firebaseToken);
+        List<EventTodoResponse> result =eventTodoService.getAllEventTodoByOneDay(date,member);
+        return ApiResponse.success(result);
     }
 
 

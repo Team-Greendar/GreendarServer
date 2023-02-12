@@ -2,6 +2,8 @@ package greendar.domain.eventtodo.application;
 
 import greendar.domain.eventtodo.dao.EventTodoRepository;
 import greendar.domain.eventtodo.domain.EventTodo;
+import greendar.domain.eventtodo.dto.EventTodoDtos;
+import greendar.domain.eventtodo.dto.EventTodoDtos.EventTodoResponse;
 import greendar.domain.eventtodoitem.dao.EventTodoItemRepository;
 import greendar.domain.eventtodoitem.domain.EventTodoItem;
 import greendar.domain.member.dao.MemberRepository;
@@ -44,21 +46,22 @@ public class EventTodoService {
     }
 
     @Transactional
-    public void saveEventTodo(Boolean complete ,String imageUrl,long eventTodoItemId,long memberId) {
-        /// complete
-        EventTodoItem eventTodoItem = eventTodoItemRepository.findOneById(eventTodoItemId);
-        Member member = memberRepository.findOne(memberId);
+    public void saveEventTodo(Boolean complete ,String imageUrl,EventTodoItem eventTodoItem,Member member) {
 
         // imgaeurl
         eventTodoRepository.save(complete,imageUrl,eventTodoItem,member);
 
         //both
 
+    }
+
+    public void getAllEventTodoByOneDay(LocalDate date , Member member) {
+        List<EventTodoItem> eventTodoItems = eventTodoItemRepository.findAllByDay(date);
+        List<EventTodo> eventTodos = eventTodoRepository.findAllByDay(date,member);
+        List<EventTodoResponse> eventTodoResponses = new ArrayList<>();
+        for(EventTodoItem eventTodoItem : eventTodoItems) {
+        }
 
     }
 
-
-    public List<EventTodo> getAllEventTodoByOneDay(LocalDate date ,Member member) {
-
-    }
 }

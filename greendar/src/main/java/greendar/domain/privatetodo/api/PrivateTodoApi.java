@@ -79,35 +79,37 @@ public class PrivateTodoApi {
     }
 
     @GetMapping(value = "/private/todo/monthly/ratio/{date}")
-    public ApiResponse getPrivateTodoRatioByDate(@RequestHeader("Authorization") Long member_token,
+    public ApiResponse getPrivateTodoRatioByDate(@RequestHeader("Authorization") String firebaseToken,
                                                  @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-        Member member = memberService.findOne(member_token);
+        Member member = memberService.findOneByToken(firebaseToken);
         TreeMap<LocalDate, Float> result =  privateTodoService.getRatioByDailyInMonth(date,member);
         List<DailyAchievementRatio> dailyAchievementRatios = result.entrySet().stream().map(e->new DailyAchievementRatio(e)).collect(Collectors.toList());
         return ApiResponse.success(dailyAchievementRatios);
     }
 
     @PutMapping(value = "/private/todo/image",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ApiResponse setPrivateTodoImageUrl(@RequestHeader("Authorization") Long member_token,
+    public ApiResponse setPrivateTodoImageUrl(@RequestHeader("Authorization") String firebaseToken,
                                               @RequestParam("pid") Long private_todo_id,
                                               @RequestParam("file") MultipartFile file) {
-        Member member = memberService.findOne(member_token);
+        Member member = memberService.findOneByToken(firebaseToken);
         String imageUrl = fileService.uploadFile(file).getFileUrl();
         PrivateTodo result = privateTodoService.updatePrivateTodoImageUrl(private_todo_id,imageUrl);
         return  ApiResponse.success(new PrivateTodoResponse(result));
     }
     @PutMapping(value = "/private/todo/complete")
-    public ApiResponse setPrivateTodoComplete(@RequestHeader("Authorization") Long member_token,
+    public ApiResponse setPrivateTodoComplete(@RequestHeader("Authorization") String firebaseToken,
                                               @RequestBody PrivateTodoCompletePutRequestDto request) {
-        Member member = memberService.findOne(member_token);
+        Member member = memberService.findOneByToken(firebaseToken);
+        if(member == null) return ApiResponse.fail("Wrong FireBaseToken");
         PrivateTodo result = privateTodoService.updatePrivateTodoComplete(request.getPrivate_todo_id(),request.getComplete());
         return  ApiResponse.success(new PrivateTodoResponse(result));
     }
 
     @PutMapping(value = "/private/todo/task")
-    public ApiResponse setPrivateTodoTask(@RequestHeader("Authorization") Long member_token,
+    public ApiResponse setPrivateTodoTask(@RequestHeader("Authorization") String firebaseToken,
                                           @RequestBody PrivateTodoTaskPutRequestDto request) {
-        Member member = memberService.findOne(member_token);
+        Member member = memberService.findOneByToken(firebaseToken);
+        if(member == null) return ApiResponse.fail("Wrong FireBaseToken");
         PrivateTodo result = privateTodoService.updatePrivateTodoTask(request.getPrivate_todo_id(),request.getTask());
         return  ApiResponse.success(new PrivateTodoResponse(result));
     }
