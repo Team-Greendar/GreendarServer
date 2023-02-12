@@ -27,7 +27,9 @@ public class EventTodoItemRepository {
         return  em.createQuery("select p from EventTodoItem p", EventTodoItem.class)
                 .getResultList();
     }
-
+    public EventTodoItem findOneById(Long id){
+        return em.find(EventTodoItem.class,id);
+    }
     public void delete(Long id){
         EventTodoItem eventTodoItem = em.find(EventTodoItem.class,id);
         em.remove(eventTodoItem);

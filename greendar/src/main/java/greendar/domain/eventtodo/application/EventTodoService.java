@@ -1,8 +1,10 @@
 package greendar.domain.eventtodo.application;
 
 import greendar.domain.eventtodo.dao.EventTodoRepository;
+import greendar.domain.eventtodo.domain.EventTodo;
 import greendar.domain.eventtodoitem.dao.EventTodoItemRepository;
 import greendar.domain.eventtodoitem.domain.EventTodoItem;
+import greendar.domain.member.dao.MemberRepository;
 import greendar.domain.member.domain.Member;
 import greendar.domain.privatetodo.application.PrivateTodoService;
 import greendar.domain.privatetodo.dto.PrivateTodoDtos.DailyAchievement;
@@ -18,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class EventTodoService {
-
+    private final MemberRepository memberRepository;
     private final EventTodoRepository eventTodoRepository;
     private final EventTodoItemRepository eventTodoItemRepository;
     private final PrivateTodoService privateTodoService;
@@ -41,4 +43,22 @@ public class EventTodoService {
         return  privateTodoService.calculateRatio(dailyAchievements);
     }
 
+    @Transactional
+    public void saveEventTodo(Boolean complete ,String imageUrl,long eventTodoItemId,long memberId) {
+        /// complete
+        EventTodoItem eventTodoItem = eventTodoItemRepository.findOneById(eventTodoItemId);
+        Member member = memberRepository.findOne(memberId);
+
+        // imgaeurl
+        eventTodoRepository.save(complete,imageUrl,eventTodoItem,member);
+
+        //both
+
+
+    }
+
+
+    public List<EventTodo> getAllEventTodoByOneDay(LocalDate date ,Member member) {
+
+    }
 }
