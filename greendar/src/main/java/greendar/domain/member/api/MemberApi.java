@@ -6,6 +6,7 @@ import greendar.domain.member.domain.Member;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 import greendar.domain.member.dto.MemberDtos.MemberPostRequestDto;
 import greendar.domain.member.dto.MemberDtos.MemberProfilePutRequestDto;
 import greendar.domain.member.dto.MemberDtos.MemberEmailPasswordPutRequestDto;
@@ -33,6 +34,9 @@ public class MemberApi {
 
     @PostMapping(produces = "application/json;charset=UTF-8")
     public ApiResponse postMember(@RequestBody MemberPostRequestDto request) {
+        if(memberService.isNameRedundant(request.getName())){
+            return ApiResponse.redundantName(false);
+        }
         Member savedMember = memberService.saveMember(request.getName(), request.getPassword(), request.getEmail(), "EMPTY", "HELLO", request.getFirebaseToken());
         return ApiResponse.success(new MemberResponse(savedMember));
     }

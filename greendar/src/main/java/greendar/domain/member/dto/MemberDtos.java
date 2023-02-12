@@ -27,6 +27,8 @@ public class MemberDtos {
         private String email;
     }
 
+
+
     @Data
     @NoArgsConstructor
     public static class MemberGetRequestDto
