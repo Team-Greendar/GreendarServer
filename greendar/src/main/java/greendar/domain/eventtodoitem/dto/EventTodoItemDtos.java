@@ -10,7 +10,7 @@ public class EventTodoItemDtos {
 
     @Data
     @NoArgsConstructor
-    public static class EventTodoPostRequestDto
+    public static class EventTodoPostItemRequestDto
     {
         String task;
         LocalDate date;
