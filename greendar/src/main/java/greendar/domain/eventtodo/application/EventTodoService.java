@@ -1,6 +1,7 @@
 package greendar.domain.eventtodo.application;
 
 import greendar.domain.eventtodo.dao.EventTodoRepository;
+import greendar.domain.eventtodo.domain.EventTodo;
 import greendar.domain.eventtodo.dto.EventTodoDtos.EventTodoResponseDto;
 import greendar.domain.eventtodoitem.dao.EventTodoItemRepository;
 import greendar.domain.eventtodoitem.domain.EventTodoItem;
@@ -26,11 +27,11 @@ public class EventTodoService {
     private final EventTodoRepository eventTodoRepository;
     private final EventTodoItemRepository eventTodoItemRepository;
     private final PrivateTodoService privateTodoService;
-
     @Transactional
-    public void saveEventTodo(Boolean complete ,String imageUrl,EventTodoItem eventTodoItem,Member member) {
+    public EventTodo saveEventTodo(Boolean complete , String imageUrl, EventTodoItem eventTodoItem, Member member) {
 
         // imgaeurl
+
         eventTodoRepository.save(complete,imageUrl,eventTodoItem,member);
 
         //both
@@ -48,11 +49,17 @@ public class EventTodoService {
                 .collect(Collectors.toList());
         return  privateTodoService.calculateRatio(dailyAchievements);
     }
-
     public List<EventTodoResponseDto> getAllEventTodoByOneDay(LocalDate date , Member member) {
 
         List<EventTodoItem> eventTodoItems = eventTodoItemRepository.findAllByDay(date);
         List<EventTodoResponseDto> eventTodos = eventTodoRepository.findAllByDay(date,member);
+
+        return  getEventTodoResponsesByCompare(eventTodoItems,eventTodos);
+    }
+    public List<EventTodoResponseDto> getAllEventTodoByOneMonth(LocalDate date , Member member) {
+
+        List<EventTodoItem> eventTodoItems = eventTodoItemRepository.findAllByMonth(date);
+        List<EventTodoResponseDto> eventTodos = eventTodoRepository.findAllByMonth(date,member);
 
         return  getEventTodoResponsesByCompare(eventTodoItems,eventTodos);
     }
