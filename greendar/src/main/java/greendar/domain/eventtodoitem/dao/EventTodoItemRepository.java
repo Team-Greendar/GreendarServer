@@ -27,15 +27,18 @@ public class EventTodoItemRepository {
         return  em.createQuery("select p from EventTodoItem p", EventTodoItem.class)
                 .getResultList();
     }
-
+    public EventTodoItem findOneById(Long id){
+        return em.find(EventTodoItem.class,id);
+    }
     public void delete(Long id){
         EventTodoItem eventTodoItem = em.find(EventTodoItem.class,id);
         em.remove(eventTodoItem);
     }
     public List<EventTodoItem> findAllByDay(LocalDate date) {
-        return  em.createQuery("select p from EventTodoItem p "+
-                        "where p.date =:oneDay"
-                        , EventTodoItem.class)
+        return  em.createQuery("select p from EventTodoItem p " +
+                "where p.date =:oneDay " +
+                "order by p.date desc "
+                , EventTodoItem.class)
                 .setParameter("oneDay",date)
                 .getResultList();
     }

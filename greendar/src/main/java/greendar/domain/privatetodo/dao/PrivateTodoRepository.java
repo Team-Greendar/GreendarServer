@@ -2,7 +2,7 @@ package greendar.domain.privatetodo.dao;
 
 import greendar.domain.member.domain.Member;
 
-import greendar.domain.privatetodo.dao.DailyAchievementRateDao.DailyAchievement;
+import greendar.domain.privatetodo.dto.PrivateTodoDtos.DailyAchievement;
 import greendar.domain.privatetodo.domain.PrivateTodo;
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -29,8 +29,7 @@ public class PrivateTodoRepository {
     public List<PrivateTodo> findAllPrivateTodoByMember(Member member)
     {
         return em.createQuery("select p from PrivateTodo p "+
-                                "join fetch p.member m " +
-                                "where m.id = :memberId " +
+                                "where p.member.id = :memberId " +
                                 " order by p.date desc"
                         ,PrivateTodo.class)
                 .setParameter("memberId",member.getId())
@@ -40,8 +39,7 @@ public class PrivateTodoRepository {
     public List<PrivateTodo> findAllByDay(LocalDate day,Member member)
     {
         return em.createQuery("select p from PrivateTodo p " +
-                        "join fetch p.member m " +
-                        "where p.date = :oneDay and m.id = :memberId",PrivateTodo.class)
+                        "where p.date = :oneDay and p.member.id = :memberId",PrivateTodo.class)
                 .setParameter("oneDay",day)
                 .setParameter("memberId",member.getId())
                 .getResultList();
@@ -51,8 +49,7 @@ public class PrivateTodoRepository {
         LocalDate start = month.atDay(1);
         LocalDate end   = month.atEndOfMonth();
         return em.createQuery("select p from PrivateTodo p " +
-                                "join fetch p.member m " +
-                                "where m.id = :memberId and p.date between :startDate and :endDate"
+                                "where p.member.id = :memberId and p.date between :startDate and :endDate"
                         ,PrivateTodo.class)
                 .setParameter("startDate",start)
                 .setParameter("endDate",end)
