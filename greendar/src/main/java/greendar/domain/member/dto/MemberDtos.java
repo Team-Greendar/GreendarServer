@@ -66,17 +66,19 @@ public class MemberDtos {
         private String email;
         private String imageUrl;
         private String message;
+        private String token;
 
         public MemberResponse(Member member){
-            this(member.getId(), member.getName(),member.getPassword(),member.getEmail(),member.getImageUrl(),member.getMessage());
+            this(member.getId(), member.getName(),member.getPassword(),member.getEmail(),member.getImageUrl(),member.getMessage(), member.getToken());
         }
-        public MemberResponse(Long memberId, String name, String password, String email, String imageUrl,String message) {
+        public MemberResponse(Long memberId, String name, String password, String email, String imageUrl,String message, String token) {
             this.id = memberId;
             this.name = name;
             this.password = password;
             this.email = email;
             this.imageUrl = imageUrl;
             this.message = message;
+            this.token = token;
         }
 
     }
