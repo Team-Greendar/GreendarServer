@@ -1,14 +1,12 @@
 package greendar.domain.eventtodo.dao;
 
 import greendar.domain.eventtodo.domain.EventTodo;
+import greendar.domain.eventtodo.dto.EventTodoDtos.EventTodoResponseDto;
 import greendar.domain.eventtodoitem.domain.EventTodoItem;
 import greendar.domain.member.domain.Member;
-import greendar.domain.privatetodo.domain.PrivateTodo;
-import greendar.domain.privatetodo.dto.PrivateTodoDtos.DailyAchievement;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -21,13 +19,14 @@ public class EventTodoRepository {
     @PersistenceContext
     private final EntityManager em;
 
-    public void save(Boolean complete, String imageUrl, EventTodoItem eventTodoItem, Member member) {
+    public EventTodo save(Boolean complete, String imageUrl, EventTodoItem eventTodoItem, Member member) {
         EventTodo eventTodo = new EventTodo();
         eventTodo.setComplete(complete);
         eventTodo.setImageUrl(imageUrl);
         eventTodo.setEventTodoItem(eventTodoItem);
         eventTodo.setMember(member);
         em.persist(eventTodo);
+        return eventTodo;
     }
 
     public EventTodo updateEventTodoComplete(Long eventTodoId, Boolean complete) {
@@ -47,9 +46,7 @@ public class EventTodoRepository {
     public EventTodo findOneByEventTodoItemIdMemberId(Long memberId, Long eventTodoItemId) {
         try {
             return em.createQuery("select e from EventTodo  e " +
-                                    "join fetch e.member m " +
-                                    "join fetch e.eventTodoItem i " +
-                                    "where m.id =:memberId and i.id =:eventTodoItemId"
+                                    "where e.member.id =:memberId and e.eventTodoItem.id =:eventTodoItemId"
                             , EventTodo.class)
                     .setParameter("memberId", memberId)
                     .setParameter("eventTodoItemId", eventTodoItemId)
@@ -58,44 +55,40 @@ public class EventTodoRepository {
             return null;
         }
     }
-    public List<DailyAchievement> countRatioByDailyInMonth(LocalDate date, Member member) {
-        List<EventTodo> find = findAllByMonth(date,member);
-        return find.stream().map(DailyAchievement::new).collect(Collectors.toList());
-    }
 
     public List<EventTodo> findAllEventTodoByMember(Long memberId) {
         return em.createQuery("select e from EventTodo  e " +
-                                "join fetch e.member m " +
-                                " where m.id = :memberId " +
+                                " where e.member.id = :memberId " +
                                 "order by e.eventTodoItem.date desc"
                         , EventTodo.class)
                 .setParameter("memberId", memberId)
                 .getResultList();
     }
 
-    public List<EventTodo> findAllByDay(LocalDate day,Member member){
-        return em.createQuery("select e from EventTodo e " +
-                "where e.eventTodoItem.date = :oneDay and e.member.id = :memberId " +
-                "order by e.eventTodoItem.date desc"
-                , EventTodo.class)
-                .setParameter("oneDay",day)
-                .setParameter("memberId",member.getId())
-                .getResultList();
+    public List<EventTodoResponseDto> findAllByDay(LocalDate day, Member member){
+        return em.createQuery("select  new greendar.domain.eventtodo.dto.EventTodoDtos.EventTodoResponseDto(e) "+
+                    "from EventTodo e " +
+                    "where e.eventTodoItem.date = :oneDay and e.member.id = :memberId " +
+                    "order by e.eventTodoItem.date desc"
+                    , EventTodoResponseDto.class)
+                    .setParameter("oneDay",day)
+                    .setParameter("memberId",member.getId())
+                    .getResultList();
     }
 
 
-
-    public List<EventTodo> findAllByMonth(LocalDate date, Member member) {
+    public List<EventTodoResponseDto> findAllByMonth(LocalDate date, Member member) {
             YearMonth month = YearMonth.from(date);
             LocalDate start = month.atDay(1);
             LocalDate end = month.atEndOfMonth();
-            return em.createQuery("select e from EventTodo e " +
-                    "where e.member.id=:memberId and e.eventTodoItem.date between :startDate and :endDate " +
-                    "order by  e.eventTodoItem.date desc",EventTodo.class)
-                    .setParameter("startDate",start)
-                    .setParameter("endDate",end)
-                    .setParameter("memberId",member.getId())
-                    .getResultList();
+            return em.createQuery("select new greendar.domain.eventtodo.dto.EventTodoDtos.EventTodoResponseDto(e) " +
+                        "from EventTodo e " +
+                        "where e.member.id=:memberId and e.eventTodoItem.date between :startDate and :endDate " +
+                        "order by  e.eventTodoItem.date desc",EventTodoResponseDto.class)
+                        .setParameter("startDate",start)
+                        .setParameter("endDate",end)
+                        .setParameter("memberId",member.getId())
+                        .getResultList();
     }
 
 }

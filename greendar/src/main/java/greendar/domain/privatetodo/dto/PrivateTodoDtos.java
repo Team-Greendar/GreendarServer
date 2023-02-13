@@ -1,7 +1,7 @@
 package greendar.domain.privatetodo.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import greendar.domain.eventtodo.domain.EventTodo;
+import greendar.domain.eventtodo.dto.EventTodoDtos.EventTodoResponseDto;
 import greendar.domain.privatetodo.domain.PrivateTodo;
 import java.io.File;
 import java.time.LocalDate;
@@ -74,11 +74,12 @@ public class PrivateTodoDtos {
         public DailyAchievement(EventTodo eventTodo){
             this.date = eventTodo.getEventTodoItem().getDate();
             if(eventTodo.getComplete())  this.done = 1;
-            if(eventTodo.getComplete()) this.done = 0 ;
+            if(!eventTodo.getComplete()) this.done = 0 ;
         }
-        public DailyAchievement(LocalDate date ,int done){
-            this.date =date;
-            this.done = done;
+        public DailyAchievement(EventTodoResponseDto eventTodoResponseDto) {
+            this.date=eventTodoResponseDto.getDate();
+            if(eventTodoResponseDto.getComplete())  this.done = 1;
+            if(!eventTodoResponseDto.getComplete()) this.done = 0 ;
         }
     }
 
@@ -86,11 +87,6 @@ public class PrivateTodoDtos {
     public static class DailyAchievementRatio{
         private LocalDate date;
         private float ratio;
-
-        public DailyAchievementRatio(LocalDate date,float ratio){
-            this.date = date;
-            this.ratio = ratio;
-        }
         public DailyAchievementRatio(Entry<LocalDate,Float> result){
             this.date = result.getKey();
             this.ratio = result.getValue()*100;
