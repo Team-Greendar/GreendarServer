@@ -43,6 +43,10 @@ public class MemberService {
         return memberRepository.isMemberNameExists(name);
     }
 
+    public boolean isTokenExists(String token){
+        return memberRepository.isMemberTokenExists(token);
+    }
+
     public Member findOne(Long memberId) {
         return memberRepository.findOne(memberId);
     }
