@@ -1,7 +1,7 @@
 package greendar.domain.eventtodo.dao;
 
 import greendar.domain.eventtodo.domain.EventTodo;
-import greendar.domain.eventtodo.dto.EventTodoDtos.EventTodoResponse;
+import greendar.domain.eventtodo.dto.EventTodoDtos.EventTodoResponseDto;
 import greendar.domain.eventtodoitem.domain.EventTodoItem;
 import greendar.domain.member.domain.Member;
 import greendar.domain.privatetodo.dto.PrivateTodoDtos.DailyAchievement;
@@ -73,12 +73,12 @@ public class EventTodoRepository {
                 .getResultList();
     }
 
-    public List<EventTodoResponse> findAllByDay(LocalDate day, Member member){
-        return em.createQuery("select  new greendar.domain.eventtodo.dto.EventTodoDtos.EventTodoResponse(e) "+
+    public List<EventTodoResponseDto> findAllByDay(LocalDate day, Member member){
+        return em.createQuery("select  new greendar.domain.eventtodo.dto.EventTodoDtos.EventTodoResponseDto(e) "+
                 "from EventTodo e " +
                 "where e.eventTodoItem.date = :oneDay and e.member.id = :memberId " +
                 "order by e.eventTodoItem.date desc"
-                , EventTodoResponse.class)
+                , EventTodoResponseDto.class)
                 .setParameter("oneDay",day)
                 .setParameter("memberId",member.getId())
                 .getResultList();

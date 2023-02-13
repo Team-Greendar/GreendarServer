@@ -2,6 +2,7 @@ package greendar.domain.eventtodo.application;
 
 import greendar.domain.eventtodo.dao.EventTodoRepository;
 import greendar.domain.eventtodo.dto.EventTodoDtos.EventTodoResponse;
+import greendar.domain.eventtodo.dto.EventTodoDtos.EventTodoResponseDto;
 import greendar.domain.eventtodoitem.dao.EventTodoItemRepository;
 import greendar.domain.eventtodoitem.domain.EventTodoItem;
 import greendar.domain.member.dao.MemberRepository;
@@ -40,7 +41,6 @@ public class EventTodoService {
                 dailyAchievements.add(new DailyAchievement(checkDate,0));
             }
         }
-
         return  privateTodoService.calculateRatio(dailyAchievements);
     }
 
@@ -53,19 +53,19 @@ public class EventTodoService {
         //both
 
     }
-    public List<EventTodoResponse> getAllEventTodoByOneDay(LocalDate date , Member member) {
+    public List<EventTodoResponseDto> getAllEventTodoByOneDay(LocalDate date , Member member) {
         //big
         List<EventTodoItem> eventTodoItems = eventTodoItemRepository.findAllByDay(date);
 
         // small
-        List<EventTodoResponse> eventTodos = eventTodoRepository.findAllByDay(date,member);
-        Map<Long,EventTodoResponse> eventTodoMap = new TreeMap<>();
+        List<EventTodoResponseDto> eventTodos = eventTodoRepository.findAllByDay(date,member);
+        Map<Long,EventTodoResponseDto> eventTodoMap = new TreeMap<>();
 
-        for(EventTodoResponse eventTodoItem : eventTodos){
+        for(EventTodoResponseDto eventTodoItem : eventTodos){
             eventTodoMap.put(eventTodoItem.getEventTodoItemId(),eventTodoItem);
         }
 
-        List<EventTodoResponse> eventTodoResponses = new ArrayList<>();
+        List<EventTodoResponseDto> eventTodoResponses = new ArrayList<>();
 
         for(EventTodoItem eventTodoItem : eventTodoItems){
             Long checkKey = eventTodoItem.getId() ;
@@ -73,7 +73,7 @@ public class EventTodoService {
                 eventTodoResponses.add(eventTodoMap.get(checkKey));
             }
             else {
-                eventTodoResponses.add(new EventTodoResponse(eventTodoItem));
+                eventTodoResponses.add(new EventTodoResponseDto(eventTodoItem));
             }
         }
         return  eventTodoResponses;

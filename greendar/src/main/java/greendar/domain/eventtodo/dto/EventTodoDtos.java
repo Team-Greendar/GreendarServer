@@ -10,20 +10,20 @@ import lombok.NoArgsConstructor;
 public class EventTodoDtos {
     @Data
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class  EventTodoResponse{
+    public static class  EventTodoResponseDto{
         private Long eventTodoItemId ;
         private String task;
         private LocalDate date;
         private String imageUrl;
         private Boolean complete;
-        public  EventTodoResponse(EventTodo eventTodo) {
+        public  EventTodoResponseDto(EventTodo eventTodo) {
             this.task = eventTodo.getEventTodoItem().getTask();
             this.date = eventTodo.getEventTodoItem().getDate();
             this.eventTodoItemId =eventTodo.getEventTodoItem().getId();
             this.imageUrl = eventTodo.getImageUrl();
             this.complete = eventTodo.getComplete();
         }
-        public  EventTodoResponse(EventTodoItem eventTodoItem) {
+        public  EventTodoResponseDto(EventTodoItem eventTodoItem) {
             this.eventTodoItemId =eventTodoItem.getId();
             this.task = eventTodoItem.getTask();
             this.date = eventTodoItem.getDate();
