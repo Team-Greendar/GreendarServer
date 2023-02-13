@@ -11,9 +11,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("event/todo/item/")
+@RestController
+@RequestMapping("/event/todo/item")
 @RequiredArgsConstructor
 public class EventTodoItemApi {
 
@@ -22,6 +24,7 @@ public class EventTodoItemApi {
     @GetMapping(produces = "application/json;charset=UTF-8")
     public ApiResponse getEvenTodoItems(){
         List<EventTodoItem> eventTodoItems = eventTodoItemService.findAll();
+        if(eventTodoItems.isEmpty()) return ApiResponse.error(404,"No Reuslt");
         return ApiResponse.success(eventTodoItems);
     }
     @PostMapping(produces = "application/json;charset=UTF-8")
@@ -29,7 +32,7 @@ public class EventTodoItemApi {
         eventTodoItemService.saveTodo(request.getTask(),request.getDate());
         return ApiResponse.success("ok");
     }
-    @GetMapping(value = "monthly/{date}",produces = "application/json;charset=UTF-8")
+    @GetMapping(value = "/monthly/{date}",produces = "application/json;charset=UTF-8")
     public ApiResponse getEventTodoItemByMonthlyDate(@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date){
         return ApiResponse.success(eventTodoItemService.findAllByMonth(date));
     }
