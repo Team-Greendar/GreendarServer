@@ -23,13 +23,13 @@ public class EventTodoApi {
     private final MemberService memberService;
     private final EventTodoService eventTodoService;
 
-    @PutMapping
+    @PutMapping(value = "/image")
     public ApiResponse updateEventTodoImageByItemId(@RequestHeader("Authorization") String firebaseToken,
                                               @RequestBody EventTodoImageUpdateRequestDto request) {
         return  ApiResponse.success(eventTodoService.updateEventTodo(null, request.getImageUrl(),
                 request.getEventTodoItemId(), firebaseToken));
     }
-    @PutMapping
+    @PutMapping(value = "/complete")
     public ApiResponse updateEventTodoCompleteByItemId(@RequestHeader("Authorization") String firebaseToken,
                                                     @RequestBody EventTodoCompleteUpdateRequestDto request) {
         return  ApiResponse.success(eventTodoService.updateEventTodo(request.getComplete(),null,
@@ -37,7 +37,7 @@ public class EventTodoApi {
     }
 
     @GetMapping(value = "/{date}")
-    public ApiResponse getPrivateTodoByDate(@RequestHeader("Authorization") String firebaseToken,
+    public ApiResponse getEventTodoByDate(@RequestHeader("Authorization") String firebaseToken,
                                             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         Member member = memberService.findOneByToken(firebaseToken);
         return ApiResponse.success(eventTodoService.getAllEventTodoByOneDay(date,member));

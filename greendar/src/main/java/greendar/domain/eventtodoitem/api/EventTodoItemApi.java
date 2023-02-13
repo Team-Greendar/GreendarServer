@@ -29,10 +29,9 @@ public class EventTodoItemApi {
         eventTodoItemService.saveTodo(request.getTask(),request.getDate());
         return ApiResponse.success("ok");
     }
-    @GetMapping(value = "monthly/{date}")
-    public ApiResponse getEventTodoByMonthlyDate(@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date){
-        eventTodoItemService.findAllByMonth(date);
-        return ApiResponse.success("ok");
+    @GetMapping(value = "monthly/{date}",produces = "application/json;charset=UTF-8")
+    public ApiResponse getEventTodoItemByMonthlyDate(@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date){
+        return ApiResponse.success(eventTodoItemService.findAllByMonth(date));
     }
 
 }
