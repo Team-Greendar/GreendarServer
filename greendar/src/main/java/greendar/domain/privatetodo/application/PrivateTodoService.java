@@ -47,7 +47,7 @@ public class PrivateTodoService {
             }
             else {
                 count = 1 ;
-                dailyRatio.put(dateCheck,daily.getDone()*0.0f);
+                dailyRatio.put(dateCheck,daily.getDone()*1.0f);
             }
         }
         return dailyRatio;

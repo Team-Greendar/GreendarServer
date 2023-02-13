@@ -9,6 +9,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +34,7 @@ public class EventTodoItemApi {
         return ApiResponse.success("ok");
     }
     @GetMapping(value = "/monthly/{date}",produces = "application/json;charset=UTF-8")
-    public ApiResponse getEventTodoItemByMonthlyDate(@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date){
+    public ApiResponse getEventTodoItemByMonthlyDate(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date){
         return ApiResponse.success(eventTodoItemService.findAllByMonth(date));
     }
 

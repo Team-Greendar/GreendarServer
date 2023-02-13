@@ -16,8 +16,6 @@ public class ApiResponse<T> {
     private final static String INVALID_REFRESH_TOKEN = "Invalid refresh token.";
     private final static String NOT_EXPIRED_TOKEN_YET = "Not expired token yet.";
     private final static String NAME_REDUNDANT = "중복된 닉네임입니다. 다른 닉네임으로 시도해주세요.";
-    private final static String TOKEN_EXISTS = "토큰이 존재합니다.";
-    private final static String TOKEN_BLANK = "토큰이 존재하지 않습니다.";
 
     private final ApiResponseHeader header;
 
@@ -47,12 +45,5 @@ public class ApiResponse<T> {
 
     public static <T> ApiResponse<T> redundantName(T body) {
         return new ApiResponse(new ApiResponseHeader(SUCCESS, NAME_REDUNDANT), body);
-    }
-
-    public static <T> ApiResponse<T> validToken(T body) {
-        return new ApiResponse(new ApiResponseHeader(SUCCESS, TOKEN_EXISTS), body);
-    }
-    public static <T> ApiResponse<T> invaildToken(T body) {
-        return new ApiResponse(new ApiResponseHeader(FAILED, TOKEN_BLANK), body);
     }
 }
