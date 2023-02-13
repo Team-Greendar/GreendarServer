@@ -41,14 +41,6 @@ public class MemberApi {
         return ApiResponse.success(new MemberResponse(savedMember));
     }
 
-    @PostMapping(value = "/validity",produces = "application/json;charset=UTF-8")
-    public ApiResponse checkMemberVaild(@RequestHeader("Authorization") String firebaseToken) {
-        if(memberService.isTokenExists(firebaseToken)){
-            return ApiResponse.validToken(true);
-        }
-        return ApiResponse.invaildToken(false);
-    }
-
     @GetMapping(produces = "application/json;charset=UTF-8")
     public ApiResponse getMember(@RequestHeader("Authorization") String firebaseToken) {
         Member member = memberService.findOneByToken(firebaseToken);

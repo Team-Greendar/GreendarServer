@@ -2,7 +2,7 @@ package greendar.domain.eventtodo.application;
 
 import greendar.domain.eventtodo.dao.EventTodoRepository;
 import greendar.domain.eventtodo.domain.EventTodo;
-import greendar.domain.eventtodo.dto.EventTodoDtos.EventTodoResponseDto;
+import greendar.domain.eventtodo.dto.EventTodoResponseDto;
 import greendar.domain.eventtodoitem.dao.EventTodoItemRepository;
 import greendar.domain.eventtodoitem.domain.EventTodoItem;
 import greendar.domain.member.dao.MemberRepository;
@@ -59,10 +59,12 @@ public class EventTodoService {
         List<EventTodoResponseDto> eventTodos = eventTodoRepository.findAllByMonth(date,member);
 
         List<EventTodoResponseDto> eventTodoResponses = getEventTodoResponsesByCompare(eventTodoItems,eventTodos);
-
         List<DailyAchievement> dailyAchievements = eventTodoResponses.stream()
                 .map(DailyAchievement::new)
                 .collect(Collectors.toList());
+        System.out.println("!--!");
+        System.out.println(dailyAchievements);
+        System.out.println("!--!");
         return  privateTodoService.calculateRatio(dailyAchievements);
     }
     public List<EventTodoResponseDto> getAllEventTodoByOneDay(LocalDate date , Member member) {

@@ -1,7 +1,7 @@
 package greendar.domain.eventtodo.dao;
 
 import greendar.domain.eventtodo.domain.EventTodo;
-import greendar.domain.eventtodo.dto.EventTodoDtos.EventTodoResponseDto;
+import greendar.domain.eventtodo.dto.EventTodoResponseDto;
 import greendar.domain.eventtodoitem.domain.EventTodoItem;
 import greendar.domain.member.domain.Member;
 import java.time.LocalDate;
@@ -66,7 +66,7 @@ public class EventTodoRepository {
     }
 
     public List<EventTodoResponseDto> findAllByDay(LocalDate day, Member member){
-        return em.createQuery("select  new greendar.domain.eventtodo.dto.EventTodoDtos.EventTodoResponseDto(e) "+
+        return em.createQuery("select  new greendar.domain.eventtodo.dto.EventTodoResponseDto(e) "+
                     "from EventTodo e " +
                     "where e.eventTodoItem.date = :oneDay and e.member.id = :memberId " +
                     "order by e.eventTodoItem.date desc"
@@ -81,7 +81,7 @@ public class EventTodoRepository {
             YearMonth month = YearMonth.from(date);
             LocalDate start = month.atDay(1);
             LocalDate end = month.atEndOfMonth();
-            return em.createQuery("select new greendar.domain.eventtodo.dto.EventTodoDtos.EventTodoResponseDto(e) " +
+            return em.createQuery("select new greendar.domain.eventtodo.dto.EventTodoResponseDto(e) " +
                         "from EventTodo e " +
                         "where e.member.id=:memberId and e.eventTodoItem.date between :startDate and :endDate " +
                         "order by  e.eventTodoItem.date desc",EventTodoResponseDto.class)

@@ -80,15 +80,6 @@ public class MemberRepository {
         return !memberList.isEmpty();
     }
 
-    public boolean isMemberTokenExists(String token){
-        List<Member> memberList = em.createQuery("select m from Member m "+
-                                "where m.token = :firebaseToken"
-                        , Member.class)
-                .setParameter("firebaseToken", token)
-                .getResultList();
-        return !memberList.isEmpty();
-    }
-
     public List<Member> findOneByEmail(String userEmail) {
         return null;
     }

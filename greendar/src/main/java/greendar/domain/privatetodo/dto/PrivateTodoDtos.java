@@ -1,7 +1,7 @@
 package greendar.domain.privatetodo.dto;
 
 import greendar.domain.eventtodo.domain.EventTodo;
-import greendar.domain.eventtodo.dto.EventTodoDtos.EventTodoResponseDto;
+import greendar.domain.eventtodo.dto.EventTodoResponseDto;
 import greendar.domain.privatetodo.domain.PrivateTodo;
 import java.io.File;
 import java.time.LocalDate;

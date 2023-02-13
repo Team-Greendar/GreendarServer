@@ -43,14 +43,14 @@ public class Member {
 //    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
 //    private List<EventTodo> eventToDoList = new ArrayList<>();
 
-    @Column(name = "name", length = 100)
+    @Column(name = "NAME", length = 100)
     private String name;
 
     @JsonIgnore
-    @Column(name = "password", length = 128)
+    @Column(name = "PASSWORD", length = 128)
     private String password;
 
-    @Column(name = "email", length = 512)
+    @Column(name = "EMAIL", length = 512)
     private String email;
 
 //    @Column(name = "EMAIL_VERIFIED_YN", length = 1)
@@ -58,13 +58,13 @@ public class Member {
 //    @Size(min = 1, max = 1)
 //    private String emailVerifiedYn;
 
-    @Column(name = "image_url", length = 512)
+    @Column(name = "imageUrl", length = 512)
     private String imageUrl;
 
-    @Column(name = "status_message", length = 512)
+    @Column(name = "statusMessage", length = 512)
     private String message;
 
-    @Column(name = "token", length = 512)
+    @Column(name = "firebase_token", length = 512)
     private String token;
 
 //    @Column(name = "PROVIDER_TYPE", length = 20)
