@@ -27,14 +27,30 @@ public class EventTodoService {
     private final EventTodoRepository eventTodoRepository;
     private final EventTodoItemRepository eventTodoItemRepository;
     private final PrivateTodoService privateTodoService;
+
     @Transactional
-    public EventTodo saveEventTodo(Boolean complete , String imageUrl, EventTodoItem eventTodoItem, Member member) {
-
-        // imgaeurl
-
-        eventTodoRepository.save(complete,imageUrl,eventTodoItem,member);
-
-        //both
+    public EventTodo updateEventTodo(Boolean complete , String imageUrl, Long eventTodoItemId,String token) {
+        Member member = memberRepository.fineOneByToken(token);
+        EventTodoItem eventTodoItem = eventTodoItemRepository.findOneById(eventTodoItemId);
+        EventTodo eventTodo = eventTodoRepository.findOneByEventTodoItemIdMemberId(member.getId(),eventTodoItem.getId());
+        // 생성
+        if(eventTodo==null) {
+            if(complete == null)
+            {
+                return eventTodoRepository.save(false,imageUrl,eventTodoItem,member);
+            }
+            else {
+                return eventTodoRepository.save(true,"EMPTY",eventTodoItem,member);
+            }
+        }else{
+            if(complete == null)
+            {
+                return eventTodoRepository.updateEventTodoImageUrl(eventTodo.getId(),imageUrl);
+            }
+            else {
+                return eventTodoRepository.updateEventTodoComplete(eventTodo.getId(),complete);
+            }
+        }
 
     }
     public TreeMap<LocalDate, Float> getRatioByDailyInMonth(LocalDate date, Member member) {

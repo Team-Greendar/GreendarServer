@@ -4,11 +4,9 @@ import greendar.domain.eventtodo.domain.EventTodo;
 import greendar.domain.eventtodo.dto.EventTodoDtos.EventTodoResponseDto;
 import greendar.domain.eventtodoitem.domain.EventTodoItem;
 import greendar.domain.member.domain.Member;
-import greendar.domain.privatetodo.dto.PrivateTodoDtos.DailyAchievement;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -21,13 +19,14 @@ public class EventTodoRepository {
     @PersistenceContext
     private final EntityManager em;
 
-    public void save(Boolean complete, String imageUrl, EventTodoItem eventTodoItem, Member member) {
+    public EventTodo save(Boolean complete, String imageUrl, EventTodoItem eventTodoItem, Member member) {
         EventTodo eventTodo = new EventTodo();
         eventTodo.setComplete(complete);
         eventTodo.setImageUrl(imageUrl);
         eventTodo.setEventTodoItem(eventTodoItem);
         eventTodo.setMember(member);
         em.persist(eventTodo);
+        return eventTodo;
     }
 
     public EventTodo updateEventTodoComplete(Long eventTodoId, Boolean complete) {
