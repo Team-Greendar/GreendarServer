@@ -1,7 +1,6 @@
 package greendar.domain.eventtodo.application;
 
 import greendar.domain.eventtodo.dao.EventTodoRepository;
-import greendar.domain.eventtodo.domain.EventTodo;
 import greendar.domain.eventtodo.dto.EventTodoDtos.EventTodoResponse;
 import greendar.domain.eventtodoitem.dao.EventTodoItemRepository;
 import greendar.domain.eventtodoitem.domain.EventTodoItem;
@@ -12,6 +11,7 @@ import greendar.domain.privatetodo.dto.PrivateTodoDtos.DailyAchievement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -53,15 +53,30 @@ public class EventTodoService {
         //both
 
     }
-
-    public void getAllEventTodoByOneDay(LocalDate date , Member member) {
+    public List<EventTodoResponse> getAllEventTodoByOneDay(LocalDate date , Member member) {
+        //big
         List<EventTodoItem> eventTodoItems = eventTodoItemRepository.findAllByDay(date);
-        List<EventTodo> eventTodos = eventTodoRepository.findAllByDay(date,member);
-        List<EventTodoResponse> eventTodoResponses = new ArrayList<>();
-        for(EventTodoItem eventTodoItem : eventTodoItems) {
+
+        // small
+        List<EventTodoResponse> eventTodos = eventTodoRepository.findAllByDay(date,member);
+        Map<Long,EventTodoResponse> eventTodoMap = new TreeMap<>();
+
+        for(EventTodoResponse eventTodoItem : eventTodos){
+            eventTodoMap.put(eventTodoItem.getEventTodoItemId(),eventTodoItem);
         }
 
-//        return eventTodoResponses;
+        List<EventTodoResponse> eventTodoResponses = new ArrayList<>();
+
+        for(EventTodoItem eventTodoItem : eventTodoItems){
+            Long checkKey = eventTodoItem.getId() ;
+            if(eventTodoMap.containsKey(checkKey)) {
+                eventTodoResponses.add(eventTodoMap.get(checkKey));
+            }
+            else {
+                eventTodoResponses.add(new EventTodoResponse(eventTodoItem));
+            }
+        }
+        return  eventTodoResponses;
     }
 
 }

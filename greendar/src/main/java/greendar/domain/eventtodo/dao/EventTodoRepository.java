@@ -1,9 +1,9 @@
 package greendar.domain.eventtodo.dao;
 
 import greendar.domain.eventtodo.domain.EventTodo;
+import greendar.domain.eventtodo.dto.EventTodoDtos.EventTodoResponse;
 import greendar.domain.eventtodoitem.domain.EventTodoItem;
 import greendar.domain.member.domain.Member;
-import greendar.domain.privatetodo.domain.PrivateTodo;
 import greendar.domain.privatetodo.dto.PrivateTodoDtos.DailyAchievement;
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -73,16 +73,16 @@ public class EventTodoRepository {
                 .getResultList();
     }
 
-    public List<EventTodo> findAllByDay(LocalDate day,Member member){
-        return em.createQuery("select e from EventTodo e " +
+    public List<EventTodoResponse> findAllByDay(LocalDate day, Member member){
+        return em.createQuery("select  new greendar.domain.eventtodo.dto.EventTodoDtos.EventTodoResponse(e) "+
+                "from EventTodo e " +
                 "where e.eventTodoItem.date = :oneDay and e.member.id = :memberId " +
                 "order by e.eventTodoItem.date desc"
-                , EventTodo.class)
+                , EventTodoResponse.class)
                 .setParameter("oneDay",day)
                 .setParameter("memberId",member.getId())
                 .getResultList();
     }
-
 
 
     public List<EventTodo> findAllByMonth(LocalDate date, Member member) {
