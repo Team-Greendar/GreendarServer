@@ -47,9 +47,7 @@ public class EventTodoRepository {
     public EventTodo findOneByEventTodoItemIdMemberId(Long memberId, Long eventTodoItemId) {
         try {
             return em.createQuery("select e from EventTodo  e " +
-                                    "join fetch e.member m " +
-                                    "join fetch e.eventTodoItem i " +
-                                    "where m.id =:memberId and i.id =:eventTodoItemId"
+                                    "where e.member.id =:memberId and e.eventTodoItem.id =:eventTodoItemId"
                             , EventTodo.class)
                     .setParameter("memberId", memberId)
                     .setParameter("eventTodoItemId", eventTodoItemId)
@@ -58,15 +56,10 @@ public class EventTodoRepository {
             return null;
         }
     }
-    public List<DailyAchievement> countRatioByDailyInMonth(LocalDate date, Member member) {
-        List<EventTodo> find = findAllByMonth(date,member);
-        return find.stream().map(DailyAchievement::new).collect(Collectors.toList());
-    }
 
     public List<EventTodo> findAllEventTodoByMember(Long memberId) {
         return em.createQuery("select e from EventTodo  e " +
-                                "join fetch e.member m " +
-                                " where m.id = :memberId " +
+                                " where e.member.id = :memberId " +
                                 "order by e.eventTodoItem.date desc"
                         , EventTodo.class)
                 .setParameter("memberId", memberId)
@@ -75,27 +68,28 @@ public class EventTodoRepository {
 
     public List<EventTodoResponseDto> findAllByDay(LocalDate day, Member member){
         return em.createQuery("select  new greendar.domain.eventtodo.dto.EventTodoDtos.EventTodoResponseDto(e) "+
-                "from EventTodo e " +
-                "where e.eventTodoItem.date = :oneDay and e.member.id = :memberId " +
-                "order by e.eventTodoItem.date desc"
-                , EventTodoResponseDto.class)
-                .setParameter("oneDay",day)
-                .setParameter("memberId",member.getId())
-                .getResultList();
+                    "from EventTodo e " +
+                    "where e.eventTodoItem.date = :oneDay and e.member.id = :memberId " +
+                    "order by e.eventTodoItem.date desc"
+                    , EventTodoResponseDto.class)
+                    .setParameter("oneDay",day)
+                    .setParameter("memberId",member.getId())
+                    .getResultList();
     }
 
 
-    public List<EventTodo> findAllByMonth(LocalDate date, Member member) {
+    public List<EventTodoResponseDto> findAllByMonth(LocalDate date, Member member) {
             YearMonth month = YearMonth.from(date);
             LocalDate start = month.atDay(1);
             LocalDate end = month.atEndOfMonth();
-            return em.createQuery("select e from EventTodo e " +
-                    "where e.member.id=:memberId and e.eventTodoItem.date between :startDate and :endDate " +
-                    "order by  e.eventTodoItem.date desc",EventTodo.class)
-                    .setParameter("startDate",start)
-                    .setParameter("endDate",end)
-                    .setParameter("memberId",member.getId())
-                    .getResultList();
+            return em.createQuery("select new greendar.domain.eventtodo.dto.EventTodoDtos.EventTodoResponseDto(e) " +
+                        "from EventTodo e " +
+                        "where e.member.id=:memberId and e.eventTodoItem.date between :startDate and :endDate " +
+                        "order by  e.eventTodoItem.date desc",EventTodoResponseDto.class)
+                        .setParameter("startDate",start)
+                        .setParameter("endDate",end)
+                        .setParameter("memberId",member.getId())
+                        .getResultList();
     }
 
 }
