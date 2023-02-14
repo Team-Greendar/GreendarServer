@@ -31,7 +31,7 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "memberId", length = 64) //pk
+    @Column(name = "member_id", length = 64) //pk
     private Long id;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
