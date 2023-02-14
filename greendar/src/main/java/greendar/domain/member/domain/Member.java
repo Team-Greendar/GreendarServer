@@ -31,7 +31,7 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "MEMBER_ID", length = 64) //pk
+    @Column(name = "memberId", length = 64) //pk
     private Long id;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
@@ -43,14 +43,14 @@ public class Member {
 //    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
 //    private List<EventTodo> eventToDoList = new ArrayList<>();
 
-    @Column(name = "NAME", length = 100)
+    @Column(name = "name", length = 100)
     private String name;
 
     @JsonIgnore
-    @Column(name = "PASSWORD", length = 128)
+    @Column(name = "password", length = 128)
     private String password;
 
-    @Column(name = "EMAIL", length = 512)
+    @Column(name = "email", length = 512)
     private String email;
 
 //    @Column(name = "EMAIL_VERIFIED_YN", length = 1)
@@ -64,7 +64,7 @@ public class Member {
     @Column(name = "statusMessage", length = 512)
     private String message;
 
-    @Column(name = "firebase_token", length = 512)
+    @Column(name = "token", length = 512)
     private String token;
 
 //    @Column(name = "PROVIDER_TYPE", length = 20)
