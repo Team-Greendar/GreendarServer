@@ -37,6 +37,8 @@ public class FileServiceImpl implements FileService{
 
         Arrays.asList(files).forEach(file -> {
             String originalFileName = file.getOriginalFilename();
+            System.out.println("1111111");
+            System.out.println(originalFileName);
             if(originalFileName == null){
                 throw new BadRequestException("Original file name is null");
             }
@@ -50,7 +52,7 @@ public class FileServiceImpl implements FileService{
                 throw new GCPFileUploadException("Error occurred while uploading");
             }
         });
-        fileRepository.saveAll(inputFiles);
+//        fileRepository.saveAll(inputFiles);
         return inputFiles;
     }
 }
