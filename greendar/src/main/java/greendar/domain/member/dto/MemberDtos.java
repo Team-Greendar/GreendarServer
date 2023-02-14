@@ -69,7 +69,7 @@ public class MemberDtos {
         private String token;
 
         public MemberResponse(Member member){
-            this(member.getId(), member.getName(),member.getPassword(),member.getEmail(),member.getImageUrl(),member.getMessage(), member.getToken());
+            this(member.getId(), member.getName(),member.getPassword(),member.getEmail(),member.getImageUrl(),member.getStatusMessage(), member.getToken());
         }
         public MemberResponse(Long memberId, String name, String password, String email, String imageUrl,String message, String token) {
             this.id = memberId;

@@ -32,7 +32,7 @@ public class MemberRepository {
     public Member updateMemberProfile(String inputToken, String name, String message) {
         Member member = fineOneByToken(inputToken);
         member.setName(name);
-        member.setMessage(message);
+        member.setStatusMessage(message);
         em.merge(member);
         return member;
     }
