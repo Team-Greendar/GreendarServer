@@ -47,6 +47,15 @@ public class MemberApi {
         return ApiResponse.success(member);
     }
 
+    @PostMapping(value = "/validity",produces = "application/json;charset=UTF-8")
+    public ApiResponse checkMemberVaild(@RequestHeader("Authorization") String firebaseToken) {
+        if(memberService.isTokenExists(firebaseToken)){
+            Member member = memberService.findOneByToken(firebaseToken);
+            return ApiResponse.success(new MemberResponse(member));
+        }
+        return ApiResponse.invaildToken(false);
+    }
+
     @PutMapping(value = "/profile/name-message", produces = "application/json;charset=UTF-8")
     public ApiResponse putMemberProfile(@RequestHeader("Authorization") String firebaseToken,
                                         @RequestBody MemberProfilePutRequestDto request) {
