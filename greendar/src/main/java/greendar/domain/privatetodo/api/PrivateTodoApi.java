@@ -11,6 +11,7 @@ import greendar.domain.privatetodo.dto.PrivateTodoDtos.PrivateTodoResponse;
 import greendar.domain.privatetodo.dto.PrivateTodoDtos.PrivateTodoTaskPutRequestDto;
 import greendar.global.common.ApiResponse;
 import greendar.infra.gcp.storage.application.FileService;
+import greendar.infra.gcp.storage.domain.InputFile;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.TreeMap;
@@ -90,10 +91,11 @@ public class PrivateTodoApi {
     }
 
     @PutMapping(value = "/image",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ApiResponse setPrivateTodoImageUrl(@RequestHeader("Authorization") String firebaseToken,
-                                              @RequestParam("pid") Long private_todo_id,
+    public ApiResponse updatePrivateTodoImageUrl(@RequestHeader("Authorization") String firebaseToken,
+                                              @RequestParam("private_todo_id") Long private_todo_id,
                                               @RequestParam("file") MultipartFile file) {
         Member member = memberService.findOneByToken(firebaseToken);
+//        List<InputFile> inputFiles = fileService.uploadFiles(files);
         String imageUrl = fileService.uploadFile(file).getFileUrl();
         PrivateTodo result = privateTodoService.updatePrivateTodoImageUrl(private_todo_id,imageUrl);
         return  ApiResponse.success(new PrivateTodoResponse(result));
