@@ -34,15 +34,11 @@ public class FileServiceImpl implements FileService{
     public List<InputFile> uploadFiles(MultipartFile[] files) {
 
         List<InputFile> inputFiles = new ArrayList<>();
-
         Arrays.asList(files).forEach(file -> {
             String originalFileName = file.getOriginalFilename();
-            System.out.println("1111111");
-            System.out.println(originalFileName);
             if(originalFileName == null){
                 throw new BadRequestException("Original file name is null");
             }
-
             try {
                 FileDto fileDto = dataBucketUtil.uploadFile(file, originalFileName,"test");
                 if (fileDto != null) {

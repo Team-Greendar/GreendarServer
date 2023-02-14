@@ -11,7 +11,6 @@ import greendar.domain.privatetodo.dto.PrivateTodoDtos.PrivateTodoResponse;
 import greendar.domain.privatetodo.dto.PrivateTodoDtos.PrivateTodoTaskPutRequestDto;
 import greendar.global.common.ApiResponse;
 import greendar.infra.gcp.storage.application.FileService;
-import greendar.infra.gcp.storage.domain.InputFile;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.TreeMap;
@@ -74,7 +73,6 @@ public class PrivateTodoApi {
                                                    @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         Member member = memberService.findOneByToken(firebaseToken);
         List<PrivateTodo> result =  privateTodoService.getAllPrivateTodoByOneMonth(date,member);
-        System.out.println(result);
         List<PrivateTodoResponse> collect = result.stream()
                 .map(r->new PrivateTodoResponse(r))
                 .collect(Collectors.toList());

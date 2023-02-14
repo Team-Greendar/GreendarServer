@@ -68,9 +68,6 @@ public class EventTodoApi {
         Member member = memberService.findOneByToken(firebaseToken);
 
         TreeMap<LocalDate, Float> result =eventTodoService.getRatioByDailyInMonth(date,member);
-        System.out.println("!?--!?");
-        System.out.println(result);
-        System.out.println("!?--!?");
         List<DailyAchievementRatio> dailyAchievementRatios = result.entrySet()
                         .stream()
                         .map(DailyAchievementRatio::new)
