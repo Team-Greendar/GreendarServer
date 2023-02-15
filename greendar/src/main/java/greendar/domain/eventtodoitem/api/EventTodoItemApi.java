@@ -6,6 +6,7 @@ import greendar.domain.eventtodoitem.dto.EventTodoItemDtos.EventTodoPostItemRequ
 import greendar.global.common.ApiResponse;
 import java.time.LocalDate;
 import java.util.List;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +30,7 @@ public class EventTodoItemApi {
         return ApiResponse.success(eventTodoItems);
     }
     @PostMapping(produces = "application/json;charset=UTF-8")
-    public ApiResponse addEventTodo(@RequestBody EventTodoPostItemRequestDto request) {
+    public ApiResponse addEventTodo(@Valid  @RequestBody EventTodoPostItemRequestDto request) {
         eventTodoItemService.saveTodo(request.getTask(),request.getDate());
         return ApiResponse.success("ok");
     }

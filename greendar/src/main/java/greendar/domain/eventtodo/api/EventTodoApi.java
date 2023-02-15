@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
@@ -44,7 +45,7 @@ public class EventTodoApi {
     }
     @PutMapping(value = "/complete")
     public ApiResponse updateEventTodoCompleteByItemId(@RequestHeader("Authorization") String firebaseToken,
-                                                    @RequestBody EventTodoCompleteUpdateRequestDto request) {
+                                                    @Valid @RequestBody EventTodoCompleteUpdateRequestDto request) {
         return  ApiResponse.success(eventTodoService.updateEventTodo(request.getComplete(),null, request.getEventTodoItemId(),firebaseToken));
     }
 
