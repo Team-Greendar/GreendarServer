@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
@@ -50,7 +51,7 @@ public class PrivateTodoApi {
 
     @PostMapping
     public ApiResponse addPrivateTodo(@RequestHeader("Authorization") String firebaseToken,
-                                      @RequestBody PrivateTodoPostRequestDto request) {
+                                      @Valid @RequestBody PrivateTodoPostRequestDto request) {
         Member member = memberService.findOneByToken(firebaseToken);
         PrivateTodo privateTodo = privateTodoService.saveTodo(member,request.getTask(),request.getDate());
         return  ApiResponse.success( new PrivateTodoResponse(privateTodo));
@@ -73,7 +74,6 @@ public class PrivateTodoApi {
                                                    @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         Member member = memberService.findOneByToken(firebaseToken);
         List<PrivateTodo> result =  privateTodoService.getAllPrivateTodoByOneMonth(date,member);
-        System.out.println(result);
         List<PrivateTodoResponse> collect = result.stream()
                 .map(r->new PrivateTodoResponse(r))
                 .collect(Collectors.toList());
@@ -90,17 +90,18 @@ public class PrivateTodoApi {
     }
 
     @PutMapping(value = "/image",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ApiResponse setPrivateTodoImageUrl(@RequestHeader("Authorization") String firebaseToken,
-                                              @RequestParam("pid") Long private_todo_id,
+    public ApiResponse updatePrivateTodoImageUrl(@RequestHeader("Authorization") String firebaseToken,
+                                              @RequestParam("private_todo_id") Long private_todo_id,
                                               @RequestParam("file") MultipartFile file) {
         Member member = memberService.findOneByToken(firebaseToken);
+//        List<InputFile> inputFiles = fileService.uploadFiles(files);
         String imageUrl = fileService.uploadFile(file).getFileUrl();
         PrivateTodo result = privateTodoService.updatePrivateTodoImageUrl(private_todo_id,imageUrl);
         return  ApiResponse.success(new PrivateTodoResponse(result));
     }
     @PutMapping(value = "/complete")
     public ApiResponse setPrivateTodoComplete(@RequestHeader("Authorization") String firebaseToken,
-                                              @RequestBody PrivateTodoCompletePutRequestDto request) {
+                                              @Valid @RequestBody PrivateTodoCompletePutRequestDto request) {
         Member member = memberService.findOneByToken(firebaseToken);
         if(member == null) return ApiResponse.fail("Wrong FireBaseToken");
         PrivateTodo result = privateTodoService.updatePrivateTodoComplete(request.getPrivate_todo_id(),request.getComplete());
@@ -109,7 +110,7 @@ public class PrivateTodoApi {
 
     @PutMapping(value = "/task")
     public ApiResponse setPrivateTodoTask(@RequestHeader("Authorization") String firebaseToken,
-                                          @RequestBody PrivateTodoTaskPutRequestDto request) {
+                                          @Valid @RequestBody PrivateTodoTaskPutRequestDto request) {
         Member member = memberService.findOneByToken(firebaseToken);
         if(member == null) return ApiResponse.fail("Wrong FireBaseToken");
         PrivateTodo result = privateTodoService.updatePrivateTodoTask(request.getPrivate_todo_id(),request.getTask());
