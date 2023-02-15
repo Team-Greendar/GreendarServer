@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
@@ -50,7 +51,7 @@ public class PrivateTodoApi {
 
     @PostMapping
     public ApiResponse addPrivateTodo(@RequestHeader("Authorization") String firebaseToken,
-                                      @RequestBody PrivateTodoPostRequestDto request) {
+                                      @Valid @RequestBody PrivateTodoPostRequestDto request) {
         Member member = memberService.findOneByToken(firebaseToken);
         PrivateTodo privateTodo = privateTodoService.saveTodo(member,request.getTask(),request.getDate());
         return  ApiResponse.success( new PrivateTodoResponse(privateTodo));
@@ -100,7 +101,7 @@ public class PrivateTodoApi {
     }
     @PutMapping(value = "/complete")
     public ApiResponse setPrivateTodoComplete(@RequestHeader("Authorization") String firebaseToken,
-                                              @RequestBody PrivateTodoCompletePutRequestDto request) {
+                                              @Valid @RequestBody PrivateTodoCompletePutRequestDto request) {
         Member member = memberService.findOneByToken(firebaseToken);
         if(member == null) return ApiResponse.fail("Wrong FireBaseToken");
         PrivateTodo result = privateTodoService.updatePrivateTodoComplete(request.getPrivate_todo_id(),request.getComplete());
@@ -109,7 +110,7 @@ public class PrivateTodoApi {
 
     @PutMapping(value = "/task")
     public ApiResponse setPrivateTodoTask(@RequestHeader("Authorization") String firebaseToken,
-                                          @RequestBody PrivateTodoTaskPutRequestDto request) {
+                                          @Valid @RequestBody PrivateTodoTaskPutRequestDto request) {
         Member member = memberService.findOneByToken(firebaseToken);
         if(member == null) return ApiResponse.fail("Wrong FireBaseToken");
         PrivateTodo result = privateTodoService.updatePrivateTodoTask(request.getPrivate_todo_id(),request.getTask());

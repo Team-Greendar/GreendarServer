@@ -1,43 +1,48 @@
 package greendar.domain.privatetodo.dto;
 
-import greendar.domain.eventtodo.domain.EventTodo;
 import greendar.domain.eventtodo.dto.EventTodoResponseDto;
 import greendar.domain.privatetodo.domain.PrivateTodo;
 import java.io.File;
 import java.time.LocalDate;
 import java.util.Map.Entry;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 
 public class PrivateTodoDtos {
     @Data
     @NoArgsConstructor
     public static class PrivateTodoPostRequestDto
-    {
-        String task;
-        LocalDate date;
-
+    {   @NotBlank
+        private String task;
+        @NotNull
+        private LocalDate date;
     }
     @Data
     @NoArgsConstructor
     public static class PrivateTodoImagePutRequestDto
-    {
+    {   @NotNull
         private Long private_todo_id;
+        @NotNull
         File file;
     }
     @Data
     @NoArgsConstructor
     public static class PrivateTodoCompletePutRequestDto
-    {
+    {   @NotNull
         private Long private_todo_id ;
+        @NotNull
         private Boolean complete;
     }
     @Data
     @NoArgsConstructor
     public static class PrivateTodoTaskPutRequestDto
-    {
+    {   @NotNull
         private Long private_todo_id ;
+        @NotBlank
         private String task;
     }
     @Data
@@ -48,12 +53,12 @@ public class PrivateTodoDtos {
         private LocalDate date;
         private String imageUrl;
         private Boolean complete;
-        private String memberName;
+        private String name;
         public PrivateTodoResponse(PrivateTodo privateTodo){
             this(privateTodo.getId(),privateTodo.getTask(),privateTodo.getDate(),privateTodo.getImageUrl(),privateTodo.getComplete(),privateTodo.getMember().getName());
         }
-        public PrivateTodoResponse(Long id , String task, LocalDate date, String imageUrl, Boolean complete,String memberName) {
-            this.memberName = memberName;
+        public PrivateTodoResponse(Long id , String task, LocalDate date, String imageUrl, Boolean complete,String name) {
+            this.name = name;
             this.private_todo_id =id;
             this.task = task;
             this.date = date;
@@ -70,11 +75,6 @@ public class PrivateTodoDtos {
             this.date = privateTodo.getDate();
             if(privateTodo.getComplete())  this.done = 1;
             if(!privateTodo.getComplete()) this.done = 0 ;
-        }
-        public DailyAchievement(EventTodo eventTodo){
-            this.date = eventTodo.getEventTodoItem().getDate();
-            if(eventTodo.getComplete())  this.done = 1;
-            if(!eventTodo.getComplete()) this.done = 0 ;
         }
         public DailyAchievement(EventTodoResponseDto eventTodoResponseDto) {
             this.date=eventTodoResponseDto.getDate();
