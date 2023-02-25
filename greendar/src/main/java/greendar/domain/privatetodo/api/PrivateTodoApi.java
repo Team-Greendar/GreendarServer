@@ -12,6 +12,7 @@ import greendar.domain.privatetodo.dto.PrivateTodoDtos.PrivateTodoTaskPutRequest
 import greendar.global.common.ApiResponse;
 import greendar.infra.gcp.storage.application.FileService;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
@@ -65,7 +66,8 @@ public class PrivateTodoApi {
         List<PrivateTodoResponse> collect = result.stream()
                 .map(r->new PrivateTodoResponse(r))
                 .collect(Collectors.toList());
-        if(collect.isEmpty()) return ApiResponse.success("None");
+        List<String> empty = new ArrayList<>();
+        if(collect.isEmpty()) return ApiResponse.success(empty);
         return ApiResponse.success(collect);
     }
 
