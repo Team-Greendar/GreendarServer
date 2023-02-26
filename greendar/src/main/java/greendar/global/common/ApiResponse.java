@@ -3,6 +3,9 @@ package greendar.global.common;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Getter
 @AllArgsConstructor
 public class ApiResponse<T> {
@@ -21,6 +24,13 @@ public class ApiResponse<T> {
     private final ApiResponseHeader header;
 
     private final T body;
+
+    public static <T> ApiResponse<T> success(String name, T body) {
+        Map<String, T> map = new HashMap<>();
+        map.put(name, body);
+
+        return new ApiResponse(new ApiResponseHeader(SUCCESS, SUCCESS_MESSAGE), map);
+    }
 
     public static <T> ApiResponse<T> success(T body) {
         return new ApiResponse(new ApiResponseHeader(SUCCESS, SUCCESS_MESSAGE),body);
