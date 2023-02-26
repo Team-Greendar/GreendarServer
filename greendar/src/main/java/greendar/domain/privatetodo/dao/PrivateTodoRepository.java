@@ -25,6 +25,9 @@ public class PrivateTodoRepository {
         em.persist(privateTodo);
         return privateTodo;
     }
+    public void deleteTodo(Long id){
+        em.remove(em.find(PrivateTodo.class,id));
+    }
     //목록 불러오기
     public List<PrivateTodo> findAllPrivateTodoByMember(Member member)
     {

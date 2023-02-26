@@ -22,6 +22,10 @@ public class PrivateTodoService {
     public PrivateTodo saveTodo(Member member , String task, LocalDate date) {
         return privateTodoRepository.saveTodo(member,task,date);
     }
+    @Transactional
+    public void deleteTodo(Long id) {
+        privateTodoRepository.deleteTodo(id);
+    }
     public List<PrivateTodo> getAllPrivateTodoByMember(Member member) {
         return privateTodoRepository.findAllPrivateTodoByMember(member);
     }
