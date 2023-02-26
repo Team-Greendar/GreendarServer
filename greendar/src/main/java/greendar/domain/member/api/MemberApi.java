@@ -14,6 +14,7 @@ import greendar.domain.member.dto.MemberDtos.MemberResponse;
 import greendar.global.common.ApiResponse;
 import greendar.infra.gcp.storage.application.FileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,14 +33,19 @@ public class MemberApi {
         return ApiResponse.success(response);
     }
 
-    @PostMapping(produces = "application/json;charset=UTF-8")
-    public ApiResponse postMember(@RequestBody MemberPostRequestDto request) {
-        if (memberService.isNameRedundant(request.getName())) {
-            return ApiResponse.redundantName(false);
-        }
-        Member savedMember = memberService.saveMember(request.getName(), request.getPassword(), request.getEmail(), request.getImageUrl(), request.getMessage(), request.getFirebaseToken());
-        return ApiResponse.success(new MemberResponse(savedMember));
-    }
+    /**
+     * 기존의 회원가입 api
+     * @param firebaseToken
+     * @return
+     */
+//    @PostMapping(produces = "application/json;charset=UTF-8")
+//    public ApiResponse postMember(@RequestBody MemberPostRequestDto request) {
+//        if (memberService.isNameRedundant(request.getName())) {
+//            return ApiResponse.redundantName(false);
+//        }
+//        Member savedMember = memberService.saveMember(request.getName(), request.getPassword(), request.getEmail(), request.getImageUrl(), request.getMessage(), request.getFirebaseToken());
+//        return ApiResponse.success(new MemberResponse(savedMember));
+//    }
 
     @GetMapping(produces = "application/json;charset=UTF-8")
     public ApiResponse getMember(@RequestHeader("Authorization") String firebaseToken) {
@@ -47,6 +53,16 @@ public class MemberApi {
         return ApiResponse.success(member);
     }
 
+    @GetMapping
+    public ApiResponse getMemberTest() {
+        org.springframework.security.core.userdetails.User principal =
+                (org.springframework.security.core.userdetails.User)
+                        SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        Member member = memberService.getMember(principal.getUsername());
+
+        return ApiResponse.success("member", member);
+    }
     @PostMapping(value = "/validity", produces = "application/json;charset=UTF-8")
     public ApiResponse checkMemberVaild(@RequestHeader("Authorization") String firebaseToken) {
         if (memberService.isTokenExists(firebaseToken)) {

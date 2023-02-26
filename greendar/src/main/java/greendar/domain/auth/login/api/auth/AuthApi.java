@@ -1,13 +1,13 @@
 package greendar.domain.auth.login.api.auth;
 
 
-import greendar.domain.auth.login.dao.user.UserRefreshTokenRepository;
 import greendar.domain.auth.login.domain.auth.AuthReqModel;
-import greendar.domain.auth.login.domain.user.UserRefreshToken;
+import greendar.domain.auth.oauth.domain.MemberPrincipal;
 import greendar.domain.auth.oauth.domain.RoleType;
-import greendar.domain.auth.oauth.domain.UserPrincipal;
 import greendar.domain.auth.oauth.token.AuthToken;
 import greendar.domain.auth.oauth.token.AuthTokenProvider;
+import greendar.domain.member.dao.MemberRefreshTokenRepository;
+import greendar.domain.member.domain.MemberRefreshToken;
 import greendar.global.common.ApiResponse;
 import greendar.global.config.properties.AppProperties;
 import greendar.global.utils.CookieUtil;
@@ -30,11 +30,10 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class AuthApi {
 
-
     private final AppProperties appProperties;
     private final AuthTokenProvider tokenProvider;
     private final AuthenticationManager authenticationManager;
-    private final UserRefreshTokenRepository userRefreshTokenRepository;
+    private final MemberRefreshTokenRepository memberRefreshTokenRepository;
 
     private final static long THREE_DAYS_MSEC = 259200000;
     private final static String REFRESH_TOKEN = "refresh_token";
@@ -53,15 +52,15 @@ public class AuthApi {
                 )
         );
 
-        String userId = authReqModel.getId();
+        String memberEmail = authReqModel.getId();
         // authentication 설정
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         //accessToken(JWT) 생성
         Date now = new Date();
         AuthToken accessToken = tokenProvider.createAuthToken(
-                userId,
-                ((UserPrincipal) authentication.getPrincipal()).getRoleType().getCode(),
+                memberEmail,
+                ((MemberPrincipal) authentication.getPrincipal()).getRoleType().getCode(),
                 new Date(now.getTime() + appProperties.getAuth().getTokenExpiry())
         );
 
@@ -73,14 +72,14 @@ public class AuthApi {
         );
 
         // userId refresh token 으로 DB 확인
-        UserRefreshToken userRefreshToken = userRefreshTokenRepository.findByUserId(userId);
-        if (userRefreshToken == null) {
+        MemberRefreshToken memberRefreshToken = memberRefreshTokenRepository.findOneByMemberEmail(memberEmail);
+        if (memberRefreshToken == null) {
             // 없는 경우 새로 등록
-            userRefreshToken = new UserRefreshToken(userId, refreshToken.getToken());
-            userRefreshTokenRepository.saveAndFlush(userRefreshToken);
+            memberRefreshToken = new MemberRefreshToken(memberEmail, refreshToken.getToken());
+            memberRefreshTokenRepository.saveAndFlush(memberRefreshToken);
         } else {
             // DB에 refresh 토큰 업데이트
-            userRefreshToken.setRefreshToken(refreshToken.getToken());
+            memberRefreshToken.setRefreshToken(refreshToken.getToken());
         }
 
         int cookieMaxAge = (int) refreshTokenExpiry / 60;
@@ -119,8 +118,8 @@ public class AuthApi {
         }
 
         // userId refresh token 으로 DB 확인
-        UserRefreshToken userRefreshToken = userRefreshTokenRepository.findByUserIdAndRefreshToken(userId, refreshToken);
-        if (userRefreshToken == null) {
+        MemberRefreshToken memberRefreshToken = memberRefreshTokenRepository.findOneByMemberRefreshToken( refreshToken);
+        if (memberRefreshToken == null) {
             return ApiResponse.invalidRefreshToken();
         }
 
@@ -144,7 +143,7 @@ public class AuthApi {
             );
 
             // DB에 refresh 토큰 업데이트
-            userRefreshToken.setRefreshToken(authRefreshToken.getToken());
+            memberRefreshToken.setRefreshToken(authRefreshToken.getToken());
 
             int cookieMaxAge = (int) refreshTokenExpiry / 60;
             CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);

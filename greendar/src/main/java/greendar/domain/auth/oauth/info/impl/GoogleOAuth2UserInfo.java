@@ -20,6 +20,15 @@ public class GoogleOAuth2UserInfo extends OAuth2UserInfo {
         return (String) attributes.get("name");
     }
 
+    //변경해야 할수도 있음
+    public String getPassword(){
+        return (String) attributes.get("password");
+    }
+    //변경해야 할수도 있음
+    public String getMessage(){
+        return (String) attributes.get("message");
+    }
+
     @Override
     public String getEmail() {
         return (String) attributes.get("email");

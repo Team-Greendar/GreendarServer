@@ -20,10 +20,10 @@ public class MailApi
     public MailResultResponse mailPost(@Param("memberEmail") String memberEmail)
     {
 
-        if(! mailService.findMemberByEmail(memberEmail)) {   Map<String, String> data = new HashMap<>();
-            data.put("code","0");
-            return new MailResultResponse("이미존재하는 이메일입니다",400,data);
-        }
+//        if(! mailService.findMemberByEmail(memberEmail)) {   Map<String, String> data = new HashMap<>();
+//            data.put("code","0");
+//            return new MailResultResponse("이미존재하는 이메일입니다",400,data);
+//        }
 
         String randomcode = mailService.generateRandomCode();
         Map<String, String> data = new HashMap<>();

@@ -5,6 +5,10 @@ import greendar.domain.auth.oauth.domain.ProviderType;
 import greendar.domain.auth.oauth.domain.RoleType;
 import greendar.domain.auth.oauth.info.OAuth2UserInfo;
 import greendar.domain.auth.oauth.info.OAuth2UserInfoFactory;
+import greendar.domain.auth.oauth.token.AuthToken;
+import greendar.domain.auth.oauth.token.AuthTokenProvider;
+import greendar.domain.member.dao.MemberRefreshTokenRepository;
+import greendar.domain.member.domain.MemberRefreshToken;
 import greendar.global.config.properties.AppProperties;
 import greendar.global.utils.CookieUtil;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +31,7 @@ import java.util.Date;
 import java.util.Optional;
 
 import static greendar.domain.auth.oauth.dao.OAuth2AuthorizationRequestBasedOnCookieRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
+import static greendar.domain.auth.oauth.dao.OAuth2AuthorizationRequestBasedOnCookieRepository.REFRESH_TOKEN;
 
 @Component
 @RequiredArgsConstructor
@@ -34,7 +39,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
     private final AuthTokenProvider tokenProvider;
     private final AppProperties appProperties;
-    private final UserRefreshTokenRepository userRefreshTokenRepository;
+    private final MemberRefreshTokenRepository memberRefreshTokenRepository;
     private final OAuth2AuthorizationRequestBasedOnCookieRepository authorizationRequestRepository;
 
     @Override
@@ -85,12 +90,12 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         );
 
         // DB 저장
-        UserRefreshToken userRefreshToken = userRefreshTokenRepository.findByUserId(userInfo.getId());
-        if (userRefreshToken != null) {
-            userRefreshToken.setRefreshToken(refreshToken.getToken());
+        MemberRefreshToken memberRefreshToken = memberRefreshTokenRepository.findOneByMemberEmail(userInfo.getId());
+        if (memberRefreshToken != null) {
+            memberRefreshToken.setRefreshToken(refreshToken.getToken());
         } else {
-            userRefreshToken = new UserRefreshToken(userInfo.getId(), refreshToken.getToken());
-            userRefreshTokenRepository.saveAndFlush(userRefreshToken);
+            memberRefreshToken = new MemberRefreshToken(userInfo.getId(), refreshToken.getToken());
+            memberRefreshTokenRepository.saveAndFlush(memberRefreshToken);
         }
 
         int cookieMaxAge = (int) refreshTokenExpiry / 60;

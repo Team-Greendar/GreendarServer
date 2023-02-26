@@ -1,5 +1,7 @@
 package greendar.domain.member.application;
 
+import greendar.domain.auth.oauth.domain.ProviderType;
+import greendar.domain.auth.oauth.domain.RoleType;
 import greendar.domain.member.dao.MemberRepository;
 import greendar.domain.member.domain.Member;
 
@@ -16,8 +18,8 @@ public class MemberService {
     private MemberRepository memberRepository;
 
     @Transactional
-    public Member saveMember(String name, String password, String email, String imageUrl, String message, String token) {
-        return memberRepository.saveMember(name, password, email, imageUrl, message, token);
+    public Member saveMember(String name, String password, String email, String imageUrl, String message, ProviderType providertype, RoleType roleType) {
+        return memberRepository.saveMember(name, password, email, imageUrl, message, providertype, roleType);
     }
 
     @Transactional
@@ -39,15 +41,18 @@ public class MemberService {
         return memberRepository.fineOneByToken(token);
     }
 
+    public Member getMember(String email){
+        return memberRepository.findOneByEmail(email);
+    }
+
+
+
     public boolean isNameRedundant(String name){
         return memberRepository.isMemberNameExists(name);
     }
 
     public boolean isTokenExists(String token){
         return memberRepository.isMemberTokenExists(token);
-    }
-    public Member findOne(Long memberId) {
-        return memberRepository.findOne(memberId);
     }
 
     public List<Member> getAll() {

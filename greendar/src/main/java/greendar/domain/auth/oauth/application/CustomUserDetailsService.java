@@ -1,9 +1,10 @@
 package greendar.domain.auth.oauth.application;
 
 
-import greendar.domain.auth.login.dao.user.UserRepository;
-import greendar.domain.auth.login.domain.user.User;
-import greendar.domain.auth.oauth.domain.UserPrincipal;
+
+import greendar.domain.auth.oauth.domain.MemberPrincipal;
+import greendar.domain.member.dao.MemberRepository;
+import greendar.domain.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,14 +15,14 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUserId(username);
-        if (user == null) {
+        Member member = memberRepository.findOneByEmail(username);
+        if (member == null) {
             throw new UsernameNotFoundException("Can not find username.");
         }
-        return UserPrincipal.create(user);
+        return MemberPrincipal.create(member);
     }
 }

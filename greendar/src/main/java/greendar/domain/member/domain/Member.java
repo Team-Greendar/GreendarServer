@@ -1,6 +1,8 @@
 package greendar.domain.member.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import greendar.domain.auth.oauth.domain.ProviderType;
+import greendar.domain.auth.oauth.domain.RoleType;
 import greendar.domain.eventtodo.domain.EventTodo;
 import greendar.domain.privatetodo.domain.PrivateTodo;
 
@@ -8,20 +10,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 
 @Getter
@@ -66,15 +59,15 @@ public class Member {
     @Column(name = "token", length = 512)
     private String token;
 
-//    @Column(name = "PROVIDER_TYPE", length = 20)
-//    @Enumerated(EnumType.STRING)
-//    @NotNull
-//    private ProviderType providerType;
+    @Column(name = "PROVIDER_TYPE", length = 20)
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private ProviderType providerType;
 
-//    @Column(name = "ROLE_TYPE", length = 20)
-//    @Enumerated(EnumType.STRING)
-//    @NotNull
-//    private RoleType roleType;
+    @Column(name = "ROLE_TYPE", length = 20)
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private RoleType roleType;
 //
 //    @Column(name = "CREATED_AT")
 //    @NotNull
@@ -88,19 +81,21 @@ public class Member {
                    String email,
                    String imageUrl,
                    String message,
-                   String token)
+                   @NotNull ProviderType providerType,
+                   @NotNull RoleType roleType)
     {
         this.name=name;
         this.password = password;
         this.email=email;
         this.imageUrl = imageUrl;
         this.statusMessage = message;
-        this.token = token;
+        this.providerType = providerType;
+        this.roleType = roleType;
 //        this.createdAt= createdAt;
 //        this.modifiedAt = modifiedAt;
     }
 
-    public static Member of(String name,String password, String email, String imageUrl, String message, String token){
-        return new Member(name,password, email, imageUrl, message, token);
+    public static Member of(String name,String password, String email, String imageUrl, String message, ProviderType providerType, RoleType roleType){
+        return new Member(name,password, email, imageUrl, message, providerType, roleType);
     }
 }

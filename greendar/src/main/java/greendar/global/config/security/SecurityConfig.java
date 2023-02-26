@@ -1,6 +1,5 @@
 package greendar.global.config.security;
 
-import greendar.domain.auth.login.dao.user.UserRefreshTokenRepository;
 import greendar.domain.auth.oauth.application.CustomOAuth2UserService;
 import greendar.domain.auth.oauth.application.CustomUserDetailsService;
 import greendar.domain.auth.oauth.dao.OAuth2AuthorizationRequestBasedOnCookieRepository;
@@ -11,6 +10,7 @@ import greendar.domain.auth.oauth.handler.OAuth2AuthenticationFailureHandler;
 import greendar.domain.auth.oauth.handler.OAuth2AuthenticationSuccessHandler;
 import greendar.domain.auth.oauth.handler.TokenAccessDeniedHandler;
 import greendar.domain.auth.oauth.token.AuthTokenProvider;
+import greendar.domain.member.dao.MemberRefreshTokenRepository;
 import greendar.global.config.properties.AppProperties;
 import greendar.global.config.properties.CorsProperties;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomUserDetailsService userDetailsService;
     private final CustomOAuth2UserService oAuth2UserService;
     private final TokenAccessDeniedHandler tokenAccessDeniedHandler;
-    private final UserRefreshTokenRepository userRefreshTokenRepository;
+    private final MemberRefreshTokenRepository memberRefreshTokenRepository;
 
     /*
      * UserDetailsService 설정
@@ -131,7 +131,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new OAuth2AuthenticationSuccessHandler(
                 tokenProvider,
                 appProperties,
-                userRefreshTokenRepository,
+                memberRefreshTokenRepository,
                 oAuth2AuthorizationRequestBasedOnCookieRepository()
         );
     }

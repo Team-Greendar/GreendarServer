@@ -1,13 +1,13 @@
 package greendar.domain.auth.oauth.application;
 
-import greendar.domain.auth.login.dao.user.UserRepository;
-import greendar.domain.auth.login.domain.user.User;
+import greendar.domain.auth.oauth.domain.MemberPrincipal;
 import greendar.domain.auth.oauth.domain.ProviderType;
 import greendar.domain.auth.oauth.domain.RoleType;
-import greendar.domain.auth.oauth.domain.UserPrincipal;
 import greendar.domain.auth.oauth.exeption.OAuthProviderMissMatchException;
 import greendar.domain.auth.oauth.info.OAuth2UserInfo;
 import greendar.domain.auth.oauth.info.OAuth2UserInfoFactory;
+import greendar.domain.member.dao.MemberRepository;
+import greendar.domain.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -43,49 +43,47 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         ProviderType providerType = ProviderType.valueOf(userRequest.getClientRegistration().getRegistrationId().toUpperCase());
 
         OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, user.getAttributes());
-        User savedUser = userRepository.findByUserId(userInfo.getId());
+        Member savedMember = memberRepository.findOneByEmail(userInfo.getId());
 
-        if (savedUser != null) {
-            if (providerType != savedUser.getProviderType()) {
+        if (savedMember != null) {
+            if (providerType != savedMember.getProviderType()) {
                 throw new OAuthProviderMissMatchException(
                         "Looks like you're signed up with " + providerType +
-                                " account. Please use your " + savedUser.getProviderType() + " account to login."
+                                " account. Please use your " + savedMember.getProviderType() + " account to login."
                 );
             }
-            updateUser(savedUser, userInfo);
+            updateMember(savedMember, userInfo);
         } else {
-            savedUser = createUser(userInfo, providerType);
+            savedMember = createMember(userInfo, providerType);
         }
 
-        return UserPrincipal.create(savedUser, user.getAttributes());
+        return MemberPrincipal.create(savedMember, user.getAttributes());
     }
 
-    private User createUser(OAuth2UserInfo userInfo, ProviderType providerType) {
-        LocalDateTime now = LocalDateTime.now();
-        User user = new User(
-                userInfo.getId(),
+    private Member createMember(OAuth2UserInfo userInfo, ProviderType providerType) {
+
+        Member member = Member.of(
                 userInfo.getName(),
+                userInfo.getPassword(),
                 userInfo.getEmail(),
-                "Y",
                 userInfo.getImageUrl(),
+                userInfo.getMessage(),
                 providerType,
-                RoleType.USER,
-                now,
-                now
+                RoleType.USER
         );
 
-        return userRepository.saveAndFlush(user);
+        return memberRepository.saveAndFlush(member);
     }
 
-    private User updateUser(User user, OAuth2UserInfo userInfo) {
-        if (userInfo.getName() != null && !user.getUsername().equals(userInfo.getName())) {
-            user.setUsername(userInfo.getName());
+    private Member updateMember(Member member, OAuth2UserInfo userInfo) {
+        if (userInfo.getName() != null && !member.getName().equals(userInfo.getName())) {
+            member.setName(userInfo.getName());
         }
 
-        if (userInfo.getImageUrl() != null && !user.getProfileImageUrl().equals(userInfo.getImageUrl())) {
-            user.setProfileImageUrl(userInfo.getImageUrl());
+        if (userInfo.getImageUrl() != null && !member.getImageUrl().equals(userInfo.getImageUrl())) {
+            member.setImageUrl(userInfo.getImageUrl());
         }
 
-        return user;
+        return member;
     }
 }

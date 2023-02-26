@@ -1,5 +1,7 @@
 package greendar.domain.member.dao;
 
+import greendar.domain.auth.oauth.domain.ProviderType;
+import greendar.domain.auth.oauth.domain.RoleType;
 import greendar.domain.member.domain.Member;
 
 import java.util.List;
@@ -16,8 +18,8 @@ public class MemberRepository {
     @PersistenceContext
     private final EntityManager em;
 
-    public Member saveMember(String name,String password, String email, String imageUrl, String message, String token) {
-        Member member = Member.of(name,password, email, imageUrl, message, token);
+    public Member saveMember(String name, String password, String email, String imageUrl, String message, ProviderType providerType, RoleType roleType) {
+        Member member = Member.of(name,password, email, imageUrl, message, providerType, roleType);
         em.persist(member);
         return member;
     }
@@ -71,6 +73,14 @@ public class MemberRepository {
                 .getSingleResult();
     }
 
+    public Member findOneByEmail(String email){
+        return em.createQuery("select m from Member m "+
+                                "where m.email = :email"
+                        , Member.class)
+                .setParameter("email", email)
+                .getSingleResult();
+    }
+
     public boolean isMemberTokenExists(String token){
         List<Member> memberList = em.createQuery("select m from Member m "+
                                 "where m.token = :firebaseToken"
@@ -89,16 +99,17 @@ public class MemberRepository {
         return !memberList.isEmpty();
     }
 
-    public List<Member> findOneByEmail(String userEmail) {
-        return null;
+    public Member saveAndFlush(Member member){
+        Member savedMember = em.merge(member);
+        em.flush();
+        return savedMember;
     }
 
-    public Member findOne(Long memberId) {
-        return em.find(Member.class, memberId);
-    }
 
     public List<Member> findAll() {
         return em.createQuery("select m from Member m", Member.class)
                 .getResultList();
     }
+
+
 }

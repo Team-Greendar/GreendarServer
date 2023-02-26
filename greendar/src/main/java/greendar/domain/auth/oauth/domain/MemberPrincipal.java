@@ -1,6 +1,6 @@
 package greendar.domain.auth.oauth.domain;
 
-import greendar.domain.auth.login.domain.user.User;
+import greendar.domain.member.domain.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ import java.util.Map;
 @Setter
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class UserPrincipal implements OAuth2User, UserDetails, OidcUser {
+public class MemberPrincipal implements OAuth2User, UserDetails, OidcUser {
     private final String userId;
     private final String password;
     private final ProviderType providerType;
@@ -84,20 +84,20 @@ public class UserPrincipal implements OAuth2User, UserDetails, OidcUser {
         return null;
     }
 
-    public static UserPrincipal create(User user) {
-        return new UserPrincipal(
-                user.getUserId(),
-                user.getPassword(),
-                user.getProviderType(),
+    public static MemberPrincipal create(Member member) {
+        return new MemberPrincipal(
+                member.getEmail(),
+                member.getPassword(),
+                member.getProviderType(),
                 RoleType.USER,
                 Collections.singletonList(new SimpleGrantedAuthority(RoleType.USER.getCode()))
         );
     }
 
-    public static UserPrincipal create(User user, Map<String, Object> attributes) {
-        UserPrincipal userPrincipal = create(user);
-        userPrincipal.setAttributes(attributes);
+    public static MemberPrincipal create(Member member, Map<String, Object> attributes) {
+        MemberPrincipal memberPrincipal = create(member);
+        memberPrincipal.setAttributes(attributes);
 
-        return userPrincipal;
+        return memberPrincipal;
     }
 }
