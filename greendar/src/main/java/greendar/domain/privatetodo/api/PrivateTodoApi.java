@@ -20,6 +20,7 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,7 +50,12 @@ public class PrivateTodoApi {
                 .collect(Collectors.toList());
         return ApiResponse.success(collect);
     }
-
+    @DeleteMapping("/{private_todo_id}")
+    public ApiResponse deletePrivateTodoByMember(@RequestHeader("Authorization") String firebaseToken, @PathVariable Long private_todo_id) {
+        Member member = memberService.findOneByToken(firebaseToken);
+        privateTodoService.deleteTodo(private_todo_id);
+        return ApiResponse.success(true);
+    }
     @PostMapping
     public ApiResponse addPrivateTodo(@RequestHeader("Authorization") String firebaseToken,
                                       @Valid @RequestBody PrivateTodoPostRequestDto request) {
