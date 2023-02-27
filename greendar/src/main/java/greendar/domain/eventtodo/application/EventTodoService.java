@@ -33,6 +33,7 @@ public class EventTodoService {
         Member member = memberRepository.fineOneByToken(token);
         EventTodoItem eventTodoItem = eventTodoItemRepository.findOneById(eventTodoItemId);
         EventTodo eventTodo = eventTodoRepository.findOneByEventTodoItemIdMemberId(member.getId(),eventTodoItem.getId());
+
         // 생성
         if(eventTodo==null) {
             if(complete == null)
@@ -62,9 +63,6 @@ public class EventTodoService {
         List<DailyAchievement> dailyAchievements = eventTodoResponses.stream()
                 .map(DailyAchievement::new)
                 .collect(Collectors.toList());
-        System.out.println("!--!");
-        System.out.println(dailyAchievements);
-        System.out.println("!--!");
         return  privateTodoService.calculateRatio(dailyAchievements);
     }
     public List<EventTodoResponseDto> getAllEventTodoByOneDay(LocalDate date , Member member) {
