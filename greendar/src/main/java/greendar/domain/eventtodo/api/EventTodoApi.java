@@ -1,7 +1,9 @@
 package greendar.domain.eventtodo.api;
 
 import greendar.domain.eventtodo.application.EventTodoService;
+import greendar.domain.eventtodo.domain.EventTodo;
 import greendar.domain.eventtodo.dto.EventTodoDtos.EventTodoCompleteUpdateRequestDto;
+import greendar.domain.eventtodo.dto.EventTodoResponseDto;
 import greendar.domain.member.application.MemberService;
 import greendar.domain.member.domain.Member;
 import greendar.domain.privatetodo.dto.PrivateTodoDtos.DailyAchievementRatio;
@@ -39,19 +41,22 @@ public class EventTodoApi {
                                                     @RequestParam("file") MultipartFile file) {
         Member member = memberService.findOneByToken(firebaseToken);
         String imageUrl = fileService.uploadFile(file).getFileUrl();
-        return  ApiResponse.success(eventTodoService.updateEventTodo(null, imageUrl,
+        EventTodoResponseDto result = new EventTodoResponseDto(eventTodoService.updateEventTodo(null, imageUrl,
                 event_todo_id, firebaseToken));
+        return  ApiResponse.success(result);
     }
     @PutMapping(value = "/complete")
     public ApiResponse updateEventTodoCompleteByItemId(@RequestHeader("Authorization") String firebaseToken,
                                                     @RequestBody EventTodoCompleteUpdateRequestDto request) {
-        return  ApiResponse.success(eventTodoService.updateEventTodo(request.getComplete(),null, request.getEventTodoItemId(),firebaseToken));
+        EventTodoResponseDto result = new EventTodoResponseDto(eventTodoService.updateEventTodo(request.getComplete(),null, request.getEventTodoItemId(),firebaseToken));
+        return  ApiResponse.success(result);
     }
 
     @GetMapping(value = "/{date}")
     public ApiResponse getEventTodoByDate(@RequestHeader("Authorization") String firebaseToken,
                                             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         Member member = memberService.findOneByToken(firebaseToken);
+        if(member == null) return ApiResponse.fail("NoMember");
         return ApiResponse.success(eventTodoService.getAllEventTodoByOneDay(date,member));
     }
     @GetMapping(value = "/monthly/{date}")
@@ -66,7 +71,7 @@ public class EventTodoApi {
             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
 
         Member member = memberService.findOneByToken(firebaseToken);
-
+        if(member == null) return ApiResponse.fail("NoMember");
         TreeMap<LocalDate, Float> result =eventTodoService.getRatioByDailyInMonth(date,member);
         List<DailyAchievementRatio> dailyAchievementRatios = result.entrySet()
                         .stream()
