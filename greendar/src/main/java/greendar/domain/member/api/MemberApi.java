@@ -25,7 +25,7 @@ public class MemberApi {
     private final MemberService memberService;
     private final FileService fileService;
 
-    @GetMapping(value = "/list",produces = "application/json;charset=UTF-8")
+    @GetMapping(value = "/list", produces = "application/json;charset=UTF-8")
     public ApiResponse getMembers() {
         List<Member> findMembers = memberService.getAll();
         List<MemberResponse> response = findMembers.stream().map(MemberResponse::new).collect(Collectors.toList());
@@ -34,10 +34,10 @@ public class MemberApi {
 
     @PostMapping(produces = "application/json;charset=UTF-8")
     public ApiResponse postMember(@RequestBody MemberPostRequestDto request) {
-        if(memberService.isNameRedundant(request.getName())){
+        if (memberService.isNameRedundant(request.getName())) {
             return ApiResponse.redundantName(false);
         }
-        Member savedMember = memberService.saveMember(request.getName(), request.getPassword(), request.getEmail(), "EMPTY", "HELLO", request.getFirebaseToken());
+        Member savedMember = memberService.saveMember(request.getName(), request.getPassword(), request.getEmail(), request.getImageUrl(), request.getMessage(), request.getFirebaseToken());
         return ApiResponse.success(new MemberResponse(savedMember));
     }
 
@@ -47,9 +47,9 @@ public class MemberApi {
         return ApiResponse.success(member);
     }
 
-    @PostMapping(value = "/validity",produces = "application/json;charset=UTF-8")
+    @PostMapping(value = "/validity", produces = "application/json;charset=UTF-8")
     public ApiResponse checkMemberVaild(@RequestHeader("Authorization") String firebaseToken) {
-        if(memberService.isTokenExists(firebaseToken)){
+        if (memberService.isTokenExists(firebaseToken)) {
             Member member = memberService.findOneByToken(firebaseToken);
             return ApiResponse.success(new MemberResponse(member));
         }

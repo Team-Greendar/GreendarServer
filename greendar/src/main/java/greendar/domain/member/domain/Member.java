@@ -1,6 +1,7 @@
 package greendar.domain.member.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import greendar.domain.eventtodo.domain.EventTodo;
 import greendar.domain.privatetodo.domain.PrivateTodo;
 
 import java.time.LocalDate;
@@ -31,17 +32,15 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "memberId", length = 64) //pk
+    @Column(name = "member_id", length = 64) //pk
     private Long id;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<PrivateTodo> privateToDoList = new ArrayList<>();
 
-    /**
-     * 이벤트 투두 만들어지면 추가해야 함
-     */
-//    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-//    private List<EventTodo> eventToDoList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<EventTodo> eventToDoList = new ArrayList<>();
 
     @Column(name = "name", length = 100)
     private String name;
@@ -62,7 +61,7 @@ public class Member {
     private String imageUrl;
 
     @Column(name = "statusMessage", length = 512)
-    private String message;
+    private String statusMessage;
 
     @Column(name = "token", length = 512)
     private String token;
@@ -95,7 +94,7 @@ public class Member {
         this.password = password;
         this.email=email;
         this.imageUrl = imageUrl;
-        this.message = message;
+        this.statusMessage = message;
         this.token = token;
 //        this.createdAt= createdAt;
 //        this.modifiedAt = modifiedAt;

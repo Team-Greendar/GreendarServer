@@ -3,19 +3,16 @@ package greendar.domain.eventtodo.dto;
 import greendar.domain.eventtodo.domain.EventTodo;
 import greendar.domain.eventtodoitem.domain.EventTodoItem;
 import java.time.LocalDate;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 
 @Getter
-@Setter
 public class  EventTodoResponseDto{
-    private Long eventTodoItemId ;
-    private String task;
-    private LocalDate date;
-    private String imageUrl;
-    private Boolean complete;
+    final private Long eventTodoItemId ;
+    final private String task;
+    final private LocalDate date;
+    final private String imageUrl;
+    final private Boolean complete;
 
     public  EventTodoResponseDto(EventTodo eventTodo) {
         this.task = eventTodo.getEventTodoItem().getTask();
