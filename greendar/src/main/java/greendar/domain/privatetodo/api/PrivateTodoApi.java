@@ -109,7 +109,7 @@ public class PrivateTodoApi {
     }
 
     @DeleteMapping (value = "/image")
-    public ApiResponse tempoaryPrivateTodoImageUrl(@RequestHeader("Authorization") String firebaseToken,
+    public ApiResponse setTempoaryPrivateTodoImageUrl(@RequestHeader("Authorization") String firebaseToken,
                                                  @RequestParam("private_todo_id") Long private_todo_id) {
         Member member = memberService.findOneByToken(firebaseToken);
 //        List<InputFile> inputFiles = fileService.uploadFiles(files);
