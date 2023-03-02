@@ -107,6 +107,16 @@ public class PrivateTodoApi {
         PrivateTodo result = privateTodoService.updatePrivateTodoImageUrl(private_todo_id,imageUrl);
         return  ApiResponse.success(new PrivateTodoResponse(result));
     }
+
+    @DeleteMapping (value = "/image")
+    public ApiResponse setTempoaryPrivateTodoImageUrl(@RequestHeader("Authorization") String firebaseToken,
+                                                 @RequestParam("private_todo_id") Long private_todo_id) {
+        Member member = memberService.findOneByToken(firebaseToken);
+//        List<InputFile> inputFiles = fileService.uploadFiles(files);
+        PrivateTodo result = privateTodoService.updatePrivateTodoImageUrl(private_todo_id,"EMPTY");
+        return  ApiResponse.success(new PrivateTodoResponse(result));
+    }
+
     @PutMapping(value = "/complete")
     public ApiResponse setPrivateTodoComplete(@RequestHeader("Authorization") String firebaseToken,
                                               @Valid @RequestBody PrivateTodoCompletePutRequestDto request) {
