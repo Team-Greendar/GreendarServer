@@ -41,15 +41,16 @@ public class EventTodoApi {
     @DeleteMapping(value = "/image")
     public ApiResponse setTempoaryEventTodoImageUrl(@RequestHeader("Authorization") String firebaseToken,
                                                     @RequestParam("eventTodoItemId") Long eventTodoItemId) {
-        Member member = memberService.findOneByToken(firebaseToken);
-        EventTodoResponseDto result =  new EventTodoResponseDto(eventTodoService.updateEventTodo(null,"EMPTY",eventTodoItemId,firebaseToken));
-        return  ApiResponse.success(result);
+        memberService.findOneByToken(firebaseToken);
+        EventTodo eventTodo =eventTodoService.updateEventTodo(null,"EMPTY",eventTodoItemId,firebaseToken);
+        if(eventTodo == null) return  ApiResponse.fail(false);
+        return ApiResponse.success(true);
     }
     @PutMapping(value = "/image",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ApiResponse updateEventTodoImageUrlByItemId(@RequestHeader("Authorization") String firebaseToken,
                                                        @RequestParam("eventTodoItemId") Long eventTodoItemId,
                                                        @RequestParam("file") MultipartFile file) {
-        Member member = memberService.findOneByToken(firebaseToken);
+        memberService.findOneByToken(firebaseToken);
         String imageUrl = fileService.uploadFile(file).getFileUrl();
         EventTodoResponseDto result = new EventTodoResponseDto(eventTodoService.updateEventTodo(null, imageUrl,
                 eventTodoItemId, firebaseToken));
