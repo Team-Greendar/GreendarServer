@@ -6,7 +6,9 @@ import greendar.domain.eventtodo.dto.EventTodoDtos.EventTodoCompleteUpdateReques
 import greendar.domain.eventtodo.dto.EventTodoResponseDto;
 import greendar.domain.member.application.MemberService;
 import greendar.domain.member.domain.Member;
+import greendar.domain.privatetodo.domain.PrivateTodo;
 import greendar.domain.privatetodo.dto.PrivateTodoDtos.DailyAchievementRatio;
+import greendar.domain.privatetodo.dto.PrivateTodoDtos.PrivateTodoResponse;
 import greendar.global.common.ApiResponse;
 import greendar.infra.gcp.storage.application.FileService;
 import java.time.LocalDate;
@@ -17,6 +19,7 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -35,15 +38,22 @@ public class EventTodoApi {
     private final MemberService memberService;
     private final EventTodoService eventTodoService;
     private final FileService fileService;
-
+    @DeleteMapping(value = "/image")
+    public ApiResponse setTempoaryEventTodoImageUrl(@RequestHeader("Authorization") String firebaseToken,
+                                                    @RequestParam("eventTodoItemId") Long eventTodoItemId) {
+        memberService.findOneByToken(firebaseToken);
+        EventTodo eventTodo =eventTodoService.updateEventTodo(null,"EMPTY",eventTodoItemId,firebaseToken);
+        if(eventTodo == null) return  ApiResponse.fail(false);
+        return ApiResponse.success(true);
+    }
     @PutMapping(value = "/image",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ApiResponse updateEventTodoImageUrlByItemId(@RequestHeader("Authorization") String firebaseToken,
-                                                    @RequestParam("event_todo_id") Long event_todo_id,
-                                                    @RequestParam("file") MultipartFile file) {
-        Member member = memberService.findOneByToken(firebaseToken);
+                                                       @RequestParam("eventTodoItemId") Long eventTodoItemId,
+                                                       @RequestParam("file") MultipartFile file) {
+        memberService.findOneByToken(firebaseToken);
         String imageUrl = fileService.uploadFile(file).getFileUrl();
         EventTodoResponseDto result = new EventTodoResponseDto(eventTodoService.updateEventTodo(null, imageUrl,
-                event_todo_id, firebaseToken));
+                eventTodoItemId, firebaseToken));
         return  ApiResponse.success(result);
     }
     @PutMapping(value = "/complete")
