@@ -9,6 +9,7 @@ import greendar.domain.privatetodo.dto.PrivateTodoDtos.PrivateTodoCompletePutReq
 import greendar.domain.privatetodo.dto.PrivateTodoDtos.PrivateTodoPostRequestDto;
 import greendar.domain.privatetodo.dto.PrivateTodoDtos.PrivateTodoResponse;
 import greendar.domain.privatetodo.dto.PrivateTodoDtos.PrivateTodoTaskPutRequestDto;
+import greendar.domain.privatetodo.dto.PrivateTodoDtos.MonthlyAchievementRatio;
 import greendar.global.common.ApiResponse;
 import greendar.infra.gcp.storage.application.FileService;
 import java.time.LocalDate;
@@ -96,6 +97,15 @@ public class PrivateTodoApi {
         List<DailyAchievementRatio> dailyAchievementRatios = result.entrySet().stream().map(e->new DailyAchievementRatio(e)).collect(Collectors.toList());
         return ApiResponse.success(dailyAchievementRatios);
     }
+    @GetMapping(value = "/monthly/total/ratio/{date}")
+    public ApiResponse getPrivateTodoMonthlyRatioByDate(@RequestHeader("Authorization") String firebaseToken,
+                                                 @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+        Member member = memberService.findOneByToken(firebaseToken);
+        double result =  privateTodoService.getMonthlyRatio(date, member);
+        MonthlyAchievementRatio monthlyAchievementRatio = new MonthlyAchievementRatio(date, result);
+        return ApiResponse.success(monthlyAchievementRatio);
+    }
+
 
     @PutMapping(value = "/image",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ApiResponse updatePrivateTodoImageUrl(@RequestHeader("Authorization") String firebaseToken,
