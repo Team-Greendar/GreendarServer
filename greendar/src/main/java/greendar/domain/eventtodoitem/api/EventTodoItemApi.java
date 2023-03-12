@@ -30,8 +30,13 @@ public class EventTodoItemApi {
         return ApiResponse.success(eventTodoItems);
     }
     @PostMapping(produces = "application/json;charset=UTF-8")
-    public ApiResponse addEventTodo(@Valid  @RequestBody EventTodoPostItemRequestDto request) {
+    public ApiResponse addEventTodoDate(@Valid  @RequestBody EventTodoPostItemRequestDto request) {
         eventTodoItemService.saveTodo(request.getTask(),request.getDate());
+        return ApiResponse.success("ok");
+    }
+    @PostMapping(value = "/week", produces = "application/json;charset=UTF-8")
+    public ApiResponse addEventTodoDateWeek(@Valid  @RequestBody EventTodoPostItemRequestDto request) {
+        eventTodoItemService.saveTodoAddWeek(request.getTask(),request.getDate());
         return ApiResponse.success("ok");
     }
     @GetMapping(value = "/monthly/{date}",produces = "application/json;charset=UTF-8")

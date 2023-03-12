@@ -49,7 +49,8 @@ public class DataBucketUtil {
             Blob blob = bucket.create(gcpDirectoryName + "/" + fileName + "-" + id.nextString() + checkFileExtension(fileName), fileData, contentType);
 
             if(blob != null){
-                return new FileDto(blob.getName(),"https://storage.cloud.google.com/"+gcpBucketId+"/"+blob.getName());
+                return new FileDto(blob.getName(),"/"+blob.getName());
+//                return new FileDto(blob.getName(),"https://storage.cloud.google.com/"+gcpBucketId+"/"+blob.getName());
             }
 
         }catch (Exception e){
