@@ -96,7 +96,7 @@ public class EventTodoApi {
 
         Member member = memberService.findOneByToken(firebaseToken);
         double result = eventTodoService.getMonthlyRatio(date,member);
-        return ApiResponse.success(new MonthlyAchievementRatio(date,result));
+        return ApiResponse.success(new MonthlyAchievementRatio(date,Math.round(result*100)/100.0));
     }
 
 }
