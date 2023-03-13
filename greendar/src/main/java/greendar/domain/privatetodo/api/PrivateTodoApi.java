@@ -89,7 +89,7 @@ public class PrivateTodoApi {
         return ApiResponse.success(collect);
     }
 
-    @GetMapping(value = "/monthly/ratio/{date}")
+    @GetMapping(value = "/monthly/daily/ratio/{date}")
     public ApiResponse getPrivateTodoRatioByDate(@RequestHeader("Authorization") String firebaseToken,
                                                  @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         Member member = memberService.findOneByToken(firebaseToken);
@@ -97,12 +97,12 @@ public class PrivateTodoApi {
         List<DailyAchievementRatio> dailyAchievementRatios = result.entrySet().stream().map(e->new DailyAchievementRatio(e)).collect(Collectors.toList());
         return ApiResponse.success(dailyAchievementRatios);
     }
-    @GetMapping(value = "/monthly/total/ratio/{date}")
+    @GetMapping(value = "/monthly/ratio/{date}")
     public ApiResponse getPrivateTodoMonthlyRatioByDate(@RequestHeader("Authorization") String firebaseToken,
                                                  @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         Member member = memberService.findOneByToken(firebaseToken);
         double result =  privateTodoService.getMonthlyRatio(date, member);
-        MonthlyAchievementRatio monthlyAchievementRatio = new MonthlyAchievementRatio(date, result);
+        MonthlyAchievementRatio monthlyAchievementRatio = new MonthlyAchievementRatio(date, Math.round(result*100)/100.0);
         return ApiResponse.success(monthlyAchievementRatio);
     }
 

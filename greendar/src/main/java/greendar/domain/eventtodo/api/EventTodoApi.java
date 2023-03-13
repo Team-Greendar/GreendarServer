@@ -3,6 +3,7 @@ package greendar.domain.eventtodo.api;
 import greendar.domain.eventtodo.application.EventTodoService;
 import greendar.domain.eventtodo.domain.EventTodo;
 import greendar.domain.eventtodo.dto.EventTodoDtos.EventTodoCompleteUpdateRequestDto;
+import greendar.domain.eventtodo.dto.EventTodoDtos.MonthlyAchievementRatio;
 import greendar.domain.eventtodo.dto.EventTodoResponseDto;
 import greendar.domain.member.application.MemberService;
 import greendar.domain.member.domain.Member;
@@ -77,18 +78,25 @@ public class EventTodoApi {
         if(member == null) return ApiResponse.fail("NoMember");
         return ApiResponse.success(eventTodoService.getAllEventTodoByOneMonth(date,member));
     }
-    @GetMapping(value = "/monthly/ratio/{date}")
-    public ApiResponse getEventTodoRatioByDate(@RequestHeader("Authorization") String firebaseToken,
+    @GetMapping(value = "/monthly/daily/ratio/{date}")
+    public ApiResponse getEventTodoDailyRatioByDate(@RequestHeader("Authorization") String firebaseToken,
             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
 
         Member member = memberService.findOneByToken(firebaseToken);
-        if(member == null) return ApiResponse.fail("NoMember");
-        TreeMap<LocalDate, Float> result =eventTodoService.getRatioByDailyInMonth(date,member);
+        TreeMap<LocalDate, Float> result =eventTodoService.getDailyRatioByMonth(date,member);
         List<DailyAchievementRatio> dailyAchievementRatios = result.entrySet()
                         .stream()
                         .map(DailyAchievementRatio::new)
                         .collect(Collectors.toList());
         return ApiResponse.success(dailyAchievementRatios);
+    }
+    @GetMapping(value = "/monthly/ratio/{date}")
+    public ApiResponse getEventTodoRatioByDate(@RequestHeader("Authorization") String firebaseToken,
+                                                    @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+
+        Member member = memberService.findOneByToken(firebaseToken);
+        double result = eventTodoService.getMonthlyRatio(date,member);
+        return ApiResponse.success(new MonthlyAchievementRatio(date,Math.round(result*100)/100.0));
     }
 
 }
