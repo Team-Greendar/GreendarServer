@@ -52,19 +52,25 @@ public class PrivateTodoService {
         List<DailyAchievement> dailyAchievements = privateTodoRepository.countRatioByDailyInMonth(date, member);
         return calculateMonthlyRatio(dailyAchievements);
     }
-
     public double calculateMonthlyRatio(List<DailyAchievement> dailyAchievements) {
-        int doneSum = 0;
-        for (DailyAchievement daily : dailyAchievements) {
-            if (daily.getDone() > 0) {
-                doneSum += 1;
-            }
-        }
-        if (dailyAchievements.size() == 0) {
-            return 0;
-        }
-        return (double) doneSum / (double) dailyAchievements.size();
+        if(dailyAchievements.size() == 0) return 0;
+        return dailyAchievements.stream()
+                .filter(daily -> daily.getDone() > 0)
+                .count() / (double) dailyAchievements.size();
     }
+
+//    public double calculateMonthlyRatio(List<DailyAchievement> dailyAchievements) {
+//        int doneSum = 0;
+//        for (DailyAchievement daily : dailyAchievements) {
+//            if (daily.getDone() > 0) {
+//                doneSum += 1;
+//            }
+//        }
+//        if (dailyAchievements.size() == 0) {
+//            return 0;
+//        }
+//        return (double) doneSum / (double) dailyAchievements.size();
+//    }
 
     public TreeMap<LocalDate, Float> calculateRatio(List<DailyAchievement> dailyAchievements) {
         TreeMap<LocalDate, Float> dailyRatio = new TreeMap<>();
