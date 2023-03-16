@@ -21,6 +21,11 @@ public class MemberService {
     }
 
     @Transactional
+    public void deleteMember(String token) {
+        memberRepository.deleteMember(token);
+    }
+
+    @Transactional
     public Member updateProfile(String token, String name, String message) {
         return memberRepository.updateMemberProfile(token, name, message);
     }
@@ -39,13 +44,14 @@ public class MemberService {
         return memberRepository.fineOneByToken(token);
     }
 
-    public boolean isNameRedundant(String name){
+    public boolean isNameRedundant(String name) {
         return memberRepository.isMemberNameExists(name);
     }
 
-    public boolean isTokenExists(String token){
+    public boolean isTokenExists(String token) {
         return memberRepository.isMemberTokenExists(token);
     }
+
     public Member findOne(Long memberId) {
         return memberRepository.findOne(memberId);
     }
