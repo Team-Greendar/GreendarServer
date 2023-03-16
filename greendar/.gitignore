@@ -44,3 +44,4 @@ src/main/resources/gcp-account-file.json
 
 ### MAC OS ###
 *.DS_Store
+~/*.DS_Store

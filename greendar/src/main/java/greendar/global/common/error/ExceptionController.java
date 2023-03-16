@@ -1,91 +1,91 @@
-//package greendar.global.common.error;
-//
+package greendar.global.common.error;
+
 //import io.jsonwebtoken.ExpiredJwtException;
 //import io.jsonwebtoken.MalformedJwtException;
 //import io.jsonwebtoken.SignatureException;
 //import io.jsonwebtoken.UnsupportedJwtException;
-//import javax.naming.ServiceUnavailableException;
-//import lombok.AllArgsConstructor;
-//import lombok.Data;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.web.bind.MissingRequestHeaderException;
-//import org.springframework.web.bind.annotation.ExceptionHandler;
-//import org.springframework.web.bind.annotation.ResponseStatus;
-//import org.springframework.web.bind.annotation.RestControllerAdvice;
-//import org.springframework.web.multipart.support.MissingServletRequestPartException;
-//
-//@RestControllerAdvice
-//public class ExceptionController {
-//
-//    @ExceptionHandler(Exception.class)
-//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-//    public Response ServerException2(Exception e) {
-//        e.printStackTrace();
-//        return new Response("서버에러", 500);
-//    }
-//
-//    @ExceptionHandler(MissingRequestHeaderException.class)
+import greendar.global.common.ApiResponse;
+import java.security.SignatureException;
+import javax.naming.ServiceUnavailableException;
+import javax.persistence.NoResultException;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MissingRequestHeaderException;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+
+@RestControllerAdvice
+public class ExceptionController {
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ApiResponse ServerException2(Exception e) {
+        e.printStackTrace();
+        return ApiResponse.error(500,"서버 로직 에러");
+    }
+
+    @ExceptionHandler(MissingRequestHeaderException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiResponse MissingRequestHeaderException(Exception e) {
+        e.printStackTrace();
+        return ApiResponse.error(400,"MissingRequestHeaderException");
+    }
+    @ExceptionHandler(SignatureException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiResponse SignatureException(Exception e) {
+        e.printStackTrace();
+        return ApiResponse.error( 404,"SignatureException");
+    }
+    @ExceptionHandler(ServiceUnavailableException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ApiResponse ServiceUnavailableExpection(Exception e) {
+        e.printStackTrace();
+        return ApiResponse.error(503,"Service Unavailable");
+    }
+
+    @ExceptionHandler(MissingServletRequestPartException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiResponse MssingServletRequestPartException(Exception e) {
+        e.printStackTrace();
+        return ApiResponse.error(405,"파일 형식 혹은 파일 파라미터의 이름 오류 혹은 파일 없음");
+    }
+
+    @ExceptionHandler(NoResultException.class)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ApiResponse NoContentExpection(Exception e) {
+       e.printStackTrace();
+       return ApiResponse.error(400,"No results content" );
+    }
+    //    @ExceptionHandler(UnsupportedJwtException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiResponse UnsupportedJwtException(Exception e) {
+        e.printStackTrace();
+        return ApiResponse.error( 401,"UnsupportedJwtException");
+    }
+
+    //    @ExceptionHandler(MalformedJwtException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiResponse MalformedJwtException(Exception e) {
+        e.printStackTrace();
+        return ApiResponse.error( 402,"MalformedJwtException");
+    }
+
+    //    @ExceptionHandler(ExpiredJwtException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiResponse ExpiredJwtException(Exception e) {
+        e.printStackTrace();
+        return ApiResponse.error( 403,"ExpiredJwtException");
+    }
+
+    /// path
+//    @ExceptionHandler(PathException.class)
 //    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public Response MissingRequestHeaderException(Exception e) {
+//    public ApiResponse SignatureException(Exception e) {
 //        e.printStackTrace();
-//        return new Response("MissingRequestHeaderException",400);
+//        return ApiResponse.error( 404,"SignatureException");
 //    }
-//
-//    @ExceptionHandler(UnsupportedJwtException.class)
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public Response UnsupportedJwtException(Exception e) {
-//        e.printStackTrace();
-//        return new Response( "UnsupportedJwtException",401);
-//    }
-//
-//    @ExceptionHandler(MalformedJwtException.class)
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public Response MalformedJwtException(Exception e) {
-//        e.printStackTrace();
-//        return new Response( "MalformedJwtException",402);
-//    }
-//
-//    @ExceptionHandler(ExpiredJwtException.class)
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public Response ExpiredJwtException(Exception e) {
-//        e.printStackTrace();
-//        return new Response( "ExpiredJwtException",403);
-//    }
-//
-//    @ExceptionHandler(SignatureException.class)
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public Response SignatureException(Exception e) {
-//        e.printStackTrace();
-//        return new Response( "SignatureException",404);
-//    }
-//
-//    @ExceptionHandler(ServiceUnavailableException.class)
-//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-//    public Response ServiceUnavailableExpection(Exception e) {
-//        e.printStackTrace();
-//        return new Response("Service Unavailable", 503);
-//    }
-//
-//    @ExceptionHandler(MissingServletRequestPartException.class)
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public Response MssingServletRequestPartException(Exception e) {
-//        e.printStackTrace();
-//        return new Response("파일 형식 혹은 파일 파라미터의 이름 오류 혹은 파일 없음", 405);
-//    }
-//
-//    //@ExceptionHandler(NoResultException.class)
-//    //@ResponseStatus(HttpStatus.NO_CONTENT)
-//    //public Response NoContentExpection(Exception e) {
-//    //   e.printStackTrace();
-//    //   return new Response("No results", 400);
-//    //}
-//
-//    //Response DTO
-//    @Data
-//    @AllArgsConstructor
-//    static class Response
-//    {
-//        private String message;
-//        private int status;
-//    }
-//}
+
+
+}

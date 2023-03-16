@@ -32,7 +32,9 @@ public class EventTodoItemService {
         return eventTodoItemRepository.findAll();
     }
 
-
+    public List<EventTodoItem> findAllByMonth(LocalDate date) {
+        return eventTodoItemRepository.findAllByMonth(date);
+    }
 
 
 }

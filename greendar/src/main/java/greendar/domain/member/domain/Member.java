@@ -1,6 +1,7 @@
 package greendar.domain.member.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import greendar.domain.eventtodo.domain.EventTodo;
 import greendar.domain.privatetodo.domain.PrivateTodo;
 
 import java.time.LocalDate;
@@ -31,26 +32,24 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "MEMBER_ID", length = 64) //pk
+    @Column(name = "member_id", length = 64) //pk
     private Long id;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<PrivateTodo> privateToDoList = new ArrayList<>();
 
-    /**
-     * 이벤트 투두 만들어지면 추가해야 함
-     */
-//    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-//    private List<EventTodo> eventToDoList = new ArrayList<>();
 
-    @Column(name = "NAME", length = 100)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<EventTodo> eventToDoList = new ArrayList<>();
+
+    @Column(name = "name", length = 100)
     private String name;
 
     @JsonIgnore
-    @Column(name = "PASSWORD", length = 128)
+    @Column(name = "password", length = 128)
     private String password;
 
-    @Column(name = "EMAIL", length = 512)
+    @Column(name = "email", length = 512)
     private String email;
 
 //    @Column(name = "EMAIL_VERIFIED_YN", length = 1)
@@ -62,7 +61,10 @@ public class Member {
     private String imageUrl;
 
     @Column(name = "statusMessage", length = 512)
-    private String message;
+    private String statusMessage;
+
+    @Column(name = "token", length = 512)
+    private String token;
 
 //    @Column(name = "PROVIDER_TYPE", length = 20)
 //    @Enumerated(EnumType.STRING)
@@ -85,18 +87,20 @@ public class Member {
                    String password,
                    String email,
                    String imageUrl,
-                   String message)
+                   String message,
+                   String token)
     {
         this.name=name;
         this.password = password;
         this.email=email;
         this.imageUrl = imageUrl;
-        this.message = message;
+        this.statusMessage = message;
+        this.token = token;
 //        this.createdAt= createdAt;
 //        this.modifiedAt = modifiedAt;
     }
 
-    public static Member of(String name,String password, String email, String imageUrl, String message){
-        return new Member(name,password, email, imageUrl, message);
+    public static Member of(String name,String password, String email, String imageUrl, String message, String token){
+        return new Member(name,password, email, imageUrl, message, token);
     }
 }
