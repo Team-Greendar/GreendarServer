@@ -44,10 +44,7 @@ public class MemberApi {
     @DeleteMapping(produces = "application/json;charset=UTF-8")
     public ApiResponse deleteOneMember(@RequestHeader("Authorization") String firebaseToken) {
         memberService.deleteMember(firebaseToken);
-        if (memberService.findOneByToken(firebaseToken) == null) {
-            return ApiResponse.success("success");
-        }
-        return ApiResponse.fail("failed");
+        return ApiResponse.success("success");
     }
 
     @GetMapping(produces = "application/json;charset=UTF-8")
