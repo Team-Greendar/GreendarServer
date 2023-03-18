@@ -22,7 +22,8 @@ public class TodoImage {
     }
     private void validate(String todoImageUrl){
         if(todoImageUrl.length() > MAX_IMAGE_LENGTH){
-            throw  new InvalidImageException();
+//            throw  new InvalidImageException();  Need Invalid class in domain for  Exception
+            throw  new RuntimeException("Wrong Length");
         }
     }
     @Override
