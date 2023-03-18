@@ -1,5 +1,6 @@
 package greendar.domain.eventtodoitem.domain;
 
+import greendar.domain.model.BaseTimeEntity;
 import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class EventTodoItem {
+public class EventTodoItem extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="event_todo_item_id")
