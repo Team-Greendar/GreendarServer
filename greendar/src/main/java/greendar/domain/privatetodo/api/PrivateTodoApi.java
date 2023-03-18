@@ -58,7 +58,7 @@ public class PrivateTodoApi {
         return ApiResponse.success(true);
     }
     @PostMapping
-    public ApiResponse addPrivateTodo(@RequestHeader("Authorization") String firebaseToken,
+    public ApiResponse savePrivateTodo(@RequestHeader("Authorization") String firebaseToken,
                                       @Valid @RequestBody PrivateTodoPostRequestDto request) {
         Member member = memberService.findOneByToken(firebaseToken);
         PrivateTodo privateTodo = privateTodoService.saveTodo(member,request.getTask(),request.getDate());
