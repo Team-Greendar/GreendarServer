@@ -21,21 +21,21 @@ public class EventTodoRepository {
     private final EntityManager em;
 
     public EventTodo save(Boolean complete, String imageUrl, EventTodoItem eventTodoItem, Member member) {
-        EventTodo eventTodo = EventTodo.of(new TodoImage(imageUrl),complete,eventTodoItem,member);
+        EventTodo eventTodo= EventTodo.of(new TodoImage(imageUrl),complete,eventTodoItem,member);
         em.persist(eventTodo);
         return eventTodo;
     }
 
     public EventTodo updateEventTodoComplete(Long eventTodoId, Boolean complete) {
         EventTodo eventTodo = em.find(EventTodo.class, eventTodoId);
-        eventTodo.setComplete(complete);
+        eventTodo.updateComplete(complete);
         em.merge(eventTodo);
         return eventTodo;
     }
 
     public EventTodo updateEventTodoImageUrl(Long eventTodoId, String imageUrl) {
         EventTodo eventTodo = em.find(EventTodo.class, eventTodoId);
-        eventTodo.setImageUrl(imageUrl);
+        eventTodo.updateImage(imageUrl);
         em.merge(eventTodo);
         return eventTodo;
     }

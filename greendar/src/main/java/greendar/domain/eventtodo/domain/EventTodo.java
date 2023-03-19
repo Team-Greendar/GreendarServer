@@ -47,11 +47,17 @@ public class EventTodo extends BaseTimeEntity {
         this.eventTodoItem = eventTodoItem;
         this.member = member;
     }
-    public static EventTodo.EventTodoBuilder of(TodoImage todoImage,Boolean complete,EventTodoItem eventTodoItem,Member member){
+    public static EventTodo of(TodoImage todoImage,Boolean complete,EventTodoItem eventTodoItem,Member member){
         return  EventTodo.builder()
                 .todoImage(todoImage)
                 .complete(complete)
                 .eventTodoItem(eventTodoItem)
-                .member(member);
+                .member(member).build();
+    }
+    public void updateImage(String imageUrl) {
+        this.todoImage =new TodoImage(imageUrl);
+    }
+    public void updateComplete(Boolean complete ) {
+        this.complete = complete;
     }
 }
