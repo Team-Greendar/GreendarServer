@@ -20,16 +20,25 @@ public class FileServiceImpl implements FileService{
     private final FileRepository fileRepository;
     private final DataBucketUtil dataBucketUtil;
 
+    public FileDto uploadFile(MultipartFile file){
+        String originalFileName = file.getOriginalFilename();
+        if(originalFileName == null){
+            throw new BadRequestException("Original file name is null");
+        }
+        try {
+            return dataBucketUtil.uploadFile(file, originalFileName,"test");
+        } catch (Exception e) {
+            throw new GCPFileUploadException("Error occurred while uploading");
+        }
+    }
     public List<InputFile> uploadFiles(MultipartFile[] files) {
 
         List<InputFile> inputFiles = new ArrayList<>();
-
         Arrays.asList(files).forEach(file -> {
             String originalFileName = file.getOriginalFilename();
             if(originalFileName == null){
                 throw new BadRequestException("Original file name is null");
             }
-
             try {
                 FileDto fileDto = dataBucketUtil.uploadFile(file, originalFileName,"test");
                 if (fileDto != null) {
@@ -39,7 +48,7 @@ public class FileServiceImpl implements FileService{
                 throw new GCPFileUploadException("Error occurred while uploading");
             }
         });
-        fileRepository.saveAll(inputFiles);
+//        fileRepository.saveAll(inputFiles);
         return inputFiles;
     }
 }
