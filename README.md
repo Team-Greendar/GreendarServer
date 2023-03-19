@@ -4,14 +4,13 @@ Greendar Project Server Repository
 
 ### 브랜치 관리 전략
 
-Git Flow를 사용하여 브랜치를 관리합니다.<br>
-Release,Develop 브랜치는 Pull Request에 리뷰를 진행한 후 merge를 진행합니다.<br>
-메인 브렌치인 Develop인 경우 리뷰와 PR 을 필수로 하는 깃 protrction이 설정되어 있습니다.<br><br>
+Git Flow를 사용하여 브랜치를 관리합니다.
 
-<br>
-<br><br>
+Release,Develop 브랜치는 Pull Request에 리뷰를 진행한 후 merge를 진행합니다.
+
+메인 브렌치인 Develop인 경우 리뷰와 PR 을 필수로 하는 깃 protrction이 설정되어 있습니다.
+
 ![branchImage](https://user-images.githubusercontent.com/37647483/226156092-df21a222-76c4-41d0-a9f7-46112ae00ce0.jpg)
-<br><br>
 
 - Release : 배포시 사용합니다.
 - Develop : 완전히 개발이 끝난 부분에 대해서만 Merge를 진행합니다.
