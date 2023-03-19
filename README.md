@@ -10,7 +10,7 @@ Release,Develop 브랜치는 Pull Request에 리뷰를 진행한 후 merge를 �
 
 <br>
 <br><br>
-![image](https://user-images.githubusercontent.com/46917538/72450182-44475300-37fd-11ea-8a1b-ecce20fd6fcb.png)
+![branchImage](https://user-images.githubusercontent.com/37647483/226156092-df21a222-76c4-41d0-a9f7-46112ae00ce0.jpg)
 <br><br>
 
 - Release : 배포시 사용합니다.
