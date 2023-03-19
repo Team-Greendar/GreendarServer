@@ -19,7 +19,7 @@ UN의 지속 발전 가능한 17가지 목표 중 원하는 주제를 선택하�
 ## TEAM 십시일반 개발팀 👨‍👨‍👧‍👦
 |![image](https://user-images.githubusercontent.com/105579811/226158703-7557808d-2274-441b-b3d9-80a56c3bf6cc.jpeg)|![image](https://user-images.githubusercontent.com/113884028/226110874-6637d28a-7ff2-4881-a238-8aa5e2054b69.jpg)|![image](https://user-images.githubusercontent.com/105579811/226159868-159d7841-bafe-417a-b22b-03b00619a22b.jpeg)|![image](https://user-images.githubusercontent.com/105579811/226158691-dca8e766-38c8-4c26-b336-a01f4321e3a2.jpg)|
 |---|---|---|---|
-|조성현([@headf1rst](https://github.com/headf1rst))|조유리([@jorippppong](https://github.com/chchaeun))|김서희([@Arielle0222](https://github.com/Arielle0222))|윤병욱([@speculatingwook](https://github.com/speculatingwook))|
+|조성현([@chosunghyun18](https://github.com/headf1rst))|조유리([@jorippppong](https://github.com/chchaeun))|김서희([@Arielle0222](https://github.com/Arielle0222))|윤병욱([@speculatingwook](https://github.com/speculatingwook))|
 |Team Lead / Back End|Frontend Lead / Front End|Follower / Front End|Follower / Back End|
 
 
