@@ -1,6 +1,7 @@
 package greendar.domain.eventtodo.dao;
 
 import greendar.domain.eventtodo.domain.EventTodo;
+import greendar.domain.eventtodo.domain.TodoImage;
 import greendar.domain.eventtodo.dto.EventTodoResponseDto;
 import greendar.domain.eventtodoitem.domain.EventTodoItem;
 import greendar.domain.member.domain.Member;
@@ -20,11 +21,7 @@ public class EventTodoRepository {
     private final EntityManager em;
 
     public EventTodo save(Boolean complete, String imageUrl, EventTodoItem eventTodoItem, Member member) {
-        EventTodo eventTodo = new EventTodo();
-        eventTodo.setComplete(complete);
-        eventTodo.setImageUrl(imageUrl);
-        eventTodo.setEventTodoItem(eventTodoItem);
-        eventTodo.setMember(member);
+        EventTodo eventTodo = EventTodo.of(new TodoImage(imageUrl),complete,eventTodoItem,member);
         em.persist(eventTodo);
         return eventTodo;
     }
