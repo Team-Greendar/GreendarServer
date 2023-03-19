@@ -3,6 +3,7 @@ package greendar.domain.privatetodo.domain;
 import static javax.persistence.FetchType.LAZY;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import greendar.domain.member.domain.Member;
+import greendar.domain.model.BaseTimeEntity;
 import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PrivateTodo {
+public class PrivateTodo extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

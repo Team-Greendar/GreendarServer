@@ -2,6 +2,7 @@ package greendar.domain.member.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import greendar.domain.eventtodo.domain.EventTodo;
+import greendar.domain.model.BaseTimeEntity;
 import greendar.domain.privatetodo.domain.PrivateTodo;
 
 import java.time.LocalDate;
@@ -28,7 +29,7 @@ import lombok.Setter;
 @Entity
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member {
+public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

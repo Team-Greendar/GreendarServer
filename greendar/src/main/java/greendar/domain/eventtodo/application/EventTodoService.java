@@ -33,6 +33,7 @@ public class EventTodoService {
         Member member = memberRepository.fineOneByToken(token);
         EventTodoItem eventTodoItem = eventTodoItemRepository.findOneById(eventTodoItemId);
         EventTodo eventTodo = eventTodoRepository.findOneByEventTodoItemIdMemberId(member.getId(),eventTodoItem.getId());
+
         // 생성
         if(eventTodo==null) {
             if(complete == null)
@@ -53,20 +54,24 @@ public class EventTodoService {
         }
 
     }
-    public TreeMap<LocalDate, Float> getRatioByDailyInMonth(LocalDate date, Member member) {
-
-        List<EventTodoItem> eventTodoItems =  eventTodoItemRepository.findAllByMonth(date);
-        List<EventTodoResponseDto> eventTodos = eventTodoRepository.findAllByMonth(date,member);
-
-        List<EventTodoResponseDto> eventTodoResponses = getEventTodoResponsesByCompare(eventTodoItems,eventTodos);
-        List<DailyAchievement> dailyAchievements = eventTodoResponses.stream()
-                .map(DailyAchievement::new)
-                .collect(Collectors.toList());
-        System.out.println("!--!");
-        System.out.println(dailyAchievements);
-        System.out.println("!--!");
+    public TreeMap<LocalDate, Float> getDailyRatioByMonth(LocalDate date, Member member) {
+        List<DailyAchievement> dailyAchievements = getEventTodoDailyAchievements(date, member);
         return  privateTodoService.calculateRatio(dailyAchievements);
     }
+    public double getMonthlyRatio(LocalDate date, Member member) {
+        List<DailyAchievement> dailyAchievements = getEventTodoDailyAchievements(date, member);
+        return  privateTodoService.calculateMonthlyRatio(dailyAchievements);
+    }
+    public List<DailyAchievement> getEventTodoDailyAchievements(LocalDate date, Member member){
+        List<EventTodoItem> eventTodoItems =  eventTodoItemRepository.findAllByMonth(date);
+        List<EventTodoResponseDto> eventTodos = eventTodoRepository.findAllByMonth(date,member);
+        List<EventTodoResponseDto> eventTodoResponses = getEventTodoResponsesByCompare(eventTodoItems,eventTodos);
+        return  eventTodoResponses.stream()
+                .map(DailyAchievement::new)
+                .collect(Collectors.toList());
+    }
+
+
     public List<EventTodoResponseDto> getAllEventTodoByOneDay(LocalDate date , Member member) {
 
         List<EventTodoItem> eventTodoItems = eventTodoItemRepository.findAllByDay(date);

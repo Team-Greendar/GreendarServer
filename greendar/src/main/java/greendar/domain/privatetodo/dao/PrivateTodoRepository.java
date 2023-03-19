@@ -25,6 +25,9 @@ public class PrivateTodoRepository {
         em.persist(privateTodo);
         return privateTodo;
     }
+    public void deleteTodo(Long id){
+        em.remove(em.find(PrivateTodo.class,id));
+    }
     //목록 불러오기
     public List<PrivateTodo> findAllPrivateTodoByMember(Member member)
     {
@@ -82,21 +85,4 @@ public class PrivateTodoRepository {
         em.merge(privateTodo);
         return privateTodo;
     }
-
-//    public List<DailyAchievementRateDao> countRatioByDailyInMonth(LocalDate date,Member member)
-//    {   YearMonth month = YearMonth.from(date);
-//        LocalDate start = month.atDay(1);
-//        LocalDate end   = month.atEndOfMonth();
-//        return em.createQuery("select p.date As date, " +
-//                                "avg(p.complete) As rate " +
-//                                "from PrivateTodo p " +
-//                                "join fetch p.member m " +
-//                                "where m.id = :memberId and p.date between :startDate and :endDate " +
-//                                "group by p.date"
-//                        ,DailyAchievementRateDao.class)
-//                .setParameter("startDate",start)
-//                .setParameter("endDate",end)
-//                .setParameter("memberId",member.getId())
-//                .getResultList();
-//    }
 }

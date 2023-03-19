@@ -4,14 +4,15 @@ package greendar.domain.member.dto;
 import greendar.domain.member.domain.Member;
 import lombok.*;
 
+import javax.validation.constraints.NotNull;
 
 
 public class MemberDtos {
 
     @Data
+    @NotNull
     @NoArgsConstructor
-    public static class MemberPostRequestDto
-    {
+    public static class MemberPostRequestDto {
         String name;
         String password;
         String email;
@@ -21,27 +22,25 @@ public class MemberDtos {
     }
 
     @Data
+    @NotNull
     @NoArgsConstructor
-    public static class MemberEmailGetRequestDto
-    {
+    public static class MemberEmailGetRequestDto {
         private String email;
     }
 
 
-
     @Data
+    @NotNull
     @NoArgsConstructor
-    public static class MemberGetRequestDto
-    {
+    public static class MemberGetRequestDto {
         private Long id;
     }
 
 
-
     @Data
+    @NotNull
     @NoArgsConstructor
-    public static class MemberProfilePutRequestDto
-    {
+    public static class MemberProfilePutRequestDto {
         private Long id;
         String name;
         String message;
@@ -49,9 +48,9 @@ public class MemberDtos {
 
 
     @Data
+    @NotNull
     @NoArgsConstructor
-    public static class MemberEmailPasswordPutRequestDto
-    {
+    public static class MemberEmailPasswordPutRequestDto {
         private Long id;
         String email;
     }
@@ -59,7 +58,7 @@ public class MemberDtos {
 
     @Data
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class MemberResponse{
+    public static class MemberResponse {
         private Long id;
         private String name;
         private String password;
@@ -68,10 +67,11 @@ public class MemberDtos {
         private String message;
         private String token;
 
-        public MemberResponse(Member member){
-            this(member.getId(), member.getName(),member.getPassword(),member.getEmail(),member.getImageUrl(),member.getStatusMessage(), member.getToken());
+        public MemberResponse(Member member) {
+            this(member.getId(), member.getName(), member.getPassword(), member.getEmail(), member.getImageUrl(), member.getStatusMessage(), member.getToken());
         }
-        public MemberResponse(Long memberId, String name, String password, String email, String imageUrl,String message, String token) {
+
+        public MemberResponse(Long memberId, String name, String password, String email, String imageUrl, String message, String token) {
             this.id = memberId;
             this.name = name;
             this.password = password;
@@ -82,7 +82,6 @@ public class MemberDtos {
         }
 
     }
-
 
 
 }

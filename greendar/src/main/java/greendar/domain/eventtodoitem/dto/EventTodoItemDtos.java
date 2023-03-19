@@ -2,6 +2,8 @@ package greendar.domain.eventtodoitem.dto;
 
 import greendar.domain.eventtodoitem.domain.EventTodoItem;
 import java.time.LocalDate;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,13 +13,15 @@ public class EventTodoItemDtos {
     @Data
     @NoArgsConstructor
     public static class EventTodoPostItemRequestDto
-    {
+    {   @NotEmpty
         String task;
+        @NotNull
         LocalDate date;
     }
     @Data
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class EventTodoItemResponseDto{
+
         private Long event_todo_item_id ;
         private String task;
         private LocalDate date;

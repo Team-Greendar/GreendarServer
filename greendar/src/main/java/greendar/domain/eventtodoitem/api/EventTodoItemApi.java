@@ -6,6 +6,7 @@ import greendar.domain.eventtodoitem.dto.EventTodoItemDtos.EventTodoPostItemRequ
 import greendar.global.common.ApiResponse;
 import java.time.LocalDate;
 import java.util.List;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,8 +30,13 @@ public class EventTodoItemApi {
         return ApiResponse.success(eventTodoItems);
     }
     @PostMapping(produces = "application/json;charset=UTF-8")
-    public ApiResponse addEventTodo(@RequestBody EventTodoPostItemRequestDto request) {
+    public ApiResponse addEventTodoDate(@Valid  @RequestBody EventTodoPostItemRequestDto request) {
         eventTodoItemService.saveTodo(request.getTask(),request.getDate());
+        return ApiResponse.success("ok");
+    }
+    @PostMapping(value = "/week", produces = "application/json;charset=UTF-8")
+    public ApiResponse addEventTodoDateWeek(@Valid  @RequestBody EventTodoPostItemRequestDto request) {
+        eventTodoItemService.saveTodoAddWeek(request.getTask(),request.getDate());
         return ApiResponse.success("ok");
     }
     @GetMapping(value = "/monthly/{date}",produces = "application/json;charset=UTF-8")
