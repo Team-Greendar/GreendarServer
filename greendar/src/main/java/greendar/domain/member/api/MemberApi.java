@@ -11,7 +11,7 @@ import greendar.domain.member.dto.MemberDtos.MemberPostRequestDto;
 import greendar.domain.member.dto.MemberDtos.MemberProfilePutRequestDto;
 import greendar.domain.member.dto.MemberDtos.MemberEmailPasswordPutRequestDto;
 import greendar.domain.member.dto.MemberDtos.MemberResponse;
-import greendar.global.common.ApiResponse;
+import greendar.global.common.dto.ApiResponse;
 import greendar.infra.gcp.storage.application.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

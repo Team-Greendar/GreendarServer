@@ -10,7 +10,7 @@ import greendar.domain.privatetodo.dto.PrivateTodoDtos.PrivateTodoPostRequestDto
 import greendar.domain.privatetodo.dto.PrivateTodoDtos.PrivateTodoResponse;
 import greendar.domain.privatetodo.dto.PrivateTodoDtos.PrivateTodoTaskPutRequestDto;
 import greendar.domain.privatetodo.dto.PrivateTodoDtos.MonthlyAchievementRatio;
-import greendar.global.common.ApiResponse;
+import greendar.global.common.dto.ApiResponse;
 import greendar.infra.gcp.storage.application.FileService;
 import java.time.LocalDate;
 import java.util.ArrayList;
