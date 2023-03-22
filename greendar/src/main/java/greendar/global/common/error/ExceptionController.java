@@ -1,10 +1,6 @@
 package greendar.global.common.error;
 
-//import io.jsonwebtoken.ExpiredJwtException;
-//import io.jsonwebtoken.MalformedJwtException;
-//import io.jsonwebtoken.SignatureException;
-//import io.jsonwebtoken.UnsupportedJwtException;
-import greendar.global.common.ApiResponse;
+import greendar.global.common.dto.ApiResponse;
 import java.security.SignatureException;
 import javax.naming.ServiceUnavailableException;
 import javax.persistence.NoResultException;
