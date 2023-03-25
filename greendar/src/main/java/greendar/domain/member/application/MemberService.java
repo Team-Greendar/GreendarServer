@@ -1,7 +1,7 @@
 package greendar.domain.member.application;
 
 import greendar.domain.member.dao.MemberRepository;
-import greendar.domain.member.domain.Member;
+import greendar.domain.member.model.Member;
 
 import java.util.List;
 

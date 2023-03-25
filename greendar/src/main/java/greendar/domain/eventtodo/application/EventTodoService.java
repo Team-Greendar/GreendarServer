@@ -1,12 +1,12 @@
 package greendar.domain.eventtodo.application;
 
 import greendar.domain.eventtodo.dao.EventTodoRepository;
-import greendar.domain.eventtodo.domain.EventTodo;
+import greendar.domain.eventtodo.model.EventTodo;
 import greendar.domain.eventtodo.dto.EventTodoResponseDto;
 import greendar.domain.eventtodoitem.dao.EventTodoItemRepository;
-import greendar.domain.eventtodoitem.domain.EventTodoItem;
+import greendar.domain.eventtodoitem.model.EventTodoItem;
 import greendar.domain.member.dao.MemberRepository;
-import greendar.domain.member.domain.Member;
+import greendar.domain.member.model.Member;
 import greendar.domain.privatetodo.application.PrivateTodoService;
 import greendar.domain.privatetodo.dto.PrivateTodoDtos.DailyAchievement;
 import java.time.LocalDate;

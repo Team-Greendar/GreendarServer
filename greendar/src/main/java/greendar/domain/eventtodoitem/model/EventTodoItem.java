@@ -1,6 +1,6 @@
-package greendar.domain.eventtodoitem.domain;
+package greendar.domain.eventtodoitem.model;
 
-import greendar.domain.model.BaseTimeEntity;
+import greendar.global.common.model.BaseTimeEntity;
 import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;

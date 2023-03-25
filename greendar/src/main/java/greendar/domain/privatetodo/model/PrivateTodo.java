@@ -1,9 +1,9 @@
-package greendar.domain.privatetodo.domain;
+package greendar.domain.privatetodo.model;
 
 import static javax.persistence.FetchType.LAZY;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import greendar.domain.member.domain.Member;
-import greendar.domain.model.BaseTimeEntity;
+import greendar.domain.member.model.Member;
+import greendar.global.common.model.BaseTimeEntity;
 import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;

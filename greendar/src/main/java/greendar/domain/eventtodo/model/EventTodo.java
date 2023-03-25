@@ -1,10 +1,10 @@
-package greendar.domain.eventtodo.domain;
+package greendar.domain.eventtodo.model;
 
 import static javax.persistence.FetchType.LAZY;
 
-import greendar.domain.eventtodoitem.domain.EventTodoItem;
-import greendar.domain.member.domain.Member;
-import greendar.domain.model.BaseTimeEntity;
+import greendar.domain.eventtodoitem.model.EventTodoItem;
+import greendar.domain.member.model.Member;
+import greendar.global.common.model.BaseTimeEntity;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;

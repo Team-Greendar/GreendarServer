@@ -1,7 +1,7 @@
 package greendar.domain.eventtodoitem.application;
 
 import greendar.domain.eventtodoitem.dao.EventTodoItemRepository;
-import greendar.domain.eventtodoitem.domain.EventTodoItem;
+import greendar.domain.eventtodoitem.model.EventTodoItem;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

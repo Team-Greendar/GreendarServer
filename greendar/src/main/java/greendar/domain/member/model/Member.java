@@ -1,12 +1,10 @@
-package greendar.domain.member.domain;
+package greendar.domain.member.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import greendar.domain.eventtodo.domain.EventTodo;
-import greendar.domain.model.BaseTimeEntity;
-import greendar.domain.privatetodo.domain.PrivateTodo;
+import greendar.domain.eventtodo.model.EventTodo;
+import greendar.global.common.model.BaseTimeEntity;
+import greendar.domain.privatetodo.model.PrivateTodo;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -16,8 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import lombok.AccessLevel;
 import lombok.Getter;

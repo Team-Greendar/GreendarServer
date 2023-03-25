@@ -1,7 +1,7 @@
 package greendar.domain.member.api;
 
 import greendar.domain.member.application.MemberService;
-import greendar.domain.member.domain.Member;
+import greendar.domain.member.model.Member;
 
 import java.util.List;
 import java.util.stream.Collectors;
