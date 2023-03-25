@@ -1,6 +1,6 @@
 package greendar.domain.eventtodoitem.dto;
 
-import greendar.domain.eventtodoitem.domain.EventTodoItem;
+import greendar.domain.eventtodoitem.model.EventTodoItem;
 import java.time.LocalDate;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;

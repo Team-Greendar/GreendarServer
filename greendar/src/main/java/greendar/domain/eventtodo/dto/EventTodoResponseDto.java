@@ -1,7 +1,7 @@
 package greendar.domain.eventtodo.dto;
 
-import greendar.domain.eventtodo.domain.EventTodo;
-import greendar.domain.eventtodoitem.domain.EventTodoItem;
+import greendar.domain.eventtodo.model.EventTodo;
+import greendar.domain.eventtodoitem.model.EventTodoItem;
 import java.time.LocalDate;
 import lombok.Getter;
 

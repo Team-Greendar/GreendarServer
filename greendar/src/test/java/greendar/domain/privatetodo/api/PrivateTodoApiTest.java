@@ -3,14 +3,10 @@ package greendar.domain.privatetodo.api;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import greendar.domain.member.application.MemberService;
-import greendar.domain.member.domain.Member;
 import greendar.domain.privatetodo.application.PrivateTodoService;
-import greendar.domain.privatetodo.domain.PrivateTodo;
-import java.net.http.HttpHeaders;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package greendar.domain.eventtodoitem.domain;
+package greendar.domain.eventtodoitem.model;
 
 import greendar.global.common.model.BaseTimeEntity;
 import java.time.LocalDate;

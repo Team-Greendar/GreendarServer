@@ -1,9 +1,9 @@
-package greendar.domain.member.domain;
+package greendar.domain.member.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import greendar.domain.eventtodo.domain.EventTodo;
+import greendar.domain.eventtodo.model.EventTodo;
 import greendar.global.common.model.BaseTimeEntity;
-import greendar.domain.privatetodo.domain.PrivateTodo;
+import greendar.domain.privatetodo.model.PrivateTodo;
 
 import java.util.ArrayList;
 import java.util.List;

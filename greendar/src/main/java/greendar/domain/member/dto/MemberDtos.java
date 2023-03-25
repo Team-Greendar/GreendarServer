@@ -1,7 +1,7 @@
 package greendar.domain.member.dto;
 
 
-import greendar.domain.member.domain.Member;
+import greendar.domain.member.model.Member;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;

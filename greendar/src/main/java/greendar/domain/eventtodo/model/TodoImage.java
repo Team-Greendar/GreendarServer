@@ -1,4 +1,4 @@
-package greendar.domain.eventtodo.domain;
+package greendar.domain.eventtodo.model;
 
 import java.util.Objects;
 import javax.persistence.Column;

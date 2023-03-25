@@ -1,12 +1,12 @@
 package greendar.domain.eventtodo.api;
 
 import greendar.domain.eventtodo.application.EventTodoService;
-import greendar.domain.eventtodo.domain.EventTodo;
+import greendar.domain.eventtodo.model.EventTodo;
 import greendar.domain.eventtodo.dto.EventTodoDtos.EventTodoCompleteUpdateRequestDto;
 import greendar.domain.eventtodo.dto.EventTodoDtos.MonthlyAchievementRatio;
 import greendar.domain.eventtodo.dto.EventTodoResponseDto;
 import greendar.domain.member.application.MemberService;
-import greendar.domain.member.domain.Member;
+import greendar.domain.member.model.Member;
 import greendar.domain.privatetodo.dto.PrivateTodoDtos.DailyAchievementRatio;
 import greendar.global.common.dto.ApiResponse;
 import greendar.infra.gcp.storage.application.FileService;

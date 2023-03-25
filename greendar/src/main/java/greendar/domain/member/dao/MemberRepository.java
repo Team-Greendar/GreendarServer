@@ -1,6 +1,6 @@
 package greendar.domain.member.dao;
 
-import greendar.domain.member.domain.Member;
+import greendar.domain.member.model.Member;
 
 import java.util.List;
 import javax.persistence.EntityManager;

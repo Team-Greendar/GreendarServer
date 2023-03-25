@@ -1,7 +1,7 @@
 package greendar.domain.eventtodoitem.api;
 
 import greendar.domain.eventtodoitem.application.EventTodoItemService;
-import greendar.domain.eventtodoitem.domain.EventTodoItem;
+import greendar.domain.eventtodoitem.model.EventTodoItem;
 import greendar.domain.eventtodoitem.dto.EventTodoItemDtos.EventTodoPostItemRequestDto;
 import greendar.global.common.dto.ApiResponse;
 import java.time.LocalDate;

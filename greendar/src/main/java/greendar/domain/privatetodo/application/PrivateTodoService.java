@@ -1,10 +1,10 @@
 package greendar.domain.privatetodo.application;
 
-import greendar.domain.member.domain.Member;
+import greendar.domain.member.model.Member;
 
 import greendar.domain.privatetodo.dto.PrivateTodoDtos.DailyAchievement;
 import greendar.domain.privatetodo.dao.PrivateTodoRepository;
-import greendar.domain.privatetodo.domain.PrivateTodo;
+import greendar.domain.privatetodo.model.PrivateTodo;
 
 import java.time.LocalDate;
 import java.util.List;
