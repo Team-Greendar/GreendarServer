@@ -5,6 +5,7 @@ import greendar.domain.member.model.Member;
 
 import java.util.List;
 
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,7 +53,7 @@ public class MemberService {
         return memberRepository.isMemberTokenExists(token);
     }
 
-    public Member findOne(Long memberId) {
+    public Optional<Member> findOne(Long memberId) {
         return memberRepository.findOne(memberId);
     }
 
