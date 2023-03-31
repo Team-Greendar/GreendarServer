@@ -21,7 +21,7 @@ public class PrivateTodoRepository {
     private final EntityManager em;
 
     public PrivateTodo saveTodo(Member member , String task, LocalDate date) {
-        PrivateTodo privateTodo = PrivateTodo.of(task,date,"EMPTY",false,member);
+        PrivateTodo privateTodo = PrivateTodo.of(task,date,null,false,member);
         em.persist(privateTodo);
         return privateTodo;
     }

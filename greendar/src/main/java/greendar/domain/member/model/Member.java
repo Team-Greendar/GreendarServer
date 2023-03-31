@@ -48,10 +48,10 @@ public class Member extends BaseTimeEntity {
 
     @Column(name = "email", length = 512)
     private String email;
-    @Column(name = "imageUrl", length = 512)
+    @Column(name = "image_url", length = 512)
     private String imageUrl;
 
-    @Column(name = "statusMessage", length = 512)
+    @Column(name = "status_message", length = 512)
     private String statusMessage;
 
     @Column(name = "token", length = 512)

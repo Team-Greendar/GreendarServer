@@ -2,10 +2,12 @@ package greendar.domain.privatetodo.model;
 
 import static javax.persistence.FetchType.LAZY;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import greendar.domain.eventtodo.model.TodoImage;
 import greendar.domain.member.model.Member;
 import greendar.global.common.model.BaseTimeEntity;
 import java.time.LocalDate;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,27 +32,27 @@ public class PrivateTodo extends BaseTimeEntity {
     private String task;
     private LocalDate date;
 
-    @JsonIgnore
-    private String imageUrl;
+    @Embedded
+    private TodoImage todoImage;
     private Boolean complete;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    private PrivateTodo(String task,LocalDate date,String imageUrl,Boolean complete,Member member)
+    private PrivateTodo(String task,LocalDate date,TodoImage todoImage,Boolean complete,Member member)
     {
         this.task=task;
         this.date=date;
-        this.imageUrl = imageUrl;
+        this.todoImage = todoImage;
         this.complete = complete;
         this.member = member;
     }
-    public static PrivateTodo of(String task,LocalDate date,String imageUrl,Boolean complete , Member member){
-        return new PrivateTodo(task,date,imageUrl,complete,member);
+    public static PrivateTodo of(String task,LocalDate date,TodoImage todoImage,Boolean complete , Member member){
+        return new PrivateTodo(task,date,todoImage,complete,member);
     }
     public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+        this.todoImage = new TodoImage(imageUrl);
     }
     public void setTask(String task) {
         this.task =task;

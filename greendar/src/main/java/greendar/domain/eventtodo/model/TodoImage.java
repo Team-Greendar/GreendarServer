@@ -9,7 +9,7 @@ import javax.persistence.Embeddable;
 public class TodoImage {
 
     private  static final int MAX_IMAGE_LENGTH = 10_000;
-
+    private  static final String DEFAULT_IMAGE_URL ="EMPTY";
     @Column(name = "todo_image_url",nullable = false)
     private  String todoImageUrl;
 
@@ -17,12 +17,15 @@ public class TodoImage {
 
     }
     public TodoImage(String todoImageUrl){
-        validate(todoImageUrl);
         this.todoImageUrl = todoImageUrl;
+        validate(todoImageUrl);
     }
     private void validate(String todoImageUrl){
+        if(todoImageUrl == null) {
+            this.todoImageUrl = DEFAULT_IMAGE_URL;
+            return;
+        }
         if(todoImageUrl.length() > MAX_IMAGE_LENGTH){
-//            throw  new InvalidImageException();  Need Invalid class in domain for  Exception
             throw  new RuntimeException("Wrong Length");
         }
     }
