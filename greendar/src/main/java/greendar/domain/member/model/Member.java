@@ -48,12 +48,6 @@ public class Member extends BaseTimeEntity {
 
     @Column(name = "email", length = 512)
     private String email;
-
-//    @Column(name = "EMAIL_VERIFIED_YN", length = 1)
-//    @NotNull
-//    @Size(min = 1, max = 1)
-//    private String emailVerifiedYn;
-
     @Column(name = "imageUrl", length = 512)
     private String imageUrl;
 
@@ -62,23 +56,6 @@ public class Member extends BaseTimeEntity {
 
     @Column(name = "token", length = 512)
     private String token;
-
-//    @Column(name = "PROVIDER_TYPE", length = 20)
-//    @Enumerated(EnumType.STRING)
-//    @NotNull
-//    private ProviderType providerType;
-
-//    @Column(name = "ROLE_TYPE", length = 20)
-//    @Enumerated(EnumType.STRING)
-//    @NotNull
-//    private RoleType roleType;
-//
-//    @Column(name = "CREATED_AT")
-//    @NotNull
-//    private LocalDateTime createdAt;
-//
-//    @Column(name = "MODIFIED_AT")
-//    private LocalDateTime modifiedAt;
 
     private Member(String name,
                    String password,
@@ -93,8 +70,6 @@ public class Member extends BaseTimeEntity {
         this.imageUrl = imageUrl;
         this.statusMessage = message;
         this.token = token;
-//        this.createdAt= createdAt;
-//        this.modifiedAt = modifiedAt;
     }
 
     public static Member of(String name,String password, String email, String imageUrl, String message, String token){

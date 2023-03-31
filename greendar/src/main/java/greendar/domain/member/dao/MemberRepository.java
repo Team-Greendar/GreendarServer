@@ -3,6 +3,7 @@ package greendar.domain.member.dao;
 import greendar.domain.member.model.Member;
 
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -17,6 +18,7 @@ public class MemberRepository {
     private final EntityManager em;
 
     public Member saveMember(String name, String password, String email, String imageUrl, String message, String token) {
+        validateDuplicateEmail(email);
         Member member = Member.of(name, password, email, imageUrl, message, token);
         em.persist(member);
         return member;
@@ -95,15 +97,22 @@ public class MemberRepository {
                 .getResultList();
         return !memberList.isEmpty();
     }
-
-    public List<Member> findOneByEmail(String userEmail) {
-        return null;
+    public Optional<Member> findByEmail(String userEmail) {
+        Member member = em.createQuery("select m from Member m " +
+                                "where m.email = :email"
+                        , Member.class)
+                .setParameter("email", userEmail)
+                .getSingleResult();
+        return Optional.ofNullable(member);
     }
-
-    public Member findOne(Long memberId) {
-        return em.find(Member.class, memberId);
+    private void validateDuplicateEmail(String email){
+        findByEmail(email).ifPresent( m -> {
+            throw new IllegalStateException("이미 존재하는 이메일 입니다.");
+        });
     }
-
+    public Optional<Member> findOne(Long memberId) {
+        return Optional.ofNullable(em.find(Member.class, memberId));
+    }
     public List<Member> findAll() {
         return em.createQuery("select m from Member m", Member.class)
                 .getResultList();
