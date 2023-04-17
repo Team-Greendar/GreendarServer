@@ -62,7 +62,7 @@ public class PrivateTodoDtos {
         private String name;
 
         public PrivateTodoResponse(PrivateTodo privateTodo) {
-            this(privateTodo.getId(), privateTodo.getTask(), privateTodo.getDate(), privateTodo.getImageUrl(), privateTodo.getComplete(), privateTodo.getMember().getName());
+            this(privateTodo.getId(), privateTodo.getTask(), privateTodo.getDate(), privateTodo.getTodoImage().getTodoImageUrl(), privateTodo.getComplete(), privateTodo.getMember().getName());
         }
 
         public PrivateTodoResponse(Long id, String task, LocalDate date, String imageUrl, Boolean complete, String name) {

@@ -78,18 +78,18 @@ public class PrivateTodoService {
 
 
     @Transactional
-    public PrivateTodo updatePrivateTodoImageUrl(Long private_todo_id, String imageUrl) {
-        return privateTodoRepository.updatePrivawteTodoImageUrl(private_todo_id, imageUrl);
+    public PrivateTodo updatePrivateTodoImageUrl(Long privateTodoId, String imageUrl) {
+        return privateTodoRepository.updatePrivateTodoImageUrl(privateTodoId,imageUrl);
     }
 
     @Transactional
-    public PrivateTodo updatePrivateTodoTask(Long private_todo_id, String task) {
-        return privateTodoRepository.updatePrivateTodoTask(private_todo_id, task);
+    public PrivateTodo updatePrivateTodoTask(Long privateTodoId, String task) {
+        return privateTodoRepository.updatePrivateTodoTask(privateTodoId, task);
     }
 
     @Transactional
-    public PrivateTodo updatePrivateTodoComplete(Long private_todo_id, Boolean complete) {
-        return privateTodoRepository.updatePrivateTodoComplete(private_todo_id, complete);
+    public PrivateTodo updatePrivateTodoComplete(Long privateTodoId, Boolean complete) {
+        return privateTodoRepository.updatePrivateTodoComplete(privateTodoId, complete);
     }
 
 }

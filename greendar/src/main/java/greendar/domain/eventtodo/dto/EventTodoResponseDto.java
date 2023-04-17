@@ -18,7 +18,7 @@ public class  EventTodoResponseDto{
         this.task = eventTodo.getEventTodoItem().getTask();
         this.date = eventTodo.getEventTodoItem().getDate();
         this.eventTodoItemId =eventTodo.getEventTodoItem().getId();
-        this.imageUrl = eventTodo.getImageUrl();
+        this.imageUrl = eventTodo.getTodoImage().getTodoImageUrl();
         this.complete = eventTodo.getComplete();
     }
 

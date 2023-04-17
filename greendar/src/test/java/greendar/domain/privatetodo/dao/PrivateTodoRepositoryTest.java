@@ -15,14 +15,14 @@ class PrivateTodoRepositoryTest {
 
     @Autowired
     private PrivateTodoRepository privateTodoRepository;
-    @BeforeEach
-    public void setUp(){
-        Member member = new Member("email@example.com", "password");
-        member = memberRepository.save(member);
-
-        // Create a new PrivateTodo object and s
-        PrivateTodo privateTodo = PrivateTodo.builder().task
-    }
+//    @BeforeEach
+//    public void setUp(){
+//        Member member = new Member("email@example.com", "password");
+//        member = memberRepository.save(member);
+//
+//        // Create a new PrivateTodo object and s
+//        PrivateTodo privateTodo = PrivateTodo.builder().task
+//    }
     @Test
     void saveTodo() {
     }
