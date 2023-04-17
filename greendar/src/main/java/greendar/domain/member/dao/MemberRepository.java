@@ -97,7 +97,7 @@ public class MemberRepository {
                 .getResultList();
         return !memberList.isEmpty();
     }
-    public Optional<Member> findByEmail(String userEmail) {
+    public Optional<Member> findOneByEmail(String userEmail) {
         Member member = em.createQuery("select m from Member m " +
                                 "where m.email = :email"
                         , Member.class)
@@ -106,7 +106,7 @@ public class MemberRepository {
         return Optional.ofNullable(member);
     }
     private void validateDuplicateEmail(String email){
-        findByEmail(email).ifPresent( m -> {
+        findOneByEmail(email).ifPresent( m -> {
             throw new IllegalStateException("이미 존재하는 이메일 입니다.");
         });
     }

@@ -31,14 +31,8 @@ public class MailService
         Random rand = new Random(seed);
         return Integer.toString(rand.nextInt(888888)+111111);
     }
-
-    public boolean findMemberByEmail(String memberEmail)
-    {
-        if(memberRepository.findOneByEmail(memberEmail).isEmpty()) {
-            return true;
-        }
-        else {return false;}
+    public boolean findMemberByEmail(String userEmail){
+        return memberRepository.findOneByEmail(userEmail).isPresent();
     }
-
 
 }
