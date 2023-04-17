@@ -21,9 +21,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
+@Setter
 @Getter
 @Entity
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseTimeEntity {
 

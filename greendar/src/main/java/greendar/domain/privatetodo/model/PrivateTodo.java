@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -40,6 +41,7 @@ public class PrivateTodo extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Builder
     private PrivateTodo(String task,LocalDate date,TodoImage todoImage,Boolean complete,Member member)
     {
         this.task=task;
@@ -49,7 +51,13 @@ public class PrivateTodo extends BaseTimeEntity {
         this.member = member;
     }
     public static PrivateTodo of(String task,LocalDate date,TodoImage todoImage,Boolean complete , Member member){
-        return new PrivateTodo(task,date,todoImage,complete,member);
+        return PrivateTodo.builder()
+                .todoImage(todoImage)
+                .complete(complete)
+                .date(date)
+                .task(task)
+                .member(member)
+                .build();
     }
     public void setImageUrl(String imageUrl) {
         this.todoImage = new TodoImage(imageUrl);

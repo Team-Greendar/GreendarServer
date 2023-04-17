@@ -3,8 +3,9 @@ package greendar.domain.eventtodo.model;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import lombok.Getter;
 
-
+@Getter
 @Embeddable
 public class TodoImage {
 
