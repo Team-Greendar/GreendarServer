@@ -7,16 +7,20 @@ import greendar.domain.member.dao.MemberRepository;
 import greendar.domain.member.model.Member;
 import greendar.domain.privatetodo.model.PrivateTodo;
 import java.time.LocalDate;
-import org.junit.Before;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
+@RunWith(SpringRunner.class)
+@DataJpaTest
 public class PrivateTodoTest {
-
-
     private final TodoImage todoImage = new TodoImage("https://example.com/image.jpg");
     private final String task = "Task 1";
     private final LocalDate date = LocalDate.now();
@@ -28,7 +32,9 @@ public class PrivateTodoTest {
 
     @BeforeEach
     public void setUp() {
-        this.member  = memberRepository.saveMember("test", "test1234", "test@example.com", null, null, null);
+        String memberName = "test";
+        this.member  = memberRepository.saveMember(memberName, "test1234", "test@example.com", null, null, null);
+        assertEquals(memberName,member.getName());
     }
 
 

@@ -10,8 +10,9 @@ import javax.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-@Repository
+
 @RequiredArgsConstructor
+@Repository
 public class MemberRepository {
 
     @PersistenceContext
