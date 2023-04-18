@@ -63,4 +63,7 @@ public class EventTodo extends BaseTimeEntity {
         this.complete = complete;
         return this;
     }
+    public boolean isComplete(){
+        return this.complete;
+    }
 }

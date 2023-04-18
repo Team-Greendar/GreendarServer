@@ -11,6 +11,7 @@ import greendar.domain.member.model.Member;
 import greendar.domain.privatetodo.application.PrivateTodoService;
 import greendar.domain.privatetodo.dto.PrivateTodoDtos.DailyAchievement;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,40 +28,28 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class EventTodoService {
     private final MemberRepository memberRepository;
+    @Autowired
     private final EventTodoRepository eventTodoRepository;
     private final EventTodoItemRepository eventTodoItemRepository;
     private final PrivateTodoService privateTodoService;
 
     @Transactional
-    public EventTodo updateEventTodo(Boolean complete , String imageUrl, Long eventTodoItemId,String token) {
+    public EventTodo updateEventTodo(Boolean complete, String imageUrl, Long eventTodoItemId, String token) {
         Member member = memberRepository.fineOneByToken(token);
         EventTodoItem eventTodoItem = eventTodoItemRepository.findOneById(eventTodoItemId);
-        EventTodo eventTodo = eventTodoRepository.findByEventTodoItemIdAndMemberId(eventTodoItem.getId(),member.getId())
-                .orElseThrow(() -> new EntityNotFoundException("EventTodo not found w" ));
 
-        // 생성
-        if(eventTodo==null) {
+        EventTodo eventTodo = eventTodoRepository.findByEventTodoItemIdAndMemberId(eventTodoItem.getId(), member.getId())
+                .orElse(EventTodo.of(new TodoImage(imageUrl), complete != null && complete, eventTodoItem, member));
 
-            if(complete == null)
-            {   EventTodo newEventTodo = EventTodo.of(new TodoImage(imageUrl),false,eventTodoItem,member);
-                return eventTodoRepository.save(newEventTodo);
-            }
-            else {
-                EventTodo newEventTodo = EventTodo.of(new TodoImage("EMPTY"),true,eventTodoItem,member);
-                return eventTodoRepository.save(newEventTodo);
-            }
-        }else{
-            if(complete == null)
-            {
-                return eventTodo.updateImage(imageUrl);
-//                return eventTodoRepository.updateEventTodoImageUrl(eventTodo.getId(),imageUrl);
-            }
-            else {
-                return eventTodo.updateComplete(complete);
-            }
+        if (complete != null) {
+            eventTodo.updateComplete(complete);
+        } else {
+            eventTodo.updateImage(imageUrl);
         }
 
+        return eventTodoRepository.save(eventTodo);
     }
+
     public TreeMap<LocalDate, Float> getDailyRatioByMonth(LocalDate date, Member member) {
         List<DailyAchievement> dailyAchievements = getEventTodoDailyAchievements(date, member);
         return  privateTodoService.calculateRatio(dailyAchievements);
@@ -70,7 +60,8 @@ public class EventTodoService {
     }
     public List<DailyAchievement> getEventTodoDailyAchievements(LocalDate date, Member member){
         List<EventTodoItem> eventTodoItems =  eventTodoItemRepository.findAllByMonth(date);
-        List<EventTodoResponseDto> eventTodos = eventTodoRepository.findAllByMonth(date,member);
+        YearMonth month = YearMonth.from(date);
+        List<EventTodoResponseDto> eventTodos = eventTodoRepository.findAllByMonth(month.atDay(1),month.atEndOfMonth(),member.getId());
         List<EventTodoResponseDto> eventTodoResponses = getEventTodoResponsesByCompare(eventTodoItems,eventTodos);
         return  eventTodoResponses.stream()
                 .map(DailyAchievement::new)
@@ -81,14 +72,15 @@ public class EventTodoService {
     public List<EventTodoResponseDto> getAllEventTodoByOneDay(LocalDate date , Member member) {
 
         List<EventTodoItem> eventTodoItems = eventTodoItemRepository.findAllByDay(date);
-        List<EventTodoResponseDto> eventTodos = eventTodoRepository.findAllByDay(date,member);
+        List<EventTodoResponseDto> eventTodos = eventTodoRepository.findAllByDay(date,member.getId());
 
         return  getEventTodoResponsesByCompare(eventTodoItems,eventTodos);
     }
     public List<EventTodoResponseDto> getAllEventTodoByOneMonth(LocalDate date , Member member) {
 
         List<EventTodoItem> eventTodoItems = eventTodoItemRepository.findAllByMonth(date);
-        List<EventTodoResponseDto> eventTodos = eventTodoRepository.findAllByMonth(date,member);
+        YearMonth month = YearMonth.from(date);
+        List<EventTodoResponseDto> eventTodos = eventTodoRepository.findAllByMonth(month.atDay(1),month.atEndOfMonth(),member.getId());
 
         return  getEventTodoResponsesByCompare(eventTodoItems,eventTodos);
     }
