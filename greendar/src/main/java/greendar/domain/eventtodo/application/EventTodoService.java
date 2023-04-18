@@ -3,6 +3,7 @@ package greendar.domain.eventtodo.application;
 import greendar.domain.eventtodo.dao.EventTodoRepository;
 import greendar.domain.eventtodo.model.EventTodo;
 import greendar.domain.eventtodo.dto.EventTodoResponseDto;
+import greendar.domain.eventtodo.model.TodoImage;
 import greendar.domain.eventtodoitem.dao.EventTodoItemRepository;
 import greendar.domain.eventtodoitem.model.EventTodoItem;
 import greendar.domain.member.dao.MemberRepository;
@@ -33,17 +34,19 @@ public class EventTodoService {
     public EventTodo updateEventTodo(Boolean complete , String imageUrl, Long eventTodoItemId,String token) {
         Member member = memberRepository.fineOneByToken(token);
         EventTodoItem eventTodoItem = eventTodoItemRepository.findOneById(eventTodoItemId);
-        EventTodo eventTodo = eventTodoRepository.findOneByEventTodoItemIdandMemberId(eventTodoItem.getId(),member.getId())
+        EventTodo eventTodo = eventTodoRepository.findByEventTodoItemIdAndMemberId(eventTodoItem.getId(),member.getId())
                 .orElseThrow(() -> new EntityNotFoundException("EventTodo not found w" ));
 
         // 생성
         if(eventTodo==null) {
+
             if(complete == null)
-            {
-                return eventTodoRepository.save(false,imageUrl,eventTodoItem,member);
+            {   EventTodo newEventTodo = EventTodo.of(new TodoImage(imageUrl),false,eventTodoItem,member);
+                return eventTodoRepository.save(newEventTodo);
             }
             else {
-                return eventTodoRepository.save(true,"EMPTY",eventTodoItem,member);
+                EventTodo newEventTodo = EventTodo.of(new TodoImage("EMPTY"),true,eventTodoItem,member);
+                return eventTodoRepository.save(newEventTodo);
             }
         }else{
             if(complete == null)

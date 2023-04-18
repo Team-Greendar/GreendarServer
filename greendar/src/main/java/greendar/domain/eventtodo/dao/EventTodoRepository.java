@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EventTodoRepository extends JpaRepository<EventTodo,Long> {
 
-    Optional<EventTodo> findOneByEventTodoItemIdandMemberId(Long eventTodoItemId, Long memberId);
+    Optional<EventTodo> findByEventTodoItemIdAndMemberId(Long eventTodoItemId, Long memberId);
 
     List<EventTodo> findAllEventTodoByMember(Long memberId);
 
