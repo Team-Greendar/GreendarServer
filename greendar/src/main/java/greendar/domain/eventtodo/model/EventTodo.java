@@ -55,10 +55,12 @@ public class EventTodo extends BaseTimeEntity {
                 .member(member)
                 .build();
     }
-    public void updateImage(String imageUrl) {
+    public EventTodo updateImage(String imageUrl) {
         this.todoImage =new TodoImage(imageUrl);
+        return this;
     }
-    public void updateComplete(Boolean complete ) {
+    public EventTodo updateComplete(Boolean complete ) {
         this.complete = complete;
+        return this;
     }
 }

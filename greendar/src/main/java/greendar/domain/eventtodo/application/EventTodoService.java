@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
+import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +33,8 @@ public class EventTodoService {
     public EventTodo updateEventTodo(Boolean complete , String imageUrl, Long eventTodoItemId,String token) {
         Member member = memberRepository.fineOneByToken(token);
         EventTodoItem eventTodoItem = eventTodoItemRepository.findOneById(eventTodoItemId);
-        EventTodo eventTodo = eventTodoRepository.findOneByEventTodoItemIdMemberId(member.getId(),eventTodoItem.getId());
+        EventTodo eventTodo = eventTodoRepository.findOneByEventTodoItemIdandMemberId(eventTodoItem.getId(),member.getId())
+                .orElseThrow(() -> new EntityNotFoundException("EventTodo not found w" ));
 
         // 생성
         if(eventTodo==null) {
@@ -46,10 +48,11 @@ public class EventTodoService {
         }else{
             if(complete == null)
             {
-                return eventTodoRepository.updateEventTodoImageUrl(eventTodo.getId(),imageUrl);
+                return eventTodo.updateImage(imageUrl);
+//                return eventTodoRepository.updateEventTodoImageUrl(eventTodo.getId(),imageUrl);
             }
             else {
-                return eventTodoRepository.updateEventTodoComplete(eventTodo.getId(),complete);
+                return eventTodo.updateComplete(complete);
             }
         }
 
