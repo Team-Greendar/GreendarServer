@@ -43,7 +43,7 @@ public class MemberService {
     }
 
     public Member findOneByToken(String token) {
-        return memberRepository.fineOneByToken(token);
+        return memberRepository.fineOneByToken(token).get();
     }
 
     public boolean isNameRedundant(String name) {

@@ -10,9 +10,7 @@ import greendar.domain.eventtodoitem.model.EventTodoItem;
 import greendar.domain.member.dao.MemberRepository;
 import greendar.domain.member.model.Member;
 import java.time.LocalDate;
-import java.util.Optional;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
@@ -34,16 +32,15 @@ class EventTodoServiceTest {
 
     @Autowired
     private EventTodoItemRepository eventTodoItemRepository;
+    private EventTodoItem eventTodoItem;
 
     @Test
     void updateEventTodoTest() {
         Member member = Member.of("testName","pass","email@naver.com","image","testMessage","testToken");
-        System.out.println(member.getName());
-        Optional<Member> member1 = memberRepository.saveMember(member.getName(), member.getPassword(),member.getEmail(),member.getImageUrl(),member.getImageUrl(),member.getToken());
-        System.out.println(member1.orElseThrow(() -> new RuntimeException("Member not saved!")));
+        memberRepository.saveMember(member.getName(), member.getPassword(),member.getEmail(),member.getImageUrl(),member.getImageUrl(),member.getToken());
 
         LocalDate testDate = LocalDate.parse("2022-12-04");
-        EventTodoItem eventTodoItem = EventTodoItem.of("testTask",testDate);
+        eventTodoItem = EventTodoItem.of("testTask",testDate);
         eventTodoItemRepository.save(eventTodoItem.getTask(),eventTodoItem.getDate());
 
         EventTodo eventTodo = EventTodo.of(new TodoImage("Test Image URL"), false, eventTodoItem, member);
@@ -60,6 +57,7 @@ class EventTodoServiceTest {
 
     @Test
     void getDailyRatioByMonth() {
+
     }
 
     @Test

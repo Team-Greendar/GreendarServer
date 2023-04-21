@@ -15,6 +15,7 @@ import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
@@ -34,11 +35,11 @@ public class EventTodoService {
 
     @Transactional
     public EventTodo updateEventTodo(Boolean complete, String imageUrl, Long eventTodoItemId, String token) {
-        Member member = memberRepository.fineOneByToken(token);
+        Optional<Member> member = memberRepository.fineOneByToken(token);
         EventTodoItem eventTodoItem = eventTodoItemRepository.findOneById(eventTodoItemId);
 
-        EventTodo eventTodo = eventTodoRepository.findByEventTodoItemIdAndMemberId(eventTodoItem.getId(), member.getId())
-                .orElse(EventTodo.of(new TodoImage(imageUrl), complete != null && complete, eventTodoItem, member));
+        EventTodo eventTodo = eventTodoRepository.findByEventTodoItemIdAndMemberId(eventTodoItem.getId(), member.get().getId())
+                .orElse(EventTodo.of(new TodoImage(imageUrl), complete != null && complete, eventTodoItem, member.get()));
 
         if (complete != null) {
             eventTodo.updateComplete(complete);

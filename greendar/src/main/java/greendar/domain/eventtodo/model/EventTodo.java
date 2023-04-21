@@ -5,6 +5,7 @@ import static javax.persistence.FetchType.LAZY;
 import greendar.domain.eventtodoitem.model.EventTodoItem;
 import greendar.domain.member.model.Member;
 import greendar.global.common.model.BaseTimeEntity;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -32,11 +33,11 @@ public class EventTodo extends BaseTimeEntity {
     private TodoImage todoImage;
     private Boolean complete;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY,cascade= CascadeType.PERSIST)
     @JoinColumn(name="event_todo_item_id")
     private EventTodoItem eventTodoItem;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY,cascade= CascadeType.PERSIST)
     @JoinColumn(name="member_id")
     private Member member;
 
