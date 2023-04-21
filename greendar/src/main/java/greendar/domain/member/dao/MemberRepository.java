@@ -5,6 +5,7 @@ import greendar.domain.member.model.Member;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import lombok.RequiredArgsConstructor;
@@ -19,12 +20,31 @@ public class MemberRepository {
     private final EntityManager em;
 
     public Optional<Member> saveMember(String name, String password, String email, String imageUrl, String message, String token) {
-        validateDuplicateEmail(email);
-        Member member = Member.of(name, password, email, imageUrl, message, token);
-        em.persist(member);
+        try {
+            validateDuplicateEmail(email);
+            Member member = Member.of(name, password, email, imageUrl, message, token);
+            em.persist(member);
+            return Optional.of(member);
+        } catch (IllegalStateException e) {
+            return Optional.empty();
+        }
+    }
+    public Optional<Member> findOneByEmail(String userEmail) {
+        Member member = em.createQuery("select m from Member m " +
+                                "where m.email = :email"
+                        , Member.class)
+                .setParameter("email", userEmail)
+                .getResultList()
+                .stream()
+                .findFirst()
+                .orElse(null);
         return Optional.ofNullable(member);
     }
-
+    private void validateDuplicateEmail(String email){
+        findOneByEmail(email).ifPresent( m -> {
+            throw new IllegalStateException("이미 존재하는 이메일 입니다.");
+        });
+    }
     public void deleteMember(String inputToken) {
         Member member = fineOneByToken(inputToken);
         em.remove(member);
@@ -97,19 +117,6 @@ public class MemberRepository {
                 .setParameter("inputName", name)
                 .getResultList();
         return !memberList.isEmpty();
-    }
-    public Optional<Member> findOneByEmail(String userEmail) {
-        Member member = em.createQuery("select m from Member m " +
-                                "where m.email = :email"
-                        , Member.class)
-                .setParameter("email", userEmail)
-                .getSingleResult();
-        return Optional.ofNullable(member);
-    }
-    private void validateDuplicateEmail(String email){
-        findOneByEmail(email).ifPresent( m -> {
-            throw new IllegalStateException("이미 존재하는 이메일 입니다.");
-        });
     }
     public Optional<Member> findOne(Long memberId) {
         return Optional.ofNullable(em.find(Member.class, memberId));

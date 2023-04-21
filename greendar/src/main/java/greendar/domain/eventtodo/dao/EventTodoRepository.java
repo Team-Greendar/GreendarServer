@@ -2,8 +2,6 @@ package greendar.domain.eventtodo.dao;
 
 import greendar.domain.eventtodo.model.EventTodo;
 import greendar.domain.eventtodo.dto.EventTodoResponseDto;
-import greendar.domain.eventtodoitem.model.EventTodoItem;
-import greendar.domain.member.model.Member;
 
 import java.time.LocalDate;
 import java.util.List;

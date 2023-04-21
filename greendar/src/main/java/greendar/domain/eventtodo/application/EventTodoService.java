@@ -28,7 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class EventTodoService {
     private final MemberRepository memberRepository;
-    @Autowired
     private final EventTodoRepository eventTodoRepository;
     private final EventTodoItemRepository eventTodoItemRepository;
     private final PrivateTodoService privateTodoService;

@@ -15,12 +15,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
+@Rollback
 class EventTodoServiceTest {
 
     @Autowired
@@ -37,12 +37,13 @@ class EventTodoServiceTest {
 
     @Test
     void updateEventTodoTest() {
-        Member member = Member.of("name","pass","email@naver.com","image","test","token");
+        Member member = Member.of("testName","pass","email@naver.com","image","testMessage","testToken");
+        System.out.println(member.getName());
         Optional<Member> member1 = memberRepository.saveMember(member.getName(), member.getPassword(),member.getEmail(),member.getImageUrl(),member.getImageUrl(),member.getToken());
-        System.out.println(member1);
+        System.out.println(member1.orElseThrow(() -> new RuntimeException("Member not saved!")));
 
         LocalDate testDate = LocalDate.parse("2022-12-04");
-        EventTodoItem eventTodoItem = EventTodoItem.of("test",testDate);
+        EventTodoItem eventTodoItem = EventTodoItem.of("testTask",testDate);
         eventTodoItemRepository.save(eventTodoItem.getTask(),eventTodoItem.getDate());
 
         EventTodo eventTodo = EventTodo.of(new TodoImage("Test Image URL"), false, eventTodoItem, member);
