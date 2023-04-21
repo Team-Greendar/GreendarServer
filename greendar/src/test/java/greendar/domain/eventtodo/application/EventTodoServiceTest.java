@@ -10,6 +10,7 @@ import greendar.domain.eventtodoitem.model.EventTodoItem;
 import greendar.domain.member.dao.MemberRepository;
 import greendar.domain.member.model.Member;
 import java.time.LocalDate;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +38,8 @@ class EventTodoServiceTest {
     @Test
     void updateEventTodoTest() {
         Member member = Member.of("name","pass","email@naver.com","image","test","token");
-        Member member1 = memberRepository.saveMember(member.getName(), member.getPassword(),member.getEmail(),member.getImageUrl(),member.getImageUrl(),member.getToken());
-        System.out.println(member1.getName());
+        Optional<Member> member1 = memberRepository.saveMember(member.getName(), member.getPassword(),member.getEmail(),member.getImageUrl(),member.getImageUrl(),member.getToken());
+        System.out.println(member1);
 
         LocalDate testDate = LocalDate.parse("2022-12-04");
         EventTodoItem eventTodoItem = EventTodoItem.of("test",testDate);
@@ -52,7 +53,7 @@ class EventTodoServiceTest {
 
         // Verify the result
         assertNotNull(updatedEventTodo);
-        assertEquals(true, updatedEventTodo.isComplete());
+        assertTrue(updatedEventTodo.isComplete());
         assertEquals("Updated Image URL", updatedEventTodo.getTodoImage().getTodoImageUrl());
     }
 

@@ -18,11 +18,11 @@ public class MemberRepository {
     @PersistenceContext
     private final EntityManager em;
 
-    public Member saveMember(String name, String password, String email, String imageUrl, String message, String token) {
+    public Optional<Member> saveMember(String name, String password, String email, String imageUrl, String message, String token) {
         validateDuplicateEmail(email);
         Member member = Member.of(name, password, email, imageUrl, message, token);
         em.persist(member);
-        return member;
+        return Optional.ofNullable(member);
     }
 
     public void deleteMember(String inputToken) {

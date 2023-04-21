@@ -33,7 +33,7 @@ public class PrivateTodoTest {
     @BeforeEach
     public void setUp() {
         String memberName = "test";
-        this.member  = memberRepository.saveMember(memberName, "test1234", "test@example.com", null, null, null);
+        memberRepository.saveMember(memberName, "test1234", "test@example.com", null, null, null);
         assertEquals(memberName,member.getName());
     }
 

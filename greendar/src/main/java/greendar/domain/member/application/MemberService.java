@@ -18,7 +18,8 @@ public class MemberService {
 
     @Transactional
     public Member saveMember(String name, String password, String email, String imageUrl, String message, String token) {
-        return memberRepository.saveMember(name, password, email, imageUrl, message, token);
+        return memberRepository.saveMember(name, password, email, imageUrl, message, token)
+                .orElseThrow(() -> new RuntimeException("Member not saved!"));
     }
 
     @Transactional
