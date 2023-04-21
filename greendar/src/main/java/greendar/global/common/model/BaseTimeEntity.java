@@ -18,10 +18,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public abstract class BaseTimeEntity implements Serializable {
 
     @CreatedDate
-    @Column(updatable = false)
+    @Column(name="created_time",updatable = false)
     private LocalDateTime createdDateTime;
 
     @LastModifiedDate
+    @Column(name="updated_time")
     private LocalDateTime updatedDateTime;
 
     protected BaseTimeEntity(){}

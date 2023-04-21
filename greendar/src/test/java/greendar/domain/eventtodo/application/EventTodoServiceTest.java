@@ -37,7 +37,8 @@ class EventTodoServiceTest {
     @Test
     void updateEventTodoTest() {
         Member member = Member.of("name","pass","email@naver.com","image","test","token");
-        memberRepository.saveMember(member.getName(), member.getPassword(),member.getEmail(),member.getImageUrl(),member.getImageUrl(),member.getToken());
+        Member member1 = memberRepository.saveMember(member.getName(), member.getPassword(),member.getEmail(),member.getImageUrl(),member.getImageUrl(),member.getToken());
+        System.out.println(member1.getName());
 
         LocalDate testDate = LocalDate.parse("2022-12-04");
         EventTodoItem eventTodoItem = EventTodoItem.of("test",testDate);
